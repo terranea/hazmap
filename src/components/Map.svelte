@@ -1,10 +1,9 @@
 <script>
+	import { events, eventSelection } from '../stores'
 	import { onMount, setContext } from 'svelte';
-  import mapbox from 'mapbox-gl';
+	import { mapbox, key } from '../mapbox';
+	import Events from './Events.svelte'
 
-  mapbox.accessToken = 'MAPBOX_ACCESS_TOKEN';
-
-  const key = {};
 
 	setContext(key, {
 		getMap: () => map
@@ -13,7 +12,6 @@
 	export let lat;
 	export let lon;
 	export let zoom;
-	export let events;
 
 	let container;
 	let map;
@@ -67,7 +65,7 @@ section {
 <section>
 <div bind:this={container}>
 	{#if map}
-		<slot></slot>
+		<Events events={$events}/>
 	{/if}
 </div>
 </section>

@@ -1,15 +1,9 @@
 <script>
-  import Sidebar from './components/Sidebar.svelte';
+  import { events } from './stores'
+  import Sidebar from './components/sidebar/Sidebar.svelte';
   import Auth from './components/Authentication.svelte'
   import Map from './components/Map.svelte';
-  import { db } from "./firebase";
-  import { collectionData } from 'rxfire/firestore';
-  import { startWith } from 'rxjs/operators';
-
-  const query = db.collection('events').where("Countries", "==", "Germany").orderBy("StartTime", "desc").limit(17)
-
-  const events = collectionData(query, 'id').pipe(startWith([]));
-
+  
 </script>
 
 <style>
@@ -59,8 +53,8 @@
 </nav>
 
 <main>
-<Sidebar events={events}/>
-<Map lat={50.919992} lon={10.345759} zoom={5} event={events}/>
+<Sidebar />
+<Map lat={50.919992} lon={10.345759} zoom={5} />
 </main>
 
 <footer>

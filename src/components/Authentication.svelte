@@ -5,14 +5,13 @@
   import { fade } from 'svelte/transition';
 
   let user = authState(auth);
+  let user2 = authState(auth)
   let email = "";
   let password = "";
   let btnTxt = "Sign In";
   let showModal = false;
   let errorCode = ""
   let errorMessage = ""
-  console.log(user)
-  // const unsubscribe = authState(auth).subscribe(u => (user = u));
 
   function login() {
     auth.signInWithEmailAndPassword(email, password).then(res => {
@@ -41,7 +40,6 @@
   }
 </style>
 
-<p>{$user}</p>
 
 {#if $user}
 <button on:click={() => auth.signOut()}>Sign Out</button>
