@@ -8,12 +8,13 @@ const query = db.collection('events').where("Countries", "==", "Germany").orderB
 
 export const events = readable([], function start(set) {
   const eventObs = collectionData(query, 'uid').pipe(startWith([]));
-  const unsubscribe = eventObs.subscribe(value => {
+  const ref = eventObs.subscribe(value => {
     set(value)
   });
 
   return function stop() {
-    unsubscribe()
+    console.log("unsub events")
+    ref.unsubscribe()
   };
 });
 
@@ -34,5 +35,20 @@ export const selectedEvent = derived([events, eventSelection], ([$events, $event
   }))
 }
 );
+
+export const eventPics = derived(eventSelection, ($eventSelection, set) => {
+  let ref = null
+  if ($eventSelection) {
+    const query = db.collection("pictures").where("Event", "==", $eventSelection.uid);
+    const pics = collectionData(query, "id").pipe(startWith([]));
+    ref = pics.subscribe(value => {
+      set(value)
+    });
+  }
+  return () => {
+    set(null)
+    if (ref) ref.unsubscribe()
+  }
+})
 
 

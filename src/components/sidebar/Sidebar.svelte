@@ -1,5 +1,5 @@
 <script>
-import { events, eventSelection, selectedEvent } from '../../stores'
+import { events, eventSelection, selectedEvent, eventPics } from '../../stores'
 import List from './List.svelte'
 import Single from './Single.svelte'
 
@@ -53,7 +53,7 @@ aside {
 </button>
 
 {#if $selectedEvent}
-<Single event={$selectedEvent} on:reset={() => eventSelection.reset()}/>
+<Single event={$selectedEvent} eventPics={eventPics} on:reset={() => eventSelection.reset()}/>
 {:else}
 <List events={$events} on:select={(ev) => eventSelection.setItem(ev.detail)}/>
 {/if}

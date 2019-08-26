@@ -3,7 +3,9 @@
   import { timestampToString } from "../../helper";
 
   const dispatch = createEventDispatcher();
+
   export let event;
+  export let eventPics;
 </script>
 
 <style>
@@ -51,7 +53,7 @@
     height: 100%;
     display: flex;
     flex-direction: column;
-    padding-top: .8em;
+    padding-top: 0.8em;
     overflow: hidden;
   }
 
@@ -65,6 +67,11 @@
     display: flex;
     flex-direction: column;
   }
+
+  img {
+  max-width: 100%;
+  max-height: 100%;
+}
 
   .btn-back {
     position: absolute;
@@ -112,12 +119,14 @@
     </div>
   </div>
   <div class="scroll">
-  <h3>Event Pictures</h3>
-  <div class="products">
-    <!-- <img :src="pic.ImageURL" alt="" v-for="(pic, index) in pictures" :key="index"> -->
-  </div>
-  <footer>
-    <span>About | Impressum | Datenschutz</span>
-  </footer>
+    <h3>Event Pictures</h3>
+    <div class="products">
+      {#each $eventPics as pic}
+        <img src={pic.ImageURL} alt="" />
+      {/each}
+    </div>
+    <footer>
+      <span>About | Impressum | Datenschutz</span>
+    </footer>
   </div>
 </div>
