@@ -1,4 +1,4 @@
-import { writable, readable } from 'svelte/store';
+import { writable, readable, derived } from 'svelte/store';
 import { db } from "./firebase";
 import { collectionData } from 'rxfire/firestore';
 import { startWith } from 'rxjs/operators';
@@ -8,18 +8,17 @@ const query = db.collection('events').where("Countries", "==", "Germany").orderB
 
 export const events = readable([], function start(set) {
   const eventObs = collectionData(query, 'uid').pipe(startWith([]));
-  console.log("STORE")
   const unsubscribe = eventObs.subscribe(value => {
-		set(value)
-	});
+    set(value)
+  });
 
-	return function stop() {
+  return function stop() {
     unsubscribe()
   };
 });
 
 function createEventSelection() {
-  const {subscribe, set} = writable(null)
+  const { subscribe, set } = writable(null)
 
   return {
     subscribe,
@@ -27,6 +26,13 @@ function createEventSelection() {
     reset: () => set(null)
   }
 }
-
 export const eventSelection = createEventSelection()
+
+export const selectedEvent = derived([events, eventSelection], ([$events, $eventSelection], set) => {
+  !$eventSelection ? set(null) : set($events.find(e => {
+    return e.uid === $eventSelection.uid
+  }))
+}
+);
+
 
