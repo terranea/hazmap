@@ -2,7 +2,8 @@ import { writable, readable, derived } from 'svelte/store';
 import { db } from "./firebase";
 import { collectionData } from 'rxfire/firestore';
 import { startWith } from 'rxjs/operators';
-export const count = writable(0);
+
+export const user = writable(null);
 
 const query = db.collection('events').where("Countries", "==", "Germany").orderBy("StartTime", "desc").limit(17)
 

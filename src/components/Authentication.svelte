@@ -3,15 +3,25 @@
   import { authState } from "rxfire/auth";
   import Modal from "./Modal.svelte";
   import { fade } from 'svelte/transition';
+  import { onMount } from "svelte";
+  import { user } from '../stores'
 
-  let user = authState(auth);
-  let user2 = authState(auth)
   let email = "";
   let password = "";
   let btnTxt = "Sign In";
   let showModal = false;
   let errorCode = ""
   let errorMessage = ""
+
+  onMount(() => {
+    auth.onAuthStateChanged(function(u) {
+    if (u) {
+      user.set(u)
+    } else {
+      user.set(null)
+      }
+    });
+  })
 
   function login() {
     auth.signInWithEmailAndPassword(email, password).then(res => {
