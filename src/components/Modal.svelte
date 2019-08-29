@@ -28,6 +28,8 @@
 		border-radius: 0.2em;
     background: white;
     z-index: 6;
+		display: flex;
+		flex-direction: column;
 	}
 
   .btns {

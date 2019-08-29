@@ -3,24 +3,86 @@ import Modal from "./Modal.svelte";
 import { events, user, selectedEvent } from '../stores'
 import { createEventDispatcher, onMount } from 'svelte';
 import { db, storage } from '../firebase'
+  import isLatLong from 'validator/lib/isLatLong';
+
 const dispatch = createEventDispatcher();
 
 let showModal
-let value = "hey"
-let eventid;
+let eventid = null;
 let fileinput;
-let filename;
-let title;
+let filename = "";
+let title = "";
 let comment = "";
-let selectedFile;
+let selectedFile = null;
+let uploadClicked = false;
+let coordinates = {
+  latitude: "",
+  longitude: ""
+}
+let error = {
+  picture: true,
+  title: true,
+  comment: true,
+  eventid: true,
+  coordinates: true,
+}
 
 onMount(() => {
   console.log("MOUNT")
   if ($selectedEvent) eventid = $selectedEvent.uid
+  let locationWatcher
+  if (navigator.geolocation) {
+    const onSuccess = position => {
+      console.log(position);
+      coordinates = {
+        latitude: position.coords.latitude,
+        longitude: position.coords.longitude,
+        altitude: position.coords.altitude,
+        accuracy: position.coords.accuracy,
+        heading: position.coords.heading
+      };
+    };
+    const onError = error => {
+      switch (error.code) {
+        case 0:
+          this.locationError = "Geolocation Error: unknown error";
+          break;
+        case 1:
+          this.locationError = "Geolocation Error: permission denied";
+          break;
+        case 2:
+          this.locationError = "Geolocation Error: position unavailable";
+          break;
+        case 3:
+          this.locationError = "Geolocation Error: timed out";
+          break;
+      }
+    };
+    const options = {
+      enableHighAccuracy: true,
+      timeout: 5000,
+      maximumAge: 0
+    };
+    locationWatcher = navigator.geolocation.watchPosition(
+      onSuccess,
+      onError,
+      options
+    );
+  } else {
+    console.log("Geolocation is not supported by this browser.");
+  }
   return () => {
     console.log("UNMOUNT")
+    if (locationWatcher) navigator.geolocation.clearWatch(locationWatcher)
   }
 })
+
+function onValueChange() {
+  console.log("onValueChange")
+  if (uploadClicked) {
+    validate()
+  }
+}
 
 function onFileChanged(e) {
   let file = e.target.files[0];
@@ -56,6 +118,7 @@ function onFileChanged(e) {
         let dataUrl = canvas.toDataURL("image/jpeg");
         let resizedImage = dataURLToBlob(dataUrl);
         selectedFile = resizedImage;
+        onValueChange()
       };
       image.src = readerEvent.target.result;
     };
@@ -87,15 +150,29 @@ function onFileChanged(e) {
   }
 }
 
+function validate() {
+  console.log(eventid)
+  error = {
+    picture: selectedFile ? true : false,
+    title: title.length >= 5 ? true : false,
+    comment: comment.length <= 400 ? true : false,
+    eventid: eventid ? true : false,
+    coordinates: isLatLong(coordinates.latitude + ',' + coordinates.longitude)
+  }
+  console.log(error)
+  return Object.keys(error).every((k) => { return error[k] === true })
+}
+
 function uploadNote() {
-  if ($user && eventid && selectedFile) {
+  uploadClicked = true
+  if (validate() && $user && eventid && selectedFile) {
   let doc = {
     Title: title,
     Comment: comment,
     Event: eventid,
     User: $user.uid,
-    // Longitude: payload.coords.longitude,
-    // Latitude: payload.coords.latitude,
+    Longitude: coordinates.longitude,
+    Latitude: coordinates.latitude
   }
   console.log(doc)
   // if (payload.coords.accuracy) doc.Accuracy = payload.coords.accuracy
@@ -113,14 +190,16 @@ function uploadNote() {
       return db.collection('notes').doc(ref).update({ 'ImageURL': downloadURL })
     }).then(() => {
       console.log("Picture upload successfull")
+      dispatch('close')
     }).catch((error) => {
       console.log(error)
     })
-}
+  }
 }
 </script>
 
 <style>
+
 select {
  width: 100%;
 }
@@ -154,34 +233,71 @@ input[type="file"] {
 }
 
 label {
-  margin-bottom: 0.2rem;
+  margin: 0.2em 0;
 }
+
+.btn-upload {
+  margin-top: 0.6em;
+}
+
+.error {
+  color: rgb(180, 77, 77);
+  font-size: 12px;
+  width: 100%;
+  text-align: right;
+}
+
+.position {
+  display: flex;
+  flex-direction: row;
+}
+
+.position > div:first-child{
+  margin-right: 0.2em;
+}
+
+.accuracy {
+  margin: .2em 0;
+  font-size: 14px;
+  text-align: center;
+}
+
 </style>
 
 <Modal on:close={() => dispatch('close')}>
-  <h2 slot="header">create a note for</h2>
-  <select name="events" bind:value={eventid}>
-    <option disabled selected value> -- select an event -- </option>
-    {#each $events as event}
-     <option value="{event.uid}">{event.Origin.EventCode} - {event.Title}</option>
-    {/each}
-  </select>
+<h2 slot="header">create a note for</h2> 
+<select name="events" bind:value={eventid} on:change={onValueChange}>
+  <option disabled selected value> -- select an event -- </option>
+  {#each $events as event}
+    <option value="{event.uid}">{event.Origin.EventCode} - {event.Title}</option>
+  {/each}
+</select>
+{#if !error.eventid}
+<span class="error">please select an event.</span>
+{/if}
   
 <div class="file-upload">
   <input type="file" accept="image/*" on:change={onFileChanged} bind:this={fileinput} />
   <button class="btn-pic" on:click={() => fileinput.click()}>Take Picture</button>
   <span class="file-info">{filename}</span>
+  {#if !error.picture}
+  <span class="error">a picture is required</span>
+  {/if}
 </div>
 <!-- <span class="error" v-if="!$v.file.required">a picture is required</span> -->
 <div class="form-group">
-  <label for="ftitle">Title</label>
+  <label for="ftitle">Title<span></span></label>
   <input
     id="ftitle"
     name="ftitle"
     type="text"
     placeholder="Title"
     bind:value={title}
+    on:input={onValueChange}
   />
+  {#if !error.title}
+  <span class="error">the title must have at least 5 characters.</span>
+  {/if}
 </div>
 
 <div class="form-group">
@@ -191,7 +307,39 @@ label {
     name="comment"
     placeholder="Comment"
     bind:value={comment}
+    on:input={onValueChange}
   />
+  {#if !error.comment}
+  <span class="error">the comment max length is 400 characters.</span>
+  {/if}
 </div>
-<button on:click={uploadNote}>Upload</button>
+<div class="position">
+  <div class="form-group">
+    <label for="lat">Latitude</label>
+    <input
+      id="lat"
+      type="number"
+      placeholder="Latitude"
+      bind:value={coordinates.latitude}
+      on:input={onValueChange}
+    />
+  </div>
+  <div class="form-group">
+    <label for="lon">Longitude</label>
+    <input
+      id="lon"
+      type="number"
+      placeholder="Longitude"
+      bind:value={coordinates.longitude}
+      on:input={onValueChange}
+    />
+  </div>
+</div>
+{#if !error.coordinates}
+<span class="error">please provide a valid latitude-longitude coordinate.</span>
+{/if}
+{#if coordinates.accuracy}
+<span class="accuracy">Accuracy: {coordinates.accuracy} m</span>
+{/if}
+<button class="btn-upload" on:click={uploadNote}>Upload</button>
 </Modal>

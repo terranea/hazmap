@@ -5,6 +5,7 @@
   import { fade } from 'svelte/transition';
   import { onMount } from "svelte";
   import { user } from '../stores'
+  import isEmail from 'validator/lib/isEmail';
 
   let email = "";
   let password = "";
@@ -12,6 +13,8 @@
   let showModal = false;
   let errorCode = ""
   let errorMessage = ""
+
+  $: console.log(isEmail(email))
 
   onMount(() => {
     auth.onAuthStateChanged(function(u) {
