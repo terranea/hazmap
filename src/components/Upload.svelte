@@ -8,8 +8,9 @@ import { db, storage } from '../firebase'
 const dispatch = createEventDispatcher();
 
 let showModal
+let fileinput;
+let select;
 let eventid = null;
-let fileinput = null;
 let filename = "";
 let title = "";
 let comment = "";
@@ -29,12 +30,10 @@ let error = {
 }
 
 onMount(() => {
-  console.log("MOUNT")
   if ($selectedEvent) eventid = $selectedEvent.uid
   let locationWatcher
   if (navigator.geolocation) {
     const onSuccess = position => {
-      console.log(position);
       coordinates = {
         latitude: position.coords.latitude,
         longitude: position.coords.longitude,
@@ -73,13 +72,11 @@ onMount(() => {
     console.log("Geolocation is not supported by this browser.");
   }
   return () => {
-    console.log("UNMOUNT")
     if (locationWatcher) navigator.geolocation.clearWatch(locationWatcher)
   }
 })
 
 function onValueChange() {
-  console.log("onValueChange")
   if (uploadClicked) {
     validate()
   }
@@ -91,7 +88,6 @@ function onFileChanged(e) {
   if (!title || title === "")
     title = file.name.substr(0, file.name.lastIndexOf("."));
   if (file.type.match(/image.*/)) {
-    console.log("An image has been loaded");
     // Load the image
     let reader = new FileReader();
     reader.onload = (readerEvent) => {
@@ -152,7 +148,6 @@ function onFileChanged(e) {
 }
 
 function validate() {
-  console.log(eventid)
   error = {
     picture: selectedFile ? true : false,
     title: title.length >= 5 ? true : false,
@@ -160,7 +155,6 @@ function validate() {
     eventid: eventid ? true : false,
     coordinates: isLatLong(coordinates.latitude + ',' + coordinates.longitude)
   }
-  console.log(error)
   return Object.keys(error).every((k) => { return error[k] === true })
 }
 
@@ -175,11 +169,10 @@ function uploadNote() {
     Longitude: coordinates.longitude,
     Latitude: coordinates.latitude
   }
-  console.log(doc)
-  // if (payload.coords.accuracy) doc.Accuracy = payload.coords.accuracy
-  // if (payload.coords.altitude) doc.Altitude = payload.coords.altitude
-  // if (payload.coords.heading) doc.Heading = payload.coords.heading
-  // let ref
+  if (coordinates.accuracy) doc.Accuracy = coordinates.accuracy
+  if (coordinates.altitude) doc.Altitude = coordinates.altitude
+  if (coordinates.heading) doc.Heading = coordinates.heading
+  let ref
   db.collection('notes').add(doc)
     .then(data => data.id).then(key => {
       ref = key
@@ -187,7 +180,6 @@ function uploadNote() {
     }).then(snapshot => {
       return snapshot.ref.getDownloadURL()
     }).then(downloadURL => {
-      console.log(downloadURL, ref)
       return db.collection('notes').doc(ref).update({ 'ImageURL': downloadURL })
     }).then(() => {
       console.log("Picture upload successfull")
@@ -200,8 +192,8 @@ function uploadNote() {
 }
 
 function reset() {
+select.value = "none"
 eventid = null;
-fileinput = null;
 filename = "";
 title = "";
 comment = "";
@@ -270,6 +262,11 @@ label span {
 
 .btn-upload {
   margin-top: 0.6em;
+  min-height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #728dca;
 }
 
 .error {
@@ -298,8 +295,8 @@ label span {
 
 <Modal on:close={() => dispatch('close')}>
 <h2 slot="header">create a note</h2> 
-<select name="events" bind:value={eventid} on:change={onValueChange}>
-  <option disabled selected value> -- select an event -- </option>
+<select name="events" bind:value={eventid} on:change={onValueChange} bind:this={select}>
+  <option disabled selected value="none"> -- select an event -- </option>
   {#each $events as event}
     <option value="{event.uid}">{event.Origin.EventCode} - {event.Title}</option>
   {/each}
@@ -316,7 +313,6 @@ label span {
   <span class="error">a picture is required</span>
   {/if}
 </div>
-<!-- <span class="error" v-if="!$v.file.required">a picture is required</span> -->
 <div class="form-group">
   <label for="ftitle">Title <span>for your note</span></label>
   <input
@@ -373,7 +369,7 @@ label span {
 {#if coordinates.accuracy}
 <span class="accuracy">Accuracy: {coordinates.accuracy} m</span>
 {/if}
-<button class="btn-upload" on:click={uploadNote}>Upload</button>
+<button class="btn-upload" on:click={uploadNote}><svg height="32" style="margin-right: 1em;" fill="white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M403.002 217.001C388.998 148.002 328.998 96 256 96c-57.998 0-107.998 32.998-132.998 81.001C63.002 183.002 16 233.998 16 296c0 65.996 53.999 120 120 120h260c55 0 100-45 100-100 0-52.998-40.996-96.001-92.998-98.999zM288 276v76h-64v-76h-68l100-100 100 100h-68z"/></svg> Upload</button>
 {#if uploadError}
 <span class="error" style="text-align: center; margin-top: .5em;">upload error: {uploadError}</span>
 {/if}
