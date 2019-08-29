@@ -15,6 +15,7 @@ let title = "";
 let comment = "";
 let selectedFile = null;
 let uploadClicked = false;
+let uploadError;
 let coordinates = {
   latitude: "",
   longitude: ""
@@ -178,7 +179,7 @@ function uploadNote() {
   // if (payload.coords.accuracy) doc.Accuracy = payload.coords.accuracy
   // if (payload.coords.altitude) doc.Altitude = payload.coords.altitude
   // if (payload.coords.heading) doc.Heading = payload.coords.heading
-  let ref
+  // let ref
   db.collection('notes').add(doc)
     .then(data => data.id).then(key => {
       ref = key
@@ -193,6 +194,7 @@ function uploadNote() {
       dispatch('close')
     }).catch((error) => {
       console.log(error)
+      uploadError = error
     })
   }
 }
@@ -313,6 +315,35 @@ label {
   <span class="error">the comment max length is 400 characters.</span>
   {/if}
 </div>
+
+<div class="form-group">
+  <label for="fcomment">Comment</label>
+  <input
+    type="text"
+    name="comment"
+    placeholder="Comment"
+    bind:value={comment}
+    on:input={onValueChange}
+  />
+  {#if !error.comment}
+  <span class="error">the comment max length is 400 characters.</span>
+  {/if}
+</div>
+
+<div class="form-group">
+  <label for="fcomment">Comment</label>
+  <input
+    type="text"
+    name="comment"
+    placeholder="Comment"
+    bind:value={comment}
+    on:input={onValueChange}
+  />
+  {#if !error.comment}
+  <span class="error">the comment max length is 400 characters.</span>
+  {/if}
+</div>
+
 <div class="position">
   <div class="form-group">
     <label for="lat">Latitude</label>
@@ -342,4 +373,8 @@ label {
 <span class="accuracy">Accuracy: {coordinates.accuracy} m</span>
 {/if}
 <button class="btn-upload" on:click={uploadNote}>Upload</button>
+{#if uploadError}
+<span class="error" style="text-align: center; margin-top: .5em;">upload error: {uploadError}</span>
+{/if}
+
 </Modal>
