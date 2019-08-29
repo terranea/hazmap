@@ -7,6 +7,7 @@ import Upload from '../Upload.svelte'
 
 let resize = false
 let upload = false
+let select = "se"
 
 function openPictureUpload() {
   if($user) {
@@ -16,16 +17,20 @@ function openPictureUpload() {
     console.log("PLEASE LOGIN")
   }
 }
+
 </script>
 
 <style>
 aside {
   position: relative;
   order: 1;
-  height: 20vh;
+  height: 25vh;
+  overflow: hidden;
+  box-sizing: border-box;
   transition: 0.5s;
-  padding: .5em;
   background: #f1f1f1;
+  display: flex;
+  flex-direction: column;
 }
 
 .resize {
@@ -99,6 +104,7 @@ aside {
 </button>
 
 <List events={$events} show={$selectedEvent ? true : false} on:select={(ev) => eventSelection.setItem(ev.detail)}/>
+<!-- <List events={$events} show={$selectedEvent ? true : false} on:select={(ev) => select = ev.detail.Title}/> -->
 {#if $selectedEvent}
 <Single event={$selectedEvent} eventPics={eventPics} on:reset={() => eventSelection.reset()}/>
 {/if}

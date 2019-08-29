@@ -21,7 +21,7 @@ export let show;
 header {
   height: 40px;
   text-align: center;
-  padding-bottom: .2em;
+  padding: .4em 0;
 }
 
 span {
@@ -35,20 +35,20 @@ h1 {
 
 h3 {
   padding: 0;
-    white-space: nowrap; 
-  overflow:hidden;
-  text-overflow:ellipsis;
+  white-space: nowrap; 
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .content {
   overflow-y: scroll;
   overflow-x: hidden;
-  padding: 0 10px;
-  flex: 1;
+  height: 100%;
   scrollbar-color: #c0c0c085 #f1f1f1;
   scrollbar-width: thin;
   display: flex;
   flex-direction: column;
+  padding-bottom: 1em;
 }
 
 .scroll::-webkit-scrollbar {
@@ -61,7 +61,7 @@ h3 {
 }
 
 .event {
-  margin-bottom: 5px;
+  margin: .2em .4em;
   border-radius: 6px;
   background: #fff;
   padding: 13px 15px;

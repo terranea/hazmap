@@ -54,13 +54,10 @@
 <style>
   section {
     position: relative;
-    flex: 1;
+    flex: 1 1 auto;
     order: 0;
-  }
-
-  div {
-    width: 100%;
-    height: 100%;
+    box-sizing: border-box;
+    outline: none;
   }
 
   @media (min-width: 980px) {
@@ -71,10 +68,8 @@
   }
 </style>
 
-<section>
-  <div bind:this={container}>
-    {#if !loading}
-      <Events events={$events} on:select={(ev) => eventSelection.setItem(ev.detail)} />
-    {/if}
-  </div>
+<section bind:this={container}>
+  {#if !loading}
+    <Events events={$events} on:select={(ev) => eventSelection.setItem(ev.detail)} />
+  {/if}
 </section>
