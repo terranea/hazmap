@@ -6,7 +6,7 @@ import {user} from '../../stores'
 import Upload from '../Upload.svelte'
 
 let resize = false
-let upload = true
+let upload = false
 
 function openPictureUpload() {
   if($user) {

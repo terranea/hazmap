@@ -40,6 +40,7 @@
   hr {
     border-style: solid;
     border-color: #29bb5a;
+		width: 100%;
   }
 
 	button {
@@ -56,7 +57,7 @@
 	<hr>
 
   <div class="btns">
+  <slot name="buttons"></slot>
 	<button on:click='{() => dispatch("close")}'>close</button>
-  <slot name="button"></slot>
   </div>
 </div>

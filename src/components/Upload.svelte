@@ -9,13 +9,13 @@ const dispatch = createEventDispatcher();
 
 let showModal
 let eventid = null;
-let fileinput;
+let fileinput = null;
 let filename = "";
 let title = "";
 let comment = "";
 let selectedFile = null;
 let uploadClicked = false;
-let uploadError;
+let uploadError = null;
 let coordinates = {
   latitude: "",
   longitude: ""
@@ -198,9 +198,34 @@ function uploadNote() {
     })
   }
 }
+
+function reset() {
+eventid = null;
+fileinput = null;
+filename = "";
+title = "";
+comment = "";
+selectedFile = null;
+uploadClicked = false;
+uploadError = null;
+coordinates = {
+  latitude: "",
+  longitude: ""
+}
+error = {
+  picture: true,
+  title: true,
+  comment: true,
+  eventid: true,
+  coordinates: true,
+}
+}
 </script>
 
 <style>
+h2 {
+  text-align: center;
+}
 
 select {
  width: 100%;
@@ -217,6 +242,7 @@ select {
 .btn-pic {
   margin-bottom: 5px;
   height: 50px;
+  background: var(--color-main-green);
 }
 
 .form-group {
@@ -236,6 +262,10 @@ input[type="file"] {
 
 label {
   margin: 0.2em 0;
+}
+
+label span {
+  font-size: 12px;
 }
 
 .btn-upload {
@@ -267,7 +297,7 @@ label {
 </style>
 
 <Modal on:close={() => dispatch('close')}>
-<h2 slot="header">create a note for</h2> 
+<h2 slot="header">create a note</h2> 
 <select name="events" bind:value={eventid} on:change={onValueChange}>
   <option disabled selected value> -- select an event -- </option>
   {#each $events as event}
@@ -288,7 +318,7 @@ label {
 </div>
 <!-- <span class="error" v-if="!$v.file.required">a picture is required</span> -->
 <div class="form-group">
-  <label for="ftitle">Title<span></span></label>
+  <label for="ftitle">Title <span>for your note</span></label>
   <input
     id="ftitle"
     name="ftitle"
@@ -315,35 +345,6 @@ label {
   <span class="error">the comment max length is 400 characters.</span>
   {/if}
 </div>
-
-<div class="form-group">
-  <label for="fcomment">Comment</label>
-  <input
-    type="text"
-    name="comment"
-    placeholder="Comment"
-    bind:value={comment}
-    on:input={onValueChange}
-  />
-  {#if !error.comment}
-  <span class="error">the comment max length is 400 characters.</span>
-  {/if}
-</div>
-
-<div class="form-group">
-  <label for="fcomment">Comment</label>
-  <input
-    type="text"
-    name="comment"
-    placeholder="Comment"
-    bind:value={comment}
-    on:input={onValueChange}
-  />
-  {#if !error.comment}
-  <span class="error">the comment max length is 400 characters.</span>
-  {/if}
-</div>
-
 <div class="position">
   <div class="form-group">
     <label for="lat">Latitude</label>
@@ -376,5 +377,6 @@ label {
 {#if uploadError}
 <span class="error" style="text-align: center; margin-top: .5em;">upload error: {uploadError}</span>
 {/if}
+<button slot="buttons" on:click={reset}>Reset</button>
 
 </Modal>
