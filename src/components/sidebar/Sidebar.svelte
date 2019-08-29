@@ -60,6 +60,10 @@ aside {
   outline: none;
 }
 
+.remove {
+  display: none;
+}
+
 @media (min-width: 980px) {
   aside {
     width: 340px;
@@ -94,10 +98,9 @@ aside {
   {/if}
 </button>
 
+<List events={$events} show={$selectedEvent ? true : false} on:select={(ev) => eventSelection.setItem(ev.detail)}/>
 {#if $selectedEvent}
 <Single event={$selectedEvent} eventPics={eventPics} on:reset={() => eventSelection.reset()}/>
-{:else}
-<List events={$events} on:select={(ev) => eventSelection.setItem(ev.detail)}/>
 {/if}
 
 </aside>

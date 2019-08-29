@@ -3,6 +3,7 @@ import { createEventDispatcher } from 'svelte';
 import { timestampToDateString, hazardTypeColor } from '../../helper'
 const dispatch = createEventDispatcher();
 export let events;
+export let show;
 </script>
 
 <style>
@@ -46,13 +47,15 @@ h3 {
   flex: 1;
   scrollbar-color: #c0c0c085 #f1f1f1;
   scrollbar-width: thin;
+  display: flex;
+  flex-direction: column;
 }
 
-.scroll2::-webkit-scrollbar {
+.scroll::-webkit-scrollbar {
   width: 5px;
 }
  
-.scroll2::-webkit-scrollbar-thumb {
+.scroll::-webkit-scrollbar-thumb {
   border-radius: 20px;
   background: #c0c0c085; 
 }
@@ -73,13 +76,17 @@ h3 {
   background: #d6d6d6;
 }
 
+.unshow {
+  display: none;
+}
+
 </style>
 
-<div class="list">
+<div class="list" class:unshow={show}>
   <header>
     <h1>Recent Events</h1>
   </header>
-  <div class="content scroll2">
+  <div class="content scroll">
   {#each events as event}
     <div class="event" on:click="{() => dispatch('select', event)}">
       <h3 title={event.Title}>{event.Title}</h3>
