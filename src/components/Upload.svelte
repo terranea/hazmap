@@ -3,7 +3,7 @@ import Modal from "./Modal.svelte";
 import { events, user, selectedEvent } from '../stores'
 import { createEventDispatcher, onMount } from 'svelte';
 import { db, storage } from '../firebase'
-  import isLatLong from 'validator/lib/isLatLong';
+import isLatLong from 'validator/lib/isLatLong';
 
 const dispatch = createEventDispatcher();
 
@@ -19,7 +19,8 @@ let uploadClicked = false;
 let uploadError = null;
 let coordinates = {
   latitude: "",
-  longitude: ""
+  longitude: "",
+  accuracy: "-"
 }
 let error = {
   picture: true,
@@ -202,7 +203,8 @@ uploadClicked = false;
 uploadError = null;
 coordinates = {
   latitude: "",
-  longitude: ""
+  longitude: "",
+  accuracy: "-"
 }
 error = {
   picture: true,
@@ -217,18 +219,29 @@ error = {
 <style>
 h2 {
   text-align: center;
+  padding: 0;
+  margin: 0;
 }
 
 select {
  width: 100%;
+ color: #1f1f1f;
+}
+
+option {
+  font-size: 14px;
 }
 
 .file-upload {
   display: flex;
   flex-direction: column;
-  margin-top: 12px;
   padding: 10px;
   background: rgb(238, 238, 238);
+}
+
+.file-info {
+  font-size: 13px;
+  text-align: center;
 }
 
 .btn-pic {
@@ -254,6 +267,7 @@ input[type="file"] {
 
 label {
   margin: 0.2em 0;
+  font-size: 14px;
 }
 
 label span {
@@ -286,8 +300,8 @@ label span {
 }
 
 .accuracy {
-  margin: .2em 0;
-  font-size: 14px;
+  margin-top: .2em;
+  font-size: 12px;
   text-align: center;
 }
 
@@ -366,9 +380,7 @@ label span {
 {#if !error.coordinates}
 <span class="error">please provide a valid latitude-longitude coordinate.</span>
 {/if}
-{#if coordinates.accuracy}
 <span class="accuracy">Accuracy: {coordinates.accuracy} m</span>
-{/if}
 <button class="btn-upload" on:click={uploadNote}><svg height="32" style="margin-right: 1em;" fill="white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M403.002 217.001C388.998 148.002 328.998 96 256 96c-57.998 0-107.998 32.998-132.998 81.001C63.002 183.002 16 233.998 16 296c0 65.996 53.999 120 120 120h260c55 0 100-45 100-100 0-52.998-40.996-96.001-92.998-98.999zM288 276v76h-64v-76h-68l100-100 100 100h-68z"/></svg> Upload</button>
 {#if uploadError}
 <span class="error" style="text-align: center; margin-top: .5em;">upload error: {uploadError}</span>
