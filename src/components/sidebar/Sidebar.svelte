@@ -25,7 +25,6 @@ aside {
   position: relative;
   order: 1;
   height: 25vh;
-  overflow: hidden;
   box-sizing: border-box;
   transition: 0.5s;
   background: #f1f1f1;
