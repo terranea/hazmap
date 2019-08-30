@@ -64,11 +64,6 @@
     overflow-x: hidden;
   }
 
-  .product {
-    display: flex;
-    flex-direction: column;
-  }
-
   img {
   max-width: 100%;
   max-height: 100%;
