@@ -17,6 +17,7 @@ let comment = "";
 let selectedFile = null;
 let uploadClicked = false;
 let uploadError = null;
+let locationError = null;
 let coordinates = {
   latitude: "",
   longitude: "",
@@ -29,6 +30,8 @@ let error = {
   eventid: true,
   coordinates: true,
 }
+
+$: console.log(locationError)
 
 onMount(() => {
   if ($selectedEvent) eventid = $selectedEvent.uid
@@ -46,16 +49,16 @@ onMount(() => {
     const onError = error => {
       switch (error.code) {
         case 0:
-          this.locationError = "Geolocation Error: unknown error";
+          locationError = "Geolocation Error: unknown error";
           break;
         case 1:
-          this.locationError = "Geolocation Error: permission denied";
+          locationError = "Geolocation Error: permission denied";
           break;
         case 2:
-          this.locationError = "Geolocation Error: position unavailable";
+          locationError = "Geolocation Error: position unavailable";
           break;
         case 3:
-          this.locationError = "Geolocation Error: timed out";
+          locationError = "Geolocation Error: timed out";
           break;
       }
     };
@@ -201,6 +204,7 @@ comment = "";
 selectedFile = null;
 uploadClicked = false;
 uploadError = null;
+locationError = null;
 coordinates = {
   latitude: "",
   longitude: "",
@@ -305,10 +309,52 @@ label span {
   text-align: center;
 }
 
+.show {
+  display: none;
+}
+
+.tooltip {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  height: 30px;
+  width: 30px;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+  opacity: 1;
+}
+
+/* Tooltip text */
+.tooltiptext {
+  visibility: hidden;
+  width: 250px;
+  background-color: #fff5f5;
+  color: #c53030;
+  text-align: center;
+  padding: 3px 0;
+  border-radius: 5px;
+  border: 1px solid #fc8181;
+
+  /* Position the tooltip text */
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  right: 125%;
+
+  /* Fade in tooltip */
+  opacity: 0;
+  transition: opacity 0.3s;
+}
 </style>
 
 <Modal on:close={() => dispatch('close')}>
 <h2 slot="header">create a note</h2> 
+<div class="tooltip" class:show={locationError ? false : true} slot="header">
+  <svg height="25" fill="#fc8181" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M256 48C141.2 48 48 141.2 48 256s93.2 208 208 208 208-93.2 208-208S370.8 48 256 48zm21 312h-42V235h42v125zm0-166h-42v-42h42v42z"/></svg>
+  <span class="tooltiptext">{locationError}</span>
+</div>
 <select name="events" bind:value={eventid} on:change={onValueChange} bind:this={select}>
   <option disabled selected value="none"> -- select an event -- </option>
   {#each $events as event}

@@ -1,9 +1,8 @@
 <script>
-  import { events } from './stores'
-  import Sidebar from './components/sidebar/Sidebar.svelte';
-  import Auth from './components/Authentication.svelte'
-  import Map from './components/Map.svelte';
-  
+  import { events } from "./stores";
+  import Sidebar from "./components/sidebar/Sidebar.svelte";
+  import Auth from "./components/Authentication.svelte";
+  import Map from "./components/Map.svelte";
 </script>
 
 <style>
@@ -27,7 +26,7 @@
     font-weight: bold;
     font-size: 1.3rem;
     color: #ffffff;
-    margin: 0 .5em;
+    margin: 0 0.5em;
     fill: #fff;
     display: flex;
     align-items: center;
@@ -38,28 +37,46 @@
     padding: 0 10px;
   }
 
+  .buttons {
+    display: flex;
+  }
+
   @media (min-width: 980px) {
     main {
       flex-direction: row;
     }
+
   }
 </style>
+
 <div class="container">
-<nav>
-<a class="logo" href=".">
-  <svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" viewBox="0 0 24 24"><path d="M21.447,6.105l-6-3c-0.281-0.141-0.613-0.141-0.895,0L9,5.882L3.447,3.105c-0.31-0.154-0.679-0.139-0.973,0.044	C2.18,3.332,2,3.653,2,4v13c0,0.379,0.214,0.725,0.553,0.895l6,3c0.281,0.141,0.613,0.141,0.895,0L15,18.118l5.553,2.776	C20.694,20.965,20.847,21,21,21c0.183,0,0.365-0.05,0.525-0.149C21.82,20.668,22,20.347,22,20V7C22,6.621,21.786,6.275,21.447,6.105	z M10,7.618l4-2v10.764l-4,2V7.618z M4,5.618l4,2v10.764l-4-2V5.618z M20,18.382l-4-2V5.618l4,2V18.382z"/></svg>
-  <span>HazMap</span>
-</a>
-<Auth/>
+  <nav>
+    <a class="logo" href=".">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="27"
+        height="27"
+        viewBox="0 0 24 24">
+        <path
+          d="M21.447,6.105l-6-3c-0.281-0.141-0.613-0.141-0.895,0L9,5.882L3.447,3.105c-0.31-0.154-0.679-0.139-0.973,0.044
+          C2.18,3.332,2,3.653,2,4v13c0,0.379,0.214,0.725,0.553,0.895l6,3c0.281,0.141,0.613,0.141,0.895,0L15,18.118l5.553,2.776
+          C20.694,20.965,20.847,21,21,21c0.183,0,0.365-0.05,0.525-0.149C21.82,20.668,22,20.347,22,20V7C22,6.621,21.786,6.275,21.447,6.105
+          z M10,7.618l4-2v10.764l-4,2V7.618z M4,5.618l4,2v10.764l-4-2V5.618z
+          M20,18.382l-4-2V5.618l4,2V18.382z" />
+      </svg>
+      <span>HazMap</span>
+    </a>
+    <div class="buttons">
+      <button class="" >Add Event</button>
+      <Auth />
+    </div>
 
-</nav>
+  </nav>
 
-<main>
-<Sidebar />
-<Map lat={50.919992} lon={10.345759} zoom={5} />
-</main>
+  <main>
+    <Sidebar />
+    <Map lat={50.919992} lon={10.345759} zoom={5} />
+  </main>
 
-<footer>
-
-</footer>
+  <footer />
 </div>

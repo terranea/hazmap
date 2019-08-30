@@ -73,7 +73,7 @@ label {
 	display: block;
 }
 
-input, button, select, textarea {
+input, select, textarea {
 	font-family: inherit;
 	font-size: inherit;
 	padding: 0.4em;
@@ -92,12 +92,14 @@ input[type="range"] {
 }
 
 button {
-	color: #333;
+	font-family: inherit;
+	font-size: inherit;
 	outline: none;
 	border-radius: 3px;
 	color: white;
 	background: rgba(33,43,54,.4);
 	border: 0;
+	padding: 0.4em;
 	margin: 0;
 }
 

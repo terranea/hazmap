@@ -7,7 +7,6 @@ import Upload from '../Upload.svelte'
 
 let resize = false
 let upload = false
-let select = "se"
 
 function openPictureUpload() {
   if($user) {

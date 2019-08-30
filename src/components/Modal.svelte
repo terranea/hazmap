@@ -46,6 +46,7 @@
 	button {
 		display: block;
 	}
+
 </style>
 
 <div class='modal-background' on:click='{() => dispatch("close")}'></div>
