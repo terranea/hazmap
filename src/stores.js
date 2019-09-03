@@ -37,12 +37,12 @@ export const selectedEvent = derived([events, eventSelection], ([$events, $event
 }
 );
 
-export const eventPics = derived(eventSelection, ($eventSelection, set) => {
+export const eventNotes = derived(eventSelection, ($eventSelection, set) => {
   let ref = null
   if ($eventSelection) {
-    const query = db.collection("pictures").where("Event", "==", $eventSelection.uid);
-    const pics = collectionData(query, "id").pipe(startWith([]));
-    ref = pics.subscribe(value => {
+    const query = db.collection("notes").where("Event", "==", $eventSelection.uid);
+    const notes = collectionData(query, "id").pipe(startWith([]));
+    ref = notes.subscribe(value => {
       set(value)
     });
   }

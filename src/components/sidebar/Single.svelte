@@ -5,7 +5,7 @@
   const dispatch = createEventDispatcher();
 
   export let event;
-  export let eventPics;
+  export let notes;
 </script>
 
 <style>
@@ -115,10 +115,10 @@
     </div>
   </div>
   <div class="scroll">
-    <h3>Event Pictures</h3>
+    <h3>Event Notes</h3>
     <div class="products">
-      {#each $eventPics as pic}
-        <img src={pic.ImageURL} alt="" />
+      {#each $notes as note}
+        <img src={note.ImageURL} alt="" />
       {/each}
     </div>
     <footer>

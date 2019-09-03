@@ -254,6 +254,10 @@ option {
   background: var(--color-main-green);
 }
 
+.btn-pic:hover {
+  background: #1e8a42;
+}
+
 .form-group {
   display: flex;
   flex-direction: column;
@@ -284,7 +288,11 @@ label span {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #728dca;
+  background: #728dca;
+}
+
+.btn-upload:hover {
+  background: #536899;
 }
 
 .error {
@@ -431,6 +439,6 @@ label span {
 {#if uploadError}
 <span class="error" style="text-align: center; margin-top: .5em;">upload error: {uploadError}</span>
 {/if}
-<button slot="buttons" on:click={reset}>Reset</button>
+<button class="btn-simple" slot="buttons" on:click={reset}>reset</button>
 
 </Modal>

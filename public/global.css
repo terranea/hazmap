@@ -106,7 +106,7 @@ button {
 .round {
   height: 36px;
   width: 36px;
-  background: rgba(206, 147, 147, 0);
+  background: #ce939300;
   border-radius: 50%;
   font-size: 2rem;
   padding: 0;
@@ -114,13 +114,23 @@ button {
 	margin: .2em;
 }
 
+.btn-simple {
+	background: none;
+	color: #222222;
+}
+
+.btn-simple:hover {
+	color: #000000;
+	background: none;
+}
+
 .round:hover {
-	background-color: var(--color-main-green);
+	background: var(--color-main-green);
 	cursor: pointer;
 }
 
 button:hover {
-	background-color: rgb(43, 43, 43);
+	background: rgba(33, 43, 54, 0.63);
 	cursor: pointer;
 }
 

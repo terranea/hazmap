@@ -34,7 +34,7 @@
 
   .btns {
     display: flex;
-    justify-content: space-between;
+		justify-content: space-between;
   }
 
   hr {
@@ -42,10 +42,6 @@
     border-color: #29bb5a;
 		width: 100%;
   }
-
-	button {
-		display: block;
-	}
 
 </style>
 
@@ -59,6 +55,6 @@
 
   <div class="btns">
   <slot name="buttons"></slot>
-	<button on:click='{() => dispatch("close")}'>close</button>
+	<button class="btn-simple" on:click='{() => dispatch("close")}'>close</button>
   </div>
 </div>

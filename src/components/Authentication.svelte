@@ -14,8 +14,6 @@
   let errorCode = ""
   let errorMessage = ""
 
-  $: console.log(isEmail(email))
-
   onMount(() => {
     auth.onAuthStateChanged(function(u) {
     if (u) {
@@ -49,7 +47,7 @@
   }
 
   button {
-    margin: 0.1em 0.5em 0.1em 0.5em;
+    margin: 0 .4em;
   }
 </style>
 
