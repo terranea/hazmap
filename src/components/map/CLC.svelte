@@ -13,7 +13,7 @@ function show(e) {
           source: {
             type: "raster",
             tiles: [
-              "http://sg.geodatenzentrum.de/wms_clc10_2012?bbox={bbox-epsg-3857}&service=WMS&request=GetMap&version=1.1.1&format=image/png&srs=EPSG:3857&width=256&height=256&styles=&transparent=true&layers=clc10"
+              "https://sg.geodatenzentrum.de/wms_clc10_2012?bbox={bbox-epsg-3857}&service=WMS&request=GetMap&version=1.1.1&format=image/png&srs=EPSG:3857&width=256&height=256&styles=&transparent=true&layers=clc10"
             ],
             tileSize: 256
           },
