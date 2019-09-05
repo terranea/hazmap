@@ -3,6 +3,11 @@
   import { onMount, setContext } from "svelte";
   import { mapbox, key } from "../mapbox";
   import Events from "./Events.svelte";
+  import LFUHQ100 from './map/LFU-hwgf-hq100.svelte'
+  import LFUHQHF from './map/LFU-hwgf-hqhaeufig.svelte'
+  import LFUHQEX from './map/LFU-hwgf-hqextreme.svelte'
+  import CLC from './map/CLC.svelte'
+  import Kritis from './map/Kritis.svelte'
 
   setContext(key, {
     getMap: () => map,
@@ -17,6 +22,8 @@
   let map;
   let popup;
   let loading = true;
+  let layerId;
+  let showLayers = false;
 
   onMount(() => {
     const link = document.createElement("link");
@@ -26,7 +33,7 @@
     link.onload = () => {
       map = new mapbox.Map({
         container,
-        style: "mapbox://styles/mapbox/streets-v11",
+        style: "mapbox://styles/mrgyb/ck06mqy5a2cq41dk6z6ktyz8d",
         center: [lon, lat],
         trackResize: true,
         zoom
@@ -37,6 +44,11 @@
         closeButton: false,
         closeOnClick: false
       });
+
+      map.on('click', function(e) {
+        showLayers = false;
+      })
+
       map.on("load", function() {
         loading = false;
       });
@@ -49,6 +61,12 @@
       link.parentNode.removeChild(link);
     };
   });
+
+  function switchLayer(id) {
+    if (!loading) map.setStyle("mapbox://styles/mapbox/" + id);
+  }
+
+
 </script>
 
 <style>
@@ -58,6 +76,47 @@
     order: 0;
     box-sizing: border-box;
     outline: none;
+  }
+
+  .btn-layers {
+    position: absolute;
+    z-index: 1;
+    top: 110px;
+    right: 10px;
+    height: 32px;
+    width: 32px;
+    background: var(--color-main-green);
+    padding: 0;
+  }
+
+  .btn-layers:hover {
+    background: #1d8640;
+  }
+
+  .switch {
+    position: absolute;
+    display: none;
+    flex-direction: column;
+    z-index: 1;
+    top: 150px;
+    right: 10px;
+    background: white;
+    border-radius: 5px;
+  }
+
+  .switch :global(label) {
+    display: flex;
+    align-items: center;
+    margin: 0.5em;
+  }
+
+  .switch :global(input) {
+    margin: 0;
+    margin-right: 0.5em;
+  }
+
+  .visible {
+    display: flex;
   }
 
   @media (min-width: 980px) {
@@ -70,6 +129,27 @@
 
 <section bind:this={container}>
   {#if !loading}
-    <Events events={$events} on:select={(ev) => eventSelection.setItem(ev.detail)} />
+    <Events
+      events={$events}
+      on:select={ev => eventSelection.setItem(ev.detail)} />
   {/if}
+
+  <button class="btn-layers" on:click={() => (showLayers = !showLayers)}>
+  <svg width="32px" height="32px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-labelledby="layersIconTitle" stroke="#fff" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter" color="#2329D6"> <title id="layersIconTitle">Layers</title> <path d="M12 4L20 8.00004L12 12L4 8.00004L12 4Z"/> <path d="M20 12L12 16L4 12"/> <path d="M20 16L12 20L4 16"/> </svg>
+  </button>
+  <div class:visible={showLayers} class="switch">
+    {#if !loading}
+    <LFUHQ100 map={map} />
+    <LFUHQHF map={map} />
+    <LFUHQEX map={map} />
+    <CLC map={map} />
+    <Kritis map={map} popup={popup} />
+    {/if}
+
+    <!-- <button on:click={() => switchLayer('satellite-streets-v11')}>Satellite</button>
+  <button on:click={() => switchLayer('streets-v11')}>Streets</button>
+  <button>Kritis</button>
+  <button>Pegel</button>
+  <button>Risiko</button> -->
+  </div>
 </section>
