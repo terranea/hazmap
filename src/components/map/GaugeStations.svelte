@@ -54,7 +54,7 @@ function show(e) {
 
 function fetchStations() {
   console.log("fetchstations")
-  const url = "http://pegelonline.wsv.de/webservices/rest-api/v2/stations.json"
+  const url = "https://pegelonline.wsv.de/webservices/rest-api/v2/stations.json"
   fetch(url)
     .then(response => {
       return response.json()
@@ -70,7 +70,7 @@ function fetchStations() {
 }
 
 function fetchStationData(props) {
-  let url = "http://pegelonline.wsv.de/webservices/rest-api/v2/stations/" 
+  let url = "https://pegelonline.wsv.de/webservices/rest-api/v2/stations/" 
     + props.uuid + "/W/currentmeasurement.json";
   fetch(url)
     .then(response => {
