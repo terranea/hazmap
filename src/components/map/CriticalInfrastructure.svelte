@@ -9,10 +9,15 @@ onMount(() => {
     while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
       coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
     }
-    popup
-      .setLngLat(coordinates)
-      .setHTML(e.features[0].properties.type)
-      .addTo(map);
+    popup.setLngLat(coordinates).setHTML(e.features[0].properties.type).addTo(map);
+  });
+  map.on("click", "kritis-8faop6", e => {
+    map.getCanvas().style.cursor = "pointer";
+    let coordinates = e.features[0].geometry.coordinates.slice();
+    while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+      coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+    }
+    popup.setLngLat(coordinates).setHTML(e.features[0].properties.type).addTo(map);
   });
   map.on("mouseleave", "kritis-8faop6", e => {
     map.getCanvas().style.cursor = "";
@@ -20,7 +25,6 @@ onMount(() => {
     popup.remove();
   });
 })
-
 
 function show(e) {
   if (e.target.checked) {

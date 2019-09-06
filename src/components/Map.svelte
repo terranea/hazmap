@@ -8,7 +8,7 @@
   import LFUHQEX from './map/LFU-hwgf-hqextreme.svelte'
   import CLC from './map/CLC.svelte'
   import GAUGE from './map/GaugeStations.svelte'
-  import Kritis from './map/Kritis.svelte'
+  import CRIS from './map/CriticalInfrastructure.svelte'
 
   setContext(key, {
     getMap: () => map,
@@ -145,7 +145,7 @@
     <LFUHQEX map={map} />
     <CLC map={map} />
     <GAUGE map={map} popup={popup} />
-    <Kritis map={map} popup={popup} />
+    <CRIS map={map} popup={popup} />
     {/if}
 
     <!-- <button on:click={() => switchLayer('satellite-streets-v11')}>Satellite</button>

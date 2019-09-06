@@ -16,10 +16,16 @@ onMount(() => {
     while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
       coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
     }
-    popup
-      .setLngLat(coordinates)
-      .setHTML("")
-      .addTo(map);
+    popup.setLngLat(coordinates).setHTML("").addTo(map);
+  });
+  map.on("click", "cwl", e => {
+    fetchStationData(e.features[0].properties)
+    map.getCanvas().style.cursor = "pointer";
+    let coordinates = e.features[0].geometry.coordinates.slice();
+    while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+      coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+    }
+    popup.setLngLat(coordinates).setHTML("").addTo(map);
   });
   map.on("mouseleave", "cwl", e => {
     map.getCanvas().style.cursor = "";
