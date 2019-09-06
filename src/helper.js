@@ -30,3 +30,4 @@ export function hazardTypeColor(type) {
       return "#000"
   }
 }
+

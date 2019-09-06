@@ -7,6 +7,7 @@
   import LFUHQHF from './map/LFU-hwgf-hqhaeufig.svelte'
   import LFUHQEX from './map/LFU-hwgf-hqextreme.svelte'
   import CLC from './map/CLC.svelte'
+  import GAUGE from './map/GaugeStations.svelte'
   import Kritis from './map/Kritis.svelte'
 
   setContext(key, {
@@ -81,8 +82,8 @@
   .btn-layers {
     position: absolute;
     z-index: 1;
-    top: 110px;
-    right: 10px;
+    top: 10px;
+    left: 10px;
     height: 32px;
     width: 32px;
     background: var(--color-main-green);
@@ -98,8 +99,8 @@
     display: none;
     flex-direction: column;
     z-index: 1;
-    top: 150px;
-    right: 10px;
+    top: 52px;
+    left: 10px;
     background: white;
     border-radius: 5px;
   }
@@ -143,6 +144,7 @@
     <LFUHQHF map={map} />
     <LFUHQEX map={map} />
     <CLC map={map} />
+    <GAUGE map={map} popup={popup} />
     <Kritis map={map} popup={popup} />
     {/if}
 
