@@ -3,7 +3,7 @@ import { onMount } from "svelte";
 export let map, popup;
 
 onMount(() => {
-  map.on("mouseenter", "kritis-8faop6", e => {
+  map.on("mouseenter", "kritis-0dk36v", e => {
     map.getCanvas().style.cursor = "pointer";
     let coordinates = e.features[0].geometry.coordinates.slice();
     while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
@@ -11,7 +11,7 @@ onMount(() => {
     }
     popup.setLngLat(coordinates).setHTML(e.features[0].properties.type).addTo(map);
   });
-  map.on("click", "kritis-8faop6", e => {
+  map.on("click", "kritis-0dk36v", e => {
     map.getCanvas().style.cursor = "pointer";
     let coordinates = e.features[0].geometry.coordinates.slice();
     while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
@@ -19,7 +19,7 @@ onMount(() => {
     }
     popup.setLngLat(coordinates).setHTML(e.features[0].properties.type).addTo(map);
   });
-  map.on("mouseleave", "kritis-8faop6", e => {
+  map.on("mouseleave", "kritis-0dk36v", e => {
     map.getCanvas().style.cursor = "";
     popup.setHTML("");
     popup.remove();
@@ -40,6 +40,6 @@ function show(e) {
 </script>
 
 <label>
-  <input type="checkbox" name="kritis-8faop6" value="kritis-8faop6" on:change={show}/>
+  <input type="checkbox" name="kritis-0dk36v" value="kritis-0dk36v" on:change={show}/>
   Critical Infrastructure
 </label>

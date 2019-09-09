@@ -34,7 +34,7 @@
     link.onload = () => {
       map = new mapbox.Map({
         container,
-        style: "mapbox://styles/mrgyb/ck06mqy5a2cq41dk6z6ktyz8d",
+        style: "mapbox://styles/terranea/ck0cnu1ig01hw1csz6r5xfw0p",
         center: [lon, lat],
         trackResize: true,
         zoom
