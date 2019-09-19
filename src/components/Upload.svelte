@@ -38,6 +38,7 @@ onMount(() => {
   let locationWatcher
   if (navigator.geolocation) {
     const onSuccess = position => {
+      locationError = null
       coordinates = {
         latitude: position.coords.latitude,
         longitude: position.coords.longitude,
@@ -205,11 +206,6 @@ selectedFile = null;
 uploadClicked = false;
 uploadError = null;
 locationError = null;
-coordinates = {
-  latitude: "",
-  longitude: "",
-  accuracy: "-"
-}
 error = {
   picture: true,
   title: true,

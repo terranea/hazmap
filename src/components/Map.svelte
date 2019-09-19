@@ -1,14 +1,15 @@
 <script>
-  import { events, eventSelection } from "../stores";
+  import { events, eventSelection, eventData } from "../stores";
   import { onMount, setContext } from "svelte";
   import { mapbox, key } from "../mapbox";
   import Events from "./Events.svelte";
-  import LFUHQ100 from './map/LFU-hwgf-hq100.svelte'
-  import LFUHQHF from './map/LFU-hwgf-hqhaeufig.svelte'
-  import LFUHQEX from './map/LFU-hwgf-hqextreme.svelte'
-  import CLC from './map/CLC.svelte'
-  import GAUGE from './map/GaugeStations.svelte'
-  import CRIS from './map/CriticalInfrastructure.svelte'
+  import LFUHQ100 from "./map/LFU-hwgf-hq100.svelte";
+  import LFUHQHF from "./map/LFU-hwgf-hqhaeufig.svelte";
+  import LFUHQEX from "./map/LFU-hwgf-hqextreme.svelte";
+  import CLC from "./map/CLC.svelte";
+  import GAUGE from "./map/GaugeStations.svelte";
+  import CRIS from "./map/CriticalInfrastructure.svelte";
+  import EventData from "./map/EventData.svelte";
 
   setContext(key, {
     getMap: () => map,
@@ -46,9 +47,9 @@
         closeOnClick: false
       });
 
-      map.on('click', function(e) {
+      map.on("click", function(e) {
         showLayers = false;
-      })
+      });
 
       map.on("load", function() {
         loading = false;
@@ -67,7 +68,9 @@
     if (!loading) map.setStyle("mapbox://styles/mapbox/" + id);
   }
 
+  function updateEventData() {}
 
+  $: updateEventData();
 </script>
 
 <style>
@@ -82,7 +85,7 @@
   .btn-layers {
     position: absolute;
     z-index: 1;
-    top: 10px;
+    top: 6px;
     left: 10px;
     height: 32px;
     width: 32px;
@@ -133,19 +136,37 @@
     <Events
       events={$events}
       on:select={ev => eventSelection.setItem(ev.detail)} />
+
+    <EventData {map} eventData={$eventData} />
   {/if}
 
   <button class="btn-layers" on:click={() => (showLayers = !showLayers)}>
-  <svg width="32px" height="32px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-labelledby="layersIconTitle" stroke="#fff" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter" color="#2329D6"> <title id="layersIconTitle">Layers</title> <path d="M12 4L20 8.00004L12 12L4 8.00004L12 4Z"/> <path d="M20 12L12 16L4 12"/> <path d="M20 16L12 20L4 16"/> </svg>
+    <svg
+      width="32px"
+      height="32px"
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-labelledby="layersIconTitle"
+      stroke="#fff"
+      stroke-width="1.5"
+      stroke-linecap="square"
+      stroke-linejoin="miter"
+      color="#2329D6">
+      <title id="layersIconTitle">Layers</title>
+      <path d="M12 4L20 8.00004L12 12L4 8.00004L12 4Z" />
+      <path d="M20 12L12 16L4 12" />
+      <path d="M20 16L12 20L4 16" />
+    </svg>
   </button>
   <div class:visible={showLayers} class="switch">
     {#if !loading}
-    <LFUHQ100 map={map} />
-    <LFUHQHF map={map} />
-    <LFUHQEX map={map} />
-    <CLC map={map} />
-    <GAUGE map={map} popup={popup} />
-    <CRIS map={map} popup={popup} />
+      <LFUHQ100 {map} />
+      <LFUHQHF {map} />
+      <LFUHQEX {map} />
+      <CLC {map} />
+      <GAUGE {map} {popup} />
+      <CRIS {map} {popup} />
     {/if}
 
     <!-- <button on:click={() => switchLayer('satellite-streets-v11')}>Satellite</button>
@@ -154,4 +175,5 @@
   <button>Pegel</button>
   <button>Risiko</button> -->
   </div>
+
 </section>

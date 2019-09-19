@@ -1,35 +1,37 @@
-
 <script>
-export let map;
+  export let map;
 
-function show(e) {
-  if (e.target.checked) {
-    if (map.getLayer(e.target.name)) {
-      map.setLayoutProperty(e.target.name, "visibility", "visible");
-    } else {
-      map.addLayer(
-        {
+  function show(e) {
+    if (e.target.checked) {
+      if (map.getLayer(e.target.name)) {
+        map.setLayoutProperty(e.target.name, "visibility", "visible");
+      } else {
+        map.addLayer({
           id: e.target.name,
-          type: "raster",
+          type: "fill",
           source: {
-            type: "raster",
-            tiles: [
-              "http://www.lfu.bayern.de/gdi/wms/hwrk/ueberschwemmungsgebiete?bbox={bbox-epsg-3857}&service=WMS&request=GetMap&version=1.1.1&format=image/png&srs=EPSG:3857&width=256&height=256&styles=&transparent=true&layers=	hwgf_hqextrem"
-            ],
-            tileSize: 256
+            type: "vector",
+            url: "mapbox://terranea.28avbar4"
           },
-          paint: {}
-        },
-        "aeroway-line"
-      );
+          "source-layer": "hq20070",
+          layout: {},
+          paint: {
+            "fill-color": "#74B3FF",
+            "fill-opacity": 0.8
+          }
+        });
+      }
+    } else {
+      map.setLayoutProperty(e.target.name, "visibility", "none");
     }
-  } else {
-    map.setLayoutProperty(e.target.name, "visibility", "none");
   }
-}
 </script>
 
 <label>
-  <input type="checkbox" name="	hwgf_hqextrem" value="	hwgf_hqextrem" on:change={show} />
+  <input
+    type="checkbox"
+    name=" hwgf_hqextreme"
+    value=" hwgf_hqextreme"
+    on:change={show} />
   Flood Risk - extreme
 </label>

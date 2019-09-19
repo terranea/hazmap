@@ -7,21 +7,20 @@ function show(e) {
     if (map.getLayer(e.target.name)) {
       map.setLayoutProperty(e.target.name, "visibility", "visible");
     } else {
-      map.addLayer(
-        {
+        map.addLayer({
           id: e.target.name,
-          type: "raster",
+          type: "fill",
           source: {
-            type: "raster",
-            tiles: [
-              "http://www.lfu.bayern.de/gdi/wms/hwrk/ueberschwemmungsgebiete?bbox={bbox-epsg-3857}&service=WMS&request=GetMap&version=1.1.1&format=image/png&srs=EPSG:3857&width=256&height=256&styles=&transparent=true&layers=hwgf_hq100"
-            ],
-            tileSize: 256
+            type: "vector",
+            url: "mapbox://terranea.0ud307d3"
           },
-          paint: {}
-        },
-        "aeroway-line"
-      );
+          "source-layer": "HQ100",
+          layout: {},
+          paint: {
+            "fill-color": "#006FFF",
+            "fill-opacity": 0.8
+          }
+        });
     }
   } else {
     map.setLayoutProperty(e.target.name, "visibility", "none");

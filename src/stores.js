@@ -52,4 +52,23 @@ export const eventNotes = derived(eventSelection, ($eventSelection, set) => {
   }
 })
 
+export const eventData = derived(eventSelection, ($eventSelection, set) => {
+  if ($eventSelection) {
+    db.collection("eventdata").where("event", "==", $eventSelection.uid)
+      .get()
+      .then(function (querySnapshot) {
+        querySnapshot.forEach(function (doc) {
+          set(doc.data().URL)
+        });
+      })
+      .catch(function (error) {
+        console.log("Error getting documents: ", error);
+        set(null)
+      });
+  }
+  return () => {
+    set(null)
+  }
+})
+
 
