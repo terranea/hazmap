@@ -8,7 +8,7 @@
 
 <style>
   .wrapper {
-    height: 300px;
+    height: 400px;
     max-height: 400px;
     overflow-x: hidden;
     overflow-y: auto;
@@ -16,7 +16,7 @@
 
   img {
     width: 100%;
-    object-fit: cover;
+    object-fit: scale-down;
   }
 </style>
 
@@ -35,6 +35,26 @@
             directly in the field.
           </p>
 
+          <img height="100" src="http://terranea.de/assets/images/terranea-logo-final.gif" alt="Logo Terranea">
+          <p>
+            At Terranea we are 'spatialists' creating innovative location-based
+            applications supporting businesses and governments in fulfilling
+            their daily duties.
+          </p>
+
+          <a href="http://terranea.de" target="blank" style="margin-right: 2em;">Terranea.de</a>
+          <a href="https://github.com/terranea" target="blank">Github</a>
+
+          <p>
+            Terranea UG (haftungsbeschränkt)
+            <br />
+            Bahnhofstr. 120
+            <br />
+            82269 Geltendorf
+            <br />
+            Germany
+          </p>
+
           <h1>EOVALUE & European Commission</h1>
           <p>
             This application has been developed within the EOVALUE project,
@@ -51,21 +71,6 @@
           <img src="eovalue.png" alt="EOVALUE">
           <img src="ec-logo-horiz-web_en.jpg" alt="EC Logo">
 
-          <h1>Terranea</h1>
-          <p>
-            At Terranea we are 'spatialists' creating innovative location-based
-            applications supporting businesses and governments in fulfilling
-            their daily duties.
-          </p>
-          <p>
-            Terranea UG (haftungsbeschränkt)
-            <br />
-            Bahnhofstr. 120
-            <br />
-            82269 Geltendorf
-            <br />
-            Germany
-          </p>
         </div>
       {:else}
         <div class="imprint">

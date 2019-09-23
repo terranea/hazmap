@@ -1,60 +1,59 @@
 <script>
-	import { createEventDispatcher } from 'svelte';
+  import { createEventDispatcher } from "svelte";
 
-	const dispatch = createEventDispatcher();
+  const dispatch = createEventDispatcher();
 </script>
 
 <style>
-	.modal-background {
+  .modal-background {
     position: fixed;
-		top: 0;
-		left: 0;
-		width: 100%;
-		height: 100%;
-    background: rgba(0,0,0,0.3);
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.3);
     z-index: 5;
-	}
+  }
 
-	.modal {
-		position: fixed;
-		left: 50%;
-		top: 50%;
-		width: calc(100vw - 4em);
-		max-width: 25em;
-		max-height: calc(100vh - 4em);
-		overflow: auto;
-		transform: translate(-50%,-50%);
-		padding: 1em;
-		border-radius: 0.2em;
+  .modal {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    width: calc(100vw - 4em);
+    max-width: 40em;
+    max-height: calc(100vh - 4em);
+    overflow: auto;
+    transform: translate(-50%, -50%);
+    padding: 1em;
+    border-radius: 0.2em;
     background: white;
     z-index: 6;
-		display: flex;
-		flex-direction: column;
-	}
+    display: flex;
+    flex-direction: column;
+  }
 
   .btns {
     display: flex;
-		justify-content: space-between;
+    justify-content: space-between;
   }
 
   hr {
     border-style: solid;
     border-color: #29bb5a;
-		width: 100%;
+    width: 100%;
   }
-
 </style>
 
-<div class='modal-background' on:click='{() => dispatch("close")}'></div>
+<div class="modal-background" on:click={() => dispatch('close')} />
 
-<div class='modal'>
-	<slot name='header'></slot>
-	<hr>
-	<slot></slot>
-	<hr>
+<div class="modal">
+  <slot name="header" />
+  <hr />
+  <slot />
+  <hr />
 
   <div class="btns">
-  <slot name="buttons"></slot>
-	<button class="btn-simple" on:click='{() => dispatch("close")}'>close</button>
+    <slot name="buttons" />
+    <button class="btn-simple" on:click={() => dispatch('close')}>close</button>
   </div>
 </div>
