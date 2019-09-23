@@ -1,5 +1,5 @@
 <script>
-  import { events, eventSelection, eventData } from "../stores";
+  import { events, eventSelection, selectedEvent, eventData } from "../stores";
   import { onMount, setContext } from "svelte";
   import { mapbox, key } from "../mapbox";
   import Events from "./Events.svelte";
@@ -70,7 +70,18 @@
 
   function updateEventData() {}
 
-  $: updateEventData();
+  $: {
+    if (!loading) {
+      if ($eventSelection) {
+        map.jumpTo({
+          center: [$selectedEvent.Longitude, $selectedEvent.Latitude],
+          zoom: 10
+        });
+      } else {
+        map.flyTo({ center: ["10.345759", "50.919992"], zoom: 5 });
+      }
+    }
+  }
 </script>
 
 <style>
