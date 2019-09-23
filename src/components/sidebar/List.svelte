@@ -66,7 +66,8 @@ h3 {
   background: #fff;
   padding: 13px 15px;
   cursor: pointer;
-  height: 60px;
+  height: 70px;
+  min-height: 78px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;

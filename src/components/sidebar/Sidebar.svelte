@@ -45,7 +45,7 @@ aside {
   position: absolute;
   top: -60px;
   left: calc(50% - 22px);
-  z-index: 5;
+  z-index: 4;
   border-radius: 50%;
   height: 45px;
   width: 45px;
