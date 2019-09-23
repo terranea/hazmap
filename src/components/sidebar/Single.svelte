@@ -13,7 +13,7 @@
     display: flex;
     flex-direction: column;
     height: 100%;
-    padding: .5em;
+    padding: 0.5em;
   }
 
   header {
@@ -36,8 +36,9 @@
   }
 
   .label {
-    font-size: 11px;
+    font-size: 13px;
     color: #696969;
+    margin: .3em 0;
   }
 
   span {
@@ -65,9 +66,9 @@
   }
 
   img {
-  max-width: 100%;
-  max-height: 100%;
-}
+    max-width: 100%;
+    max-height: 100%;
+  }
 
   .btn-back {
     position: absolute;
@@ -92,13 +93,13 @@
   </button>
 
   <header>
+    <h2>{event.Title}</h2>
     <div class="label">
       Selected Event
       <span>{event.Origin.EventCode}</span>
       of type
       <span>{event.PrimaryType}</span>
     </div>
-    <h2>{event.Title}</h2>
   </header>
   <div class="row">
     <div class="box">

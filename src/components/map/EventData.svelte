@@ -25,6 +25,6 @@
 
   $: {
     console.log("data changed", eventData)
-    if(eventData) map.getSource("event-data").setData(eventData);
+    if(eventData && map.getSource("event-data")) map.getSource("event-data").setData(eventData);
   }
 </script>

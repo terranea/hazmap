@@ -86,7 +86,7 @@
     position: absolute;
     z-index: 1;
     top: 6px;
-    left: 10px;
+    left: 6px;
     height: 32px;
     width: 32px;
     background: var(--color-main-green);
