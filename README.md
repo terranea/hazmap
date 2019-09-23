@@ -1,72 +1,50 @@
-https://geoportal.bafg.de/OpenData/
+# HazMap app
 
+The HazMapp app supports the management of natural hazards and disaster events by providing its users data from complementing European and national open sources including that collected through crowdsourcing. The app aggregates actionable information and allows professional users (civil protection, water and environmental management, policy makers) but also citizens to effectively prevent and react against disasters. 
 
-*Psst — looking for a shareable component template? Go here --> [sveltejs/component-template](https://github.com/sveltejs/component-template)*
+The HazMapp app integrates information from Copernicus EMS with data from complementing open sources and allows users to collect hazard related information through geo-tagged photos and annotations directly in the field.
 
----
+## Source Code
 
-# svelte app
+This folder/repository includes the source code for the hazmap app. A running prototype lives at https://hazmap-terranea.netlify.com/.
 
-This is a project template for [Svelte](https://svelte.dev) apps. It lives at https://github.com/sveltejs/template.
+The app was created as a single page app and uses the following open source technologies:
+User Interface and interactivity: [Svelte](https://svelte.dev/)
+Map rendering: [Mapbox Gl JS](https://docs.mapbox.com/mapbox-gl-js/api/)
+Data sync and authentication: [Firebase js sdk](https://github.com/firebase/firebase-js-sdk)
+
+Data storage: [Cloud Firestore](https://firebase.google.com/docs/firestore)
+Picture and file storage: [Cloud Storage](https://firebase.google.com/docs/storage)
+User authentication and authorization: [Firebase Authentication](https://firebase.google.com/docs/auth)
 
 To create a new project based on this template using [degit](https://github.com/Rich-Harris/degit):
-
-```bash
-npx degit sveltejs/template svelte-app
-cd svelte-app
-```
-
-*Note that you will need to have [Node.js](https://nodejs.org) installed.*
-
 
 ## Get started
 
 Install the dependencies...
 
+*Note that you will need to have [Node.js](https://nodejs.org) installed.*
+
 ```bash
-cd svelte-app
+cd hazmap
 npm install
 ```
 
-...then start [Rollup](https://rollupjs.org):
+...then run the development server to start the app:
 
 ```bash
 npm run dev
 ```
 
-Navigate to [localhost:5000](http://localhost:5000). You should see your app running. Edit a component file in `src`, save it, and reload the page to see your changes.
+Navigate to [localhost:5000](http://localhost:5000). You should see your app running.
 
 
-## Deploying to the web
+## Build the app
 
-### With [now](https://zeit.co/now)
-
-Install `now` if you haven't already:
-
-```bash
-npm install -g now
-```
-
-Then, from within your project folder:
-
-```bash
-cd public
-now
-```
-
-As an alternative, use the [Now desktop client](https://zeit.co/download) and simply drag the unzipped project folder to the taskbar icon.
-
-### With [surge](https://surge.sh/)
-
-Install `surge` if you haven't already:
-
-```bash
-npm install -g surge
-```
-
-Then, from within your project folder:
+Run the build command to deploy it on the web:
 
 ```bash
 npm run build
-surge public
 ```
+
+all neessary files are located in the folder "public"
