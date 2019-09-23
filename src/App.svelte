@@ -3,6 +3,7 @@
   import Sidebar from "./components/sidebar/Sidebar.svelte";
   import Auth from "./components/Authentication.svelte";
   import Map from "./components/Map.svelte";
+  import About from "./components/About.svelte";
 </script>
 
 <style>
@@ -67,7 +68,7 @@
       <span>HazMap</span>
     </a>
     <div class="buttons">
-      <button class="" >Add Event</button>
+      <About />
       <Auth />
     </div>
 
