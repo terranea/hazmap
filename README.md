@@ -4,7 +4,9 @@ The HazMap app supports the management of natural hazards and disaster events by
 
 The HazMap app integrates information from Copernicus EMS with data from complementing open sources and allows users to collect hazard related information through geo-tagged photos and annotations directly in the field.
 
-> This is the source code for the hazmap app. A running prototype lives at https://hazmap-terranea.netlify.com/.
+This is the source code for the hazmap app. A running prototype lives at https://hazmap-terranea.netlify.com/.
+
+![hazmap screenshot](hazmap.png)
 
 ## Used Technologies and Data
 
@@ -18,6 +20,13 @@ The app was created as a single page app and uses the following open source tech
 * Data storage: [Cloud Firestore](https://firebase.google.com/docs/firestore)
 * Picture and file storage: [Cloud Storage](https://firebase.google.com/docs/storage)
 * User authentication and authorization: [Firebase Authentication](https://firebase.google.com/docs/auth)
+
+### Data:
+* Disaster Events: [Copernicus EMS Activations](https://emergency.copernicus.eu/mapping/list-of-activations-rapid)
+* Flood Risk: [BFG OpenData](https://geoportal.bafg.de/portal/Query/ShowCSWInfo.do?fileIdentifier=7cc44618-f44e-40e3-a8ac-4006cd42f2a4)
+* Gauge Stations: [Pegelonline](https://pegelonline.wsv.de/gast/start)
+* Landcover: [Corine LC BKG](https://gdz.bkg.bund.de/index.php/default/corine-land-cover-10-ha-clc10.html)
+* Critical Infrastructure: extracted from [OSM](https://www.openstreetmap.org) data
 
 ## Get started
 
