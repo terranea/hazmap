@@ -3,6 +3,7 @@ import replace from 'rollup-plugin-replace';
 import resolve from 'rollup-plugin-node-resolve';
 import commonjs from 'rollup-plugin-commonjs';
 import livereload from 'rollup-plugin-livereload';
+import workbox from 'rollup-plugin-workbox-build'
 import { terser } from 'rollup-plugin-terser';
 import dotenv from 'dotenv'
 dotenv.config()
@@ -28,6 +29,15 @@ export default {
 				css.write('public/bundle.css');
 			}
 		}),
+
+		workbox({
+      mode: 'generateSW', // or 'injectManifest'
+      options: {
+        swDest: 'public/service-worker.js',
+        globDirectory: 'dist',
+        // other workbox-build options depending on the mode
+      },
+    }),
 
 		// If you have external dependencies installed from
 		// npm, you'll most likely need these plugins. In
