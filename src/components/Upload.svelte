@@ -1,6 +1,6 @@
 <script>
 import Modal from "./Modal.svelte";
-import { events, user, selectedEvent } from '../stores'
+import { events, user, selectedEvent, alert } from '../stores'
 import { createEventDispatcher, onMount } from 'svelte';
 import { db, storage } from '../firebase'
 import isLatLong from 'validator/lib/isLatLong';
@@ -187,10 +187,12 @@ function uploadNote() {
     }).then(downloadURL => {
       return db.collection('notes').doc(ref).update({ 'ImageURL': downloadURL })
     }).then(() => {
-      console.log("Picture upload successfull")
+      console.log("Picture upload successful")
+      alert.set("Upload successful")
       dispatch('close')
     }).catch((error) => {
       console.log(error)
+      alert.set(error)
       uploadError = error
     })
   }

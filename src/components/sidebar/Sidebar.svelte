@@ -1,5 +1,5 @@
 <script>
-import { events, eventSelection, selectedEvent, eventNotes } from '../../stores'
+import { events, eventSelection, selectedEvent, eventNotes, alert } from '../../stores'
 import List from './List.svelte'
 import Single from './Single.svelte'
 import {user} from '../../stores'
@@ -11,8 +11,8 @@ let upload = false
 function openPictureUpload() {
   if($user) {
     upload = true
-    console.log("LOGEIN")
   } else {
+    alert.set("Please sign in to create a new event note!")
     console.log("PLEASE LOGIN")
   }
 }

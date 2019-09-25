@@ -1,9 +1,10 @@
 <script>
-  import { events } from "./stores";
+  import { events, alert } from "./stores";
   import Sidebar from "./components/sidebar/Sidebar.svelte";
   import Auth from "./components/Authentication.svelte";
   import Map from "./components/Map.svelte";
   import About from "./components/About.svelte";
+  import Alert from "./components/Alert.svelte";
 </script>
 
 <style>
@@ -46,7 +47,6 @@
     main {
       flex-direction: row;
     }
-
   }
 </style>
 
@@ -79,5 +79,8 @@
     <Map lat={50.919992} lon={10.345759} zoom={5} />
   </main>
 
+  {#if $alert}
+    <Alert on:close={() => alert.set(null)} message={$alert} />
+  {/if}
   <footer />
 </div>

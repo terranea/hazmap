@@ -71,4 +71,5 @@ export const eventData = derived(eventSelection, ($eventSelection, set) => {
   }
 })
 
+export const alert = writable(null);
 

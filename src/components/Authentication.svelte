@@ -2,35 +2,45 @@
   import { auth } from "../firebase";
   import { authState } from "rxfire/auth";
   import Modal from "./Modal.svelte";
-  import { fade } from 'svelte/transition';
+  import { fade } from "svelte/transition";
   import { onMount } from "svelte";
-  import { user } from '../stores'
-  import isEmail from 'validator/lib/isEmail';
+  import { user, alert } from "../stores";
+  import isEmail from "validator/lib/isEmail";
 
   let email = "";
   let password = "";
   let btnTxt = "Sign In";
   let showModal = false;
-  let errorCode = ""
-  let errorMessage = ""
+  let errorCode = "";
+  let errorMessage = "";
 
   onMount(() => {
     auth.onAuthStateChanged(function(u) {
-    if (u) {
-      user.set(u)
-    } else {
-      user.set(null)
+      if (u) {
+        user.set(u);
+      } else {
+        user.set(null);
       }
     });
-  })
+  });
 
   function login() {
-    auth.signInWithEmailAndPassword(email, password).then(res => {
-      showModal = false
-    }).catch(function(error) {
-      errorCode = error.code;
-      errorMessage = error.message;
-    });
+    auth
+      .signInWithEmailAndPassword(email, password)
+      .then(res => {
+        showModal = false;
+        alert.set("Login successful!");
+      })
+      .catch(function(error) {
+        errorCode = error.code;
+        errorMessage = error.message;
+      });
+  }
+
+  function logout() {
+    auth.signOut().then(() => {
+      alert.set("Logout successful!");
+    }) ;
   }
 
 </script>
@@ -47,15 +57,14 @@
   }
 
   button {
-    margin: 0 .4em;
+    margin: 0 0.4em;
   }
 </style>
 
-
 {#if $user}
-<button on:click={() => auth.signOut()}>Sign Out</button>
+  <button on:click={logout}>Sign Out</button>
 {:else}
-<button on:click={() => (showModal = true)}>Sign In</button>
+  <button on:click={() => (showModal = true)}>Sign In</button>
 {/if}
 {#if showModal}
   <Modal on:close={() => (showModal = false)}>
@@ -77,7 +86,7 @@
           bind:value={password} />
       </fieldset>
       {#if errorMessage}
-      <p transition:fade="{{ duration: 2000 }}">{errorMessage}</p>
+        <p transition:fade={{ duration: 2000 }}>{errorMessage}</p>
       {/if}
       <button
         class="btn btn-lg btn-primary pull-xs-right"
