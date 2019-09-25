@@ -38,7 +38,7 @@
   .label {
     font-size: 13px;
     color: #696969;
-    margin: .3em 0;
+    margin: 0.3em 0;
   }
 
   span {
@@ -66,14 +66,32 @@
   }
 
   img {
-    max-width: 100%;
-    max-height: 100%;
+    width: 100%;
+    object-fit: cover;
+    margin-bottom: .4em;
   }
 
   .btn-back {
     position: absolute;
     right: 1.3em;
     top: 0;
+  }
+
+  .note {
+    margin: 0.4em 0em;
+    background: #fff;
+    /* height: 70px; */
+    /* min-height: 78px; */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding-bottom: .5em;
+  }
+
+  .txt {
+    margin: .2em .4em;
+    font-size: .8em;
+    color: #696969;
   }
 
   @media (min-width: 1180px) {
@@ -119,11 +137,12 @@
     <h3>Event Notes</h3>
     <div class="products">
       {#each $notes as note}
-        <img src={note.ImageURL} alt="" />
+        <div class="note">
+          <img src={note.ImageURL} alt="" />
+          <div class="txt">Title: {note.Title}</div>
+          <div class="txt">Comment: {note.Comment}</div>
+        </div>
       {/each}
     </div>
-    <footer>
-      <span>About | Impressum | Datenschutz</span>
-    </footer>
   </div>
 </div>

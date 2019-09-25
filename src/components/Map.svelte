@@ -1,5 +1,5 @@
 <script>
-  import { events, eventSelection, selectedEvent, eventData } from "../stores";
+  import { events, eventSelection, selectedEvent, eventData, eventNotes } from "../stores";
   import { onMount, setContext } from "svelte";
   import { mapbox, key } from "../mapbox";
   import Events from "./Events.svelte";
@@ -27,6 +27,7 @@
   let loading = true;
   let layerId;
   let showLayers = false;
+  let noteMarkers = [];
 
   onMount(() => {
     const link = document.createElement("link");
@@ -74,8 +75,21 @@
           center: [$selectedEvent.Longitude, $selectedEvent.Latitude],
           zoom: 10
         });
+        for (let index = 0; index < $eventNotes.length; index++) {
+          const element = $eventNotes[index];
+          if(element.Longitude) {
+          var marker = new mapbox.Marker()
+            .setLngLat([element.Longitude, element.Latitude])
+            .addTo(map);
+          noteMarkers.push(marker)
+          }
+        }
       } else {
         map.flyTo({ center: ["10.345759", "50.919992"], zoom: 5 });
+        for (let index = 0; index < noteMarkers.length; index++) {
+          const element = noteMarkers[index];
+          element.remove()
+        }
       }
     }
   }
