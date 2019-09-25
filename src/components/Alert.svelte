@@ -43,6 +43,7 @@
     width: 1.5em;
     fill: #c53030;
   }
+  
 </style>
 
 <div transition:fade class="alert" role="alert">

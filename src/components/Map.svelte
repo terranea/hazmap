@@ -47,6 +47,7 @@
         closeButton: false,
         closeOnClick: false
       });
+      popup.setMaxWidth("350px")
 
       map.on("click", function(e) {
         showLayers = false;

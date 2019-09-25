@@ -83,11 +83,12 @@ function fetchStationData(props) {
       return response.json()
     })
     .then(data => {
-      const html = "<h1>" + props.waterlong + "</h1>" +
-        props.longname + "<h2>Pegelstand: <b>" + data.value +
-        " cm</b></h2>" + "<span>Mess-Zeitpunkt: </br>" +
-        data.timestamp + "</span>";
-      popup.setHTML(html);
+      const html = "<h1>Water body: " + props.waterlong + "</h1>" +
+        props.longname + "<h2>Water level: <b>" + data.value +
+        " cm</b></h2>" + "<span>Measuring time: </br>" +
+        data.timestamp + "</span>" + "</br><h2>Water level of the last 10 days:</h2>" +
+        "<img class='img-gauge' src='https://pegelonline.wsv.de/webservices/rest-api/v2/stations/BONN/W/measurements.png?start=P10D&width=420&height=220'/>";
+        popup.setHTML(html);
     })
     .catch(function(error) {
       console.log(error);
@@ -105,6 +106,15 @@ function jsonToGeojson(data) {
   return { "type": "FeatureCollection", "features": features }
 }
 </script>
+
+<style>
+
+:global(.img-gauge) {
+  object-fit: cover;
+  width: 100%;
+}
+
+</style>
 
 <label>
   <input type="checkbox" name="cwl" value="cwl" on:change={show}/>
