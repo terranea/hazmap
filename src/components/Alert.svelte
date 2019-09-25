@@ -14,6 +14,7 @@
   .alert {
     position: absolute;
     left: 50%;
+    top: 50px;
     min-height: 30px;
     margin-top: 3px;
   }

@@ -16,7 +16,7 @@
       },
       paint: {
         "fill-color": "#ff9900",
-        "fill-opacity": 1
+        "fill-opacity": 0.5
       }
       // filter: ["in", "layer", "EMSR308_01TEGERNBACH_GRA_v1_observed_event_a"]
     });
