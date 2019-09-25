@@ -63,10 +63,10 @@ aside {
   outline: none;
 }
 
-  .btn-upload svg {
-    width: 30px;
-    height: 30px;
-  }
+.btn-upload svg {
+  width: 30px;
+  height: 30px;
+}
 
 @media (min-width: 980px) {
   aside {

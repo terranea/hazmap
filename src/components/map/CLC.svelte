@@ -18,9 +18,7 @@ function show(e) {
             tileSize: 256
           },
           paint: {},
-        },
-        "aeroway-line"
-      );
+        });
     }
   } else {
     map.setLayoutProperty(e.target.name, "visibility", "none");

@@ -2,7 +2,7 @@
   import { getContext } from "svelte";
   import { mapbox, key } from "../mapbox.js";
   import { onMount } from "svelte";
-  import { createEventDispatcher } from 'svelte';
+  import { createEventDispatcher } from "svelte";
 
   const dispatch = createEventDispatcher();
   const { getMap, getPopup } = getContext(key);
@@ -25,6 +25,12 @@
       return feature;
     })
   };
+
+  $: {
+    if (map.getSource("events")) {
+      map.getSource("events").setData(geojson);
+    }
+  }
 
   onMount(() => {
     map.addSource("events", {
@@ -64,7 +70,39 @@
     map.on("mouseleave", "events", onMouseLeave);
 
     map.on("click", "events", function(e) {
-      dispatch('select', e.features[0].properties)
+      dispatch("select", e.features[0].properties);
+    });
+
+    map.on("style.load", function() {
+      map.addSource("events", {
+        type: "geojson",
+        data: geojson
+      });
+      map.addLayer({
+        id: "events",
+        source: "events",
+        type: "circle",
+        paint: {
+          "circle-radius": 9,
+          "circle-color": [
+            "match",
+            ["get", "PrimaryType"],
+            "Flood",
+            "#007fff",
+            "Earthquake",
+            "#223b53",
+            "Fire",
+            "#ff9900",
+            "Wildfire",
+            "#ff9900",
+            "Forest fire",
+            "#ff9900",
+            "Storm",
+            "#3bb2d0",
+            /* other */ "#ccc"
+          ]
+        }
+      });
     });
   });
 

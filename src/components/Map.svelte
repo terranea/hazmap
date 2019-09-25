@@ -9,6 +9,7 @@
   import CLC from "./map/CLC.svelte";
   import GAUGE from "./map/GaugeStations.svelte";
   import CRIS from "./map/CriticalInfrastructure.svelte";
+  import BaseMap from "./map/Basemap.svelte";
   import EventData from "./map/EventData.svelte";
 
   setContext(key, {
@@ -54,6 +55,7 @@
       map.on("load", function() {
         loading = false;
       });
+
     };
 
     document.head.appendChild(link);
@@ -63,12 +65,6 @@
       link.parentNode.removeChild(link);
     };
   });
-
-  function switchLayer(id) {
-    if (!loading) map.setStyle("mapbox://styles/mapbox/" + id);
-  }
-
-  function updateEventData() {}
 
   $: {
     if (!loading) {
@@ -188,6 +184,7 @@
       <CLC {map} />
       <GAUGE {map} {popup} />
       <CRIS {map} {popup} />
+      <BaseMap {map}/>
     {/if}
 
     <!-- <button on:click={() => switchLayer('satellite-streets-v11')}>Satellite</button>

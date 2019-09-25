@@ -4,7 +4,7 @@ export let map, popup;
 let stations = { "type": "FeatureCollection", "features": [] };
 
 onMount(() => {
-  map.loadImage('/gauge20.png', function(error, image) {
+  map.loadImage('gauge20.png', function(error, image) {
     if (error) throw error;
     map.addImage('gauge', image);
   })
