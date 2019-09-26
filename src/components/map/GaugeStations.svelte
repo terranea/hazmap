@@ -87,7 +87,7 @@ function fetchStationData(props) {
         props.longname + "<h2>Water level: <b>" + data.value +
         " cm</b></h2>" + "<span>Measuring time: </br>" +
         data.timestamp + "</span>" + "</br><h2>Water level of the last 10 days:</h2>" +
-        "<img class='img-gauge' src='https://pegelonline.wsv.de/webservices/rest-api/v2/stations/BONN/W/measurements.png?start=P10D&width=420&height=220'/>";
+        "<img class='img-gauge' src='https://pegelonline.wsv.de/webservices/rest-api/v2/stations/" + props.shortname + "/W/measurements.png?start=P10D&width=420&height=220'/>";
         popup.setHTML(html);
     })
     .catch(function(error) {
