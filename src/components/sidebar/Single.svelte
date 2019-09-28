@@ -133,6 +133,20 @@
       </span>
     </div>
   </div>
+    <div class="row">
+    <div class="box">
+      <div class="label">Latitude</div>
+      <span v-if="data" class="metrics-value type">
+        {event.Latitude}
+      </span>
+    </div>
+    <div class="box">
+      <div class="label">Longitude</div>
+      <span v-if="data" class="metrics-value">
+        {event.Longitude}
+      </span>
+    </div>
+  </div>
   <div class="scroll">
     <h3>Event Notes</h3>
     <div class="products">
