@@ -40,10 +40,13 @@ type Origin struct {
 	Custom         map[string]string `json:"custom"`
 }
 
+const fbcollection = "events"
+
 func main() {
 	fmt.Println("START PARSER")
-	feed := fromFile("./feed.xml")
+	feed := fromURL()
 	events := []Event{}
+
 	for index := 0; index < len(feed.Items); index++ {
 		item := feed.Items[index]
 		coords := parseGeoRSS(item)
@@ -70,10 +73,10 @@ func main() {
 			},
 		}
 		parseDescription(item.Description, &e)
-		fmt.Println(e.Title, e.Latitude, e.Longitude)
+		// fmt.Println(e.Title, e.Latitude, e.Longitude)
 		events = append(events, e)
 	}
-
+	fmt.Println(len(events), "events parsed")
 	err := sendToFirebase(events)
 	if err != nil {
 		fmt.Println(err)
@@ -93,16 +96,35 @@ func sendToFirebase(e []Event) error {
 		return fmt.Errorf("error creating database client: %v", err)
 	}
 	defer client.Close()
+	ecount := 0
+	excount := 0
+	fmt.Println("START sending events to firestore collection", fbcollection)
 	for _, item := range e {
 		if item.Latitude == "" && item.Longitude == "" {
 			continue
 		}
-		_, _, err = client.Collection("events").Add(ctx, item)
+
+		// check if event is already in the database
+		iter := client.Collection(fbcollection).Where("Origin.EventCode", "==", item.Origin.EventCode).Limit(1).Documents(ctx)
+		all, err := iter.GetAll()
+		if err != nil {
+			return err
+		}
+		if len(all) > 0 {
+			excount++
+			continue
+		}
+
+		// send event to the database
+		_, _, err = client.Collection(fbcollection).Add(ctx, item)
 		if err != nil {
 			// Handle any errors in an appropriate way, such as returning them.
 			return fmt.Errorf("An error has occurred: %s", err)
 		}
+		ecount++
 	}
+	fmt.Println(excount, "events were already in the database")
+	fmt.Println(ecount, "new events have been sent to firestore")
 
 	return nil
 }
