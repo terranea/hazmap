@@ -1,5 +1,5 @@
 import { writable, readable, derived } from 'svelte/store';
-import { db } from "./firebase";
+import { db, storage } from "./firebase";
 import { collectionData } from 'rxfire/firestore';
 import { startWith } from 'rxjs/operators';
 
@@ -52,24 +52,40 @@ export const eventNotes = derived(eventSelection, ($eventSelection, set) => {
   }
 })
 
-export const eventData = derived(eventSelection, ($eventSelection, set) => {
-  if ($eventSelection) {
-    db.collection("eventdata").where("event", "==", $eventSelection.uid)
-      .get()
-      .then(function (querySnapshot) {
-        querySnapshot.forEach(function (doc) {
-          set(doc.data().URL)
-        });
-      })
-      .catch(function (error) {
-        console.log("Error getting documents: ", error);
-        set(null)
-      });
+export const eventData = derived(selectedEvent, ($selectedEvent, set) => {
+  if ($selectedEvent) {
+    let file = "eventdata/" + $selectedEvent.Origin.EventCode + ".geojson"
+    let ref = storage.ref().child(file);
+    ref.getDownloadURL().then(function (url) {
+      set(url)
+    }).catch(function (error) {
+      console.log("Error getting eventdata: ", error);
+      set(null)
+    })
   }
   return () => {
     set(null)
   }
 })
+
+// export const eventData = derived(eventSelection, ($eventSelection, set) => {
+//   if ($eventSelection) {
+//     db.collection("eventdata").where("event", "==", $eventSelection.uid)
+//       .get()
+//       .then(function (querySnapshot) {
+//         querySnapshot.forEach(function (doc) {
+//           set(doc.data().URL)
+//         });
+//       })
+//       .catch(function (error) {
+//         console.log("Error getting documents: ", error);
+//         set(null)
+//       });
+//   }
+//   return () => {
+//     set(null)
+//   }
+// })
 
 export const alert = writable(null);
 
