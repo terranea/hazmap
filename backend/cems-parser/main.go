@@ -14,6 +14,10 @@ import (
 	"golang.org/x/net/html"
 )
 
+const firebaseCredentials = "../firebase-credentials.json"
+const fbcollection = "events"
+const rssfeed = "https://emergency.copernicus.eu/mapping/activations-rapid/feed"
+
 type Event struct {
 	Timestamp        time.Time `json:"timestamp"`
 	Title            string    `json:"title"`
@@ -39,8 +43,6 @@ type Origin struct {
 	ActivationTime time.Time         `json: activation`
 	Custom         map[string]string `json:"custom"`
 }
-
-const fbcollection = "events"
 
 func main() {
 	fmt.Println("START PARSER")
@@ -84,10 +86,9 @@ func main() {
 }
 
 func sendToFirebase(e []Event) error {
-	opt := option.WithCredentialsFile("../firebase-credentials.json")
+	opt := option.WithCredentialsFile(firebaseCredentials)
 	ctx := context.Background()
-	conf := &firebase.Config{ProjectID: "mazmap-ff7f7"}
-	app, err := firebase.NewApp(ctx, conf, opt)
+	app, err := firebase.NewApp(ctx, nil, opt)
 	if err != nil {
 		return fmt.Errorf("error initializing app: %v", err)
 	}
@@ -215,6 +216,6 @@ func fromFile(f string) *gofeed.Feed {
 
 func fromURL() *gofeed.Feed {
 	fp := gofeed.NewParser()
-	feed, _ := fp.ParseURL("https://emergency.copernicus.eu/mapping/activations-rapid/feed")
+	feed, _ := fp.ParseURL(rssfeed)
 	return feed
 }
