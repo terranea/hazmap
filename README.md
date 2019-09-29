@@ -54,6 +54,22 @@ npm run dev
 
 Navigate to [localhost:5000](http://localhost:5000). You should see your app running.
 
+### Mapbox and Firebase Credentials
+
+You need a Firebase and a Mapbox account for the app to work. Put an .env file with your own environment variables (see below) in the root directory.
+
+.env file example:
+```
+MAPBOX_ACCESS_TOKEN=your-key
+FIREBASE_apiKey=your-key
+FIREBASE_authDomain=your-domain
+FIREBASE_databaseURL=your-dburl
+FIREBASE_projectId=your-projectId
+FIREBASE_storageBucket=your-bucketID
+FIREBASE_messagingSenderId=your-msgSenderId
+FIREBASE_appId=your-appId
+```
+
 
 ## Build the app
 
