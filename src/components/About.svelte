@@ -3,6 +3,7 @@
 
   let showModal = false;
   let about = true;
+  let show = "About";
   let title = "About";
 </script>
 
@@ -25,9 +26,9 @@
 {#if showModal}
   <Modal on:close={() => (showModal = false)}>
     <h1 slot="header">{title}</h1>
-    <div class="wrapper">
-      {#if about}
-        <div class="about">
+    <div>
+      {#if show == 'About'}
+        <div class="wrapper">
           <p>
             The HazMap app integrates information from Copernicus EMS with data
             from complementing open sources and allows users to collect hazard
@@ -80,8 +81,8 @@
           <img src="ec-logo-horiz-web_en.jpg" alt="EC Logo" />
 
         </div>
-      {:else}
-        <div class="imprint">
+      {:else if show == 'Disclaimer'}
+        <div class="wrapper">
           <p>
             <strong>Online-contents</strong>
             - The author reserves the right not to be responsible for the
@@ -121,22 +122,121 @@
             validity of the other parts remain uninfluenced by this fact.
           </p>
         </div>
+      {:else if show == 'Policy'}
+        <div class="wrapper">
+          <p>
+            This policy is intended to inform the users of this
+            website about the nature, scope and purpose of the collection and
+            use of personal data by the HazMap app.
+          </p>
+          <h2>Google Firebase</h2>
+          <p>
+            Our HazMap app uses the technology Google Firebase of the company
+            Google Inc., 1600 Amphitheatre Parkway, Mountain View, CA 94043, USA
+            ("Firebase"). We use following Firebase services:
+          </p>
+          <ul>
+            <li>Cloud Firestore: to store and sync data</li>
+            <li>Storage: to store files like pictures</li>
+            <li>Authentication: to authenticate users</li>
+          </ul>
+          <p>
+            Google Firebase uses servers located in Frankfurt for these services
+            wherever possible. However, it cannot be ruled out that data may
+            also be transferred to the USA. Google has therefore submitted to
+            the EU-US Privacy-Shield.
+          </p>
+          <p>
+            You can find more information about Google Firebase and privacy
+            here:
+            <a
+              href="https://firebase.google.com/support/privacy/"
+              target="_blank">
+              https://firebase.google.com/support/privacy/
+            </a>
+          </p>
+        </div>
+      {:else}
+        <div class="wrapper">
+          <p>
+            These Terms of Use govern your use of HazMap and provide information
+            about the HazMap upload service. When you create an HazMap account
+            or use HazMap,
+            <strong>you agree to these terms.</strong>
+          </p>
+          <h2>Permissions you give to us when uploading data</h2>
+          <p>
+            <strong>
+              We do not claim ownership of your content, but you grant us a
+              license to use it.
+            </strong>
+            With the transfer of photos to the hazmap app you help to build up a
+            database for disaster response. You agree to share the photos under
+            the following
+            <a
+              href="https://joinup.ec.europa.eu/collection/eupl/eupl-text-11-12"
+              target="_blank">
+              European Union Public Licence V1.2
+            </a>
+            .
+          </p>
+          <p>
+            As the licensor, you hereby grant a worldwide, royalty-free,
+            non-exclusive, sublicensable license, which entitles the user, for
+            the period of validity of the copyrights to the original work:
+          </p>
+          <ul>
+            <li>to use the data without restriction</li>
+            <li>to reproduce the data</li>
+            <li>change the original data and create edits based on the data</li>
+            <li>
+              to make the data publicly available, which includes the right to
+              make the data or reproductions thereof publicly available or
+              perceptible, or to perform the data publicly, as far as possible
+            </li>
+            <li>to distribute the data or reproductions thereof</li>
+            to distribute the data or reproductions thereof
+            <li>to rent or lend out the data or copies thereof</li>
+            <li>to further license the data or reproductions thereof</li>
+          </ul>
+          <p>
+            >Please read the
+            <a
+              href="https://joinup.ec.europa.eu/collection/eupl/eupl-text-11-12"
+              target="_blank">
+              License
+            </a>
+            carefully.
+          </p>
+        </div>
       {/if}
     </div>
 
     <div slot="buttons">
       <button
         on:click={() => {
-          about = true;
+          show = 'About';
           title = 'About';
         }}>
         About
       </button>
-    </div>
-    <div slot="buttons">
       <button
         on:click={() => {
-          about = false;
+          show = 'Terms';
+          title = 'Terms of Use';
+        }}>
+        Terms
+      </button>
+      <button
+        on:click={() => {
+          show = 'Policy';
+          title = 'Data Policy';
+        }}>
+        Data
+      </button>
+      <button
+        on:click={() => {
+          show = 'Disclaimer';
           title = 'Disclaimer';
         }}>
         Disclaimer
