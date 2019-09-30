@@ -4,11 +4,6 @@ export let map, popup;
 let stations = { "type": "FeatureCollection", "features": [] };
 
 onMount(() => {
-  map.loadImage('gauge20.png', function(error, image) {
-    if (error) throw error;
-    map.addImage('gauge', image);
-  })
-
   map.on("mouseenter", "cwl", e => {
     fetchStationData(e.features[0].properties)
     map.getCanvas().style.cursor = "pointer";
@@ -39,6 +34,10 @@ function show(e) {
     if (map.getLayer(e.target.name)) {
       map.setLayoutProperty(e.target.name, "visibility", "visible");
     } else {
+      map.loadImage('gauge20.png', function(error, image) {
+        if (error) throw error;
+        map.addImage('gauge', image);
+      })
       map.addLayer({
         id: e.target.name,
         type: "symbol",
@@ -48,7 +47,7 @@ function show(e) {
         },
         layout: {
           "icon-image": "gauge",
-          "icon-size": 1
+          "icon-size": 0.8
           },
       });
       fetchStations()
