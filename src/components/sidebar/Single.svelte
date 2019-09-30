@@ -27,6 +27,8 @@
   .row {
     display: flex;
     margin-bottom: 0.1rem;
+    min-height: 38px;
+    justify-content: space-between;
   }
 
   .box {
@@ -148,7 +150,7 @@
     </div>
   </div>
   <div class="scroll">
-    <h3>Event Notes</h3>
+    <h3>Event Notes and Pictures</h3>
     <div class="products">
       {#each $notes as note}
         <div class="note">
