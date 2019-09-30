@@ -31,7 +31,38 @@ function show(e) {
     if (map.getLayer(e.target.name)) {
       map.setLayoutProperty(e.target.name, "visibility", "visible");
     } else {
-      console.log("layer not there")
+      map.addLayer({
+        id: e.target.name,
+        type: "circle",
+        source: {
+          type: "vector",
+          url: "mapbox://terranea.77o9mzfd"
+        },
+        "source-layer": "kritis-0dk36v",
+        layout: {},
+        filter: ["!=", "type", "Pharmacy"],
+        paint: {
+          "circle-radius": 4,
+          "circle-opacity": 0.8,
+          "circle-color": [
+            "match",
+            ["get", "type"],
+            "Bridge",
+            "#fbc1bc",
+            "Hospital",
+            "#5d1451",
+            "School",
+            "#d35656",
+            "Wastewater",
+            "#14868c",
+            "Water Supply",
+            "#2f416d",
+            "Telecom Tower",
+            "#BEEAF7",
+            /* other */ "#ccc"
+          ]
+        }
+      });
     }
   } else {
     map.setLayoutProperty(e.target.name, "visibility", "none");

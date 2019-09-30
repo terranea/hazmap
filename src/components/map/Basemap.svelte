@@ -5,8 +5,8 @@
   let title = "Satellite";
 
   function show(e) {
-    if (map.getStyle().name === "Streets") {
-      map.setStyle("mapbox://styles/mapbox/satellite-streets-v11");
+    if (map.getStyle().name === "HazMap") {
+      map.setStyle("mapbox://styles/mapbox/satellite-streets-v9");
       title = "Streets (default)";
     } else {
       map.setStyle("mapbox://styles/terranea/ck0cnu1ig01hw1csz6r5xfw0p");
