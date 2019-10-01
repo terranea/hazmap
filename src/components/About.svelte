@@ -42,6 +42,7 @@
 
           <img
             height="100"
+            loading="lazy"
             src="http://terranea.de/assets/images/terranea-logo-final.gif"
             alt="Logo Terranea" />
           <p>
@@ -81,8 +82,8 @@
             of such damages .
           </p>
 
-          <img src="eovalue.png" alt="EOVALUE" />
-          <img src="ec-logo-horiz-web_en.jpg" alt="EC Logo" />
+          <img src="eovalue.png" loading="lazy" alt="EOVALUE" />
+          <img src="ec-logo-horiz-web_en.jpg" loading="lazy" alt="EC Logo" />
 
         </div>
       {:else if $showAbout.title == 'Disclaimer'}

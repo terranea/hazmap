@@ -154,7 +154,7 @@
     <div class="products">
       {#each $notes as note}
         <div class="note">
-          <img src={note.ImageURL} alt="" />
+          <img src={note.ImageURL} loading="lazy" alt={note.Title} />
           <div class="txt">Title: {note.Title}</div>
           <div class="txt">Comment: {note.Comment}</div>
         </div>
