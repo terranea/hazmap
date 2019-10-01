@@ -1,6 +1,6 @@
 <script>
 import Modal from "./Modal.svelte";
-import { events, user, selectedEvent, alert } from '../stores'
+import { events, user, selectedEvent, alert, showAbout } from '../stores'
 import { createEventDispatcher, onMount } from 'svelte';
 import { db, storage } from '../firebase'
 import isLatLong from 'validator/lib/isLatLong';
@@ -353,6 +353,17 @@ label span {
   opacity: 0;
   transition: opacity 0.3s;
 }
+
+.info {
+  margin: .3em 0;
+  font-size: 10px;
+  text-align: center;
+}
+
+.terms {
+  color: #536899;
+  cursor: pointer;
+}
 </style>
 
 <Modal on:close={() => dispatch('close')}>
@@ -434,6 +445,7 @@ label span {
 {/if}
 <span class="accuracy">Accuracy: {coordinates.accuracy} m</span>
 <button class="btn-upload" on:click={uploadNote}><svg height="32" style="margin-right: 1em;" fill="white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M403.002 217.001C388.998 148.002 328.998 96 256 96c-57.998 0-107.998 32.998-132.998 81.001C63.002 183.002 16 233.998 16 296c0 65.996 53.999 120 120 120h260c55 0 100-45 100-100 0-52.998-40.996-96.001-92.998-98.999zM288 276v76h-64v-76h-68l100-100 100 100h-68z"/></svg> Upload</button>
+<span class="info">by clicking the upload button you agree to our <span class="terms" on:click={() => showAbout.set({show: true, title: "Terms of Use"})}>terms of use</span> </span>
 {#if uploadError}
 <span class="error" style="text-align: center; margin-top: .5em;">upload error: {uploadError}</span>
 {/if}

@@ -4,7 +4,7 @@ The HazMap app supports the management of natural hazards and disaster events by
 
 The HazMap app integrates information from Copernicus EMS with data from complementing open sources and allows users to collect hazard related information through geo-tagged photos and annotations directly in the field.
 
-This is the source code for the hazmap app. A running prototype lives at https://hazmap.terranea.com/.
+This is the source code for the hazmap app. A running prototype lives at https://hazmap.terranea.de/.
 
 ![hazmap screenshot](hazmap.png)
 

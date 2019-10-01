@@ -1,8 +1,7 @@
 <script>
   import Modal from "./Modal.svelte";
+  import { showAbout } from '../stores'
 
-  let showModal = false;
-  let about = true;
   let show = "About";
   let title = "About";
 </script>
@@ -19,15 +18,20 @@
     width: 100%;
     object-fit: scale-down;
   }
+
+  .container {
+    z-index: 50;
+  }
 </style>
 
-<button on:click={() => (showModal = true)}>About</button>
+<button on:click={() => (showAbout.set({show: true, title: "About"}))}>About</button>
 
-{#if showModal}
-  <Modal on:close={() => (showModal = false)}>
-    <h1 slot="header">{title}</h1>
+{#if $showAbout.show}
+<div class="container">
+  <Modal on:close={() => (showAbout.set({show: false, title: "About"}))}>
+    <h1 slot="header">{$showAbout.title}</h1>
     <div>
-      {#if show == 'About'}
+      {#if $showAbout.title == 'About'}
         <div class="wrapper">
           <p>
             The HazMap app integrates information from Copernicus EMS with data
@@ -81,7 +85,7 @@
           <img src="ec-logo-horiz-web_en.jpg" alt="EC Logo" />
 
         </div>
-      {:else if show == 'Disclaimer'}
+      {:else if $showAbout.title == 'Disclaimer'}
         <div class="wrapper">
           <p>
             <strong>Online-contents</strong>
@@ -122,7 +126,7 @@
             validity of the other parts remain uninfluenced by this fact.
           </p>
         </div>
-      {:else if show == 'Policy'}
+      {:else if $showAbout.title == 'Data Policy'}
         <div class="wrapper">
           <p>
             This policy is intended to inform the users of this
@@ -200,7 +204,7 @@
             <li>to further license the data or reproductions thereof</li>
           </ul>
           <p>
-            >Please read the
+            Please read the
             <a
               href="https://joinup.ec.europa.eu/collection/eupl/eupl-text-11-12"
               target="_blank">
@@ -215,32 +219,32 @@
     <div slot="buttons">
       <button
         on:click={() => {
-          show = 'About';
           title = 'About';
+          showAbout.set({show: true, title: "About"})
         }}>
         About
       </button>
       <button
         on:click={() => {
-          show = 'Terms';
           title = 'Terms of Use';
+          showAbout.set({show: true, title: "Terms of Use"})
         }}>
         Terms
       </button>
       <button
         on:click={() => {
-          show = 'Policy';
           title = 'Data Policy';
+          showAbout.set({show: true, title: "Data Policy"})
         }}>
         Data
       </button>
       <button
         on:click={() => {
-          show = 'Disclaimer';
-          title = 'Disclaimer';
+          showAbout.set({show: true, title: "Disclaimer"})
         }}>
         Disclaimer
       </button>
     </div>
   </Modal>
+</div>
 {/if}

@@ -89,3 +89,5 @@ export const eventData = derived(selectedEvent, ($selectedEvent, set) => {
 
 export const alert = writable(null);
 
+export const showAbout = writable({show: false, title: "About"});
+
