@@ -69,7 +69,7 @@
             Germany
           </p>
 
-          <h1>EOVALUE & European Commission</h1>
+          <h1>EOVALUE</h1>
           <p>
             This application has been developed within the EOVALUE project,
             which has received funding from the European Union’s Horizon 2020
@@ -79,11 +79,10 @@
             not limited to the loss of data, loss of profits, or any other
             financial loss arising from the use of this application, or
             inability to use it, even if the JRC is notified of the possibility
-            of such damages .
+            of such damages.
           </p>
 
           <img src="eovalue.png" loading="lazy" alt="EOVALUE" />
-          <img src="ec-logo-horiz-web_en.jpg" loading="lazy" alt="EC Logo" />
 
         </div>
       {:else if $showAbout.title == 'Disclaimer'}
