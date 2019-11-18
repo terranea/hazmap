@@ -27,7 +27,6 @@
 <button on:click={() => (showAbout.set({show: true, title: "About"}))}>About</button>
 
 {#if $showAbout.show}
-<div class="container">
   <Modal on:close={() => (showAbout.set({show: false, title: "About"}))}>
     <h1 slot="header">{$showAbout.title}</h1>
     <div>
@@ -246,5 +245,4 @@
       </button>
     </div>
   </Modal>
-</div>
 {/if}

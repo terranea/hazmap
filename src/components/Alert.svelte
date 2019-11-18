@@ -17,6 +17,7 @@
     top: 50px;
     min-height: 30px;
     margin-top: 3px;
+    z-index: 1000;
   }
 
   .content {
@@ -29,6 +30,7 @@
     border: 0 solid #e2e8f0;
     box-sizing: inherit;
     padding: 0.75rem !important;
+    padding-top: 1rem !important;
     color: #c53030 !important;
   }
 

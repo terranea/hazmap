@@ -150,7 +150,6 @@
     height: 20px;
     background: #ddd;
     margin: 20px 90px;
-
     position: relative;
     box-shadow: none;
   }
