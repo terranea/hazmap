@@ -27,7 +27,6 @@
 <button on:click={() => (showAbout.set({show: true, title: "About"}))}>About</button>
 
 {#if $showAbout.show}
-<div class="container">
   <Modal on:close={() => (showAbout.set({show: false, title: "About"}))}>
     <h1 slot="header">{$showAbout.title}</h1>
     <div>
@@ -83,6 +82,10 @@
           </p>
 
           <img src="eovalue.png" loading="lazy" alt="EOVALUE" />
+
+          <p>
+          Icons by <a href='https://icons8.com'>Icons8</a>
+          </p>
 
         </div>
       {:else if $showAbout.title == 'Disclaimer'}
@@ -246,5 +249,4 @@
       </button>
     </div>
   </Modal>
-</div>
 {/if}

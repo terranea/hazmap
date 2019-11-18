@@ -40,10 +40,12 @@
         style: "mapbox://styles/terranea/ck0cnu1ig01hw1csz6r5xfw0p",
         center: [lon, lat],
         trackResize: true,
-        zoom
+        zoom,
+        attributionControl: false
       });
       map.addControl(new mapbox.NavigationControl(), "top-right");
-      // map.addControl(new mapbox.AttributionControl(), "bottom-left");
+      map.addControl(new mapbox.AttributionControl({compact: true, customAttribution: "Icons by <a href='https://icons8.com'>Icons8</a>"}), "bottom-right");
+      
       popup = new mapbox.Popup({
         closeButton: false,
         closeOnClick: false
@@ -150,7 +152,6 @@
     height: 20px;
     background: #ddd;
     margin: 20px 90px;
-
     position: relative;
     box-shadow: none;
   }

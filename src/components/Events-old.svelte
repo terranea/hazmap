@@ -7,8 +7,6 @@
   const dispatch = createEventDispatcher();
   const { getMap, getPopup } = getContext(key);
   const map = getMap();
-
-  var markers = {};
   const popup = getPopup();
 
   export let events;
@@ -35,6 +33,36 @@
   }
 
   onMount(() => {
+    map.addSource("events", {
+      type: "geojson",
+      data: geojson
+    });
+    map.addLayer({
+      id: "events",
+      source: "events",
+      type: "circle",
+      paint: {
+        "circle-radius": 9,
+        "circle-color": [
+          "match",
+          ["get", "PrimaryType"],
+          "Flood",
+          "#007fff",
+          "Earthquake",
+          "#223b53",
+          "Fire",
+          "#ff9900",
+          "Wildfire",
+          "#ff9900",
+          "Forest fire",
+          "#ff9900",
+          "Storm",
+          "#3bb2d0",
+          /* other */ "#ccc"
+        ]
+      }
+    });
+
     map.on("mouseenter", "events", e => {
       var description = e.features[0].properties.Title;
       onMouseEnter(e, description);
@@ -46,58 +74,37 @@
     });
 
     map.on("style.load", function() {
-      console.log("STLE LODED");
-    });
-
-    updateMarkers();
-  });
-
-  function updateMarkers() {
-    var features = geojson.features;
-
-    for (var i = 0; i < features.length; i++) {
-      const coords = features[i].geometry.coordinates;
-      const props = features[i].properties;
-      const id = props.uid;
-
-      let marker = markers[id];
-      if (!marker) {
-        const el = document.createElement("div");
-        el.addEventListener("click", function(e) {
-          dispatch("select", props);
-        });
-        el.addEventListener('mouseover', () => marker.togglePopup());
-        el.addEventListener('mouseout', () => marker.togglePopup());
-        switch (props.PrimaryType) {
-          case "Wildfire":
-            el.className = "fire-marker";
-            break;
-          case "Flood":
-            el.className = "flood-marker";
-            break;
-          case "Storm":
-            el.className = "storm-marker";
-            break;
-          case "Mass movement":
-            el.className = "massm-marker";
-            break;
-          default:
-            el.className = "marker";
-            break;
+      map.addSource("events", {
+        type: "geojson",
+        data: geojson
+      });
+      map.addLayer({
+        id: "events",
+        source: "events",
+        type: "circle",
+        paint: {
+          "circle-radius": 9,
+          "circle-color": [
+            "match",
+            ["get", "PrimaryType"],
+            "Flood",
+            "#007fff",
+            "Earthquake",
+            "#223b53",
+            "Fire",
+            "#ff9900",
+            "Wildfire",
+            "#ff9900",
+            "Forest fire",
+            "#ff9900",
+            "Storm",
+            "#3bb2d0",
+            /* other */ "#ccc"
+          ]
         }
-        marker = markers[id] = new mapbox.Marker({ element: el }).setLngLat(
-          coords
-        );
-        marker.setPopup(
-          new mapbox.Popup({ offset: 15 }).setHTML(
-            "<span>" + props.Title + "</span>"
-          )
-        );
-
-        marker.addTo(map);
-      }
-    }
-  }
+      });
+    });
+  });
 
   function onMouseEnter(e, html) {
     map.getCanvas().style.cursor = "pointer";
