@@ -145,6 +145,14 @@ button:focus {
 
 /* MAP */
 
+.marker {
+	background: blue;
+	background-size: cover;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
 .fire-marker {
   background-image: url('icons/icons8-fire-60.png');
 	background-size: cover;
