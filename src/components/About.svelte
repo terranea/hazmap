@@ -83,6 +83,10 @@
 
           <img src="eovalue.png" loading="lazy" alt="EOVALUE" />
 
+          <p>
+          Icons by <a href='https://icons8.com'>Icons8</a>
+          </p>
+
         </div>
       {:else if $showAbout.title == 'Disclaimer'}
         <div class="wrapper">
