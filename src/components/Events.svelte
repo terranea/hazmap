@@ -73,6 +73,13 @@
             break;
           case "Flood":
             el.className = "flood-marker"
+            break;
+          case "Storm":
+            el.className = "storm-marker"
+            break;
+          case "Mass movement":
+            el.className = "massm-marker"
+            break;
           default:
             el.className = "marker"
             break;

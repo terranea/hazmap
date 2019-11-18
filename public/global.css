@@ -146,25 +146,49 @@ button:focus {
 /* MAP */
 
 .marker {
-	background: blue;
-	background-size: cover;
+	background: white;
   width: 20px;
-  height: 20px;
+	height: 20px;
+	border-radius: 50%;
   cursor: pointer;
 }
 
 .fire-marker {
-  background-image: url('icons/icons8-fire-60.png');
-	background-size: cover;
-  width: 20px;
-  height: 20px;
+	background: no-repeat center/80% url("icons/icons8-fire-60.png") rgba(255, 255, 255, 0.6);
+  width: 22px;
+	height: 22px;
+	border-radius: 50%;
   cursor: pointer;
 }
 
 .flood-marker {
-	background-image: url('icons/icons8-floods-50.png');
-	background-size: cover;
-  width: 20px;
-  height: 20px;
+	background: no-repeat center/80% url("icons/icons8-floods-48.png") rgba(255, 255, 255, 0.8);
+	width: 22px;
+	height: 22px;
+	border-radius: 50%;
+  cursor: pointer;
+}
+
+.storm-marker {
+	background: no-repeat center/80% url('icons/icons8-storm-60.png') rgba(255, 255, 255, 0.8);
+  width: 22px;
+	height: 22px;
+	border-radius: 50%;
+  cursor: pointer;
+}
+
+.round-marker {
+	background: no-repeat center/80% url('icons/icons8-tornado-48.png') rgba(255, 255, 255, 0.8);
+  width: 22px;
+	height: 22px;
+	border-radius: 50%;
+  cursor: pointer;
+}
+
+.massm-marker {
+	background: no-repeat center/80% url('icons/icons8-landslide-60.png') rgba(255, 255, 255, 0.8);
+  width: 22px;
+	height: 22px;
+	border-radius: 50%;
   cursor: pointer;
 }
