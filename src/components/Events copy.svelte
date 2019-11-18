@@ -7,8 +7,6 @@
   const dispatch = createEventDispatcher();
   const { getMap, getPopup } = getContext(key);
   const map = getMap();
-
-  var markers = {};
   const popup = getPopup();
 
   export let events;
@@ -35,6 +33,36 @@
   }
 
   onMount(() => {
+    map.addSource("events", {
+      type: "geojson",
+      data: geojson
+    });
+    map.addLayer({
+      id: "events",
+      source: "events",
+      type: "circle",
+      paint: {
+        "circle-radius": 9,
+        "circle-color": [
+          "match",
+          ["get", "PrimaryType"],
+          "Flood",
+          "#007fff",
+          "Earthquake",
+          "#223b53",
+          "Fire",
+          "#ff9900",
+          "Wildfire",
+          "#ff9900",
+          "Forest fire",
+          "#ff9900",
+          "Storm",
+          "#3bb2d0",
+          /* other */ "#ccc"
+        ]
+      }
+    });
+
     map.on("mouseenter", "events", e => {
       var description = e.features[0].properties.Title;
       onMouseEnter(e, description);
@@ -46,45 +74,37 @@
     });
 
     map.on("style.load", function() {
-      console.log("STLE LODED");
-    });
-
-    updateMarkers();
-  });
-
-  function updateMarkers() {
-    var features = geojson.features;
-    console.log("UPDATE", features.length);
-
-    // for every cluster on the screen, create an HTML marker for it (if we didn't yet),
-    // and add it to the map if it's not there already
-    for (var i = 0; i < features.length; i++) {
-      var coords = features[i].geometry.coordinates;
-      var props = features[i].properties;
-      var id = props.uid;
-
-      var marker = markers[id];
-      if (!marker) {
-        var el = document.createElement("div");
-        console.log(props)
-        switch (props.PrimaryType) {
-          case "Wildfire":
-            el.className = "fire-marker";
-            break;
-          case "Flood":
-            el.className = "flood-marker"
-          default:
-            el.className = "marker"
-            break;
+      map.addSource("events", {
+        type: "geojson",
+        data: geojson
+      });
+      map.addLayer({
+        id: "events",
+        source: "events",
+        type: "circle",
+        paint: {
+          "circle-radius": 9,
+          "circle-color": [
+            "match",
+            ["get", "PrimaryType"],
+            "Flood",
+            "#007fff",
+            "Earthquake",
+            "#223b53",
+            "Fire",
+            "#ff9900",
+            "Wildfire",
+            "#ff9900",
+            "Forest fire",
+            "#ff9900",
+            "Storm",
+            "#3bb2d0",
+            /* other */ "#ccc"
+          ]
         }
-        marker = markers[id] = new mapbox.Marker({ element: el }).setLngLat(
-          coords
-        );
-      }
-
-      marker.addTo(map);
-    }
-  }
+      });
+    });
+  });
 
   function onMouseEnter(e, html) {
     map.getCanvas().style.cursor = "pointer";
