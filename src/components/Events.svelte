@@ -54,42 +54,48 @@
 
   function updateMarkers() {
     var features = geojson.features;
-    console.log("UPDATE", features.length);
 
-    // for every cluster on the screen, create an HTML marker for it (if we didn't yet),
-    // and add it to the map if it's not there already
     for (var i = 0; i < features.length; i++) {
-      var coords = features[i].geometry.coordinates;
-      var props = features[i].properties;
-      var id = props.uid;
+      const coords = features[i].geometry.coordinates;
+      const props = features[i].properties;
+      const id = props.uid;
 
-      var marker = markers[id];
+      let marker = markers[id];
       if (!marker) {
-        var el = document.createElement("div");
-        console.log(props)
+        const el = document.createElement("div");
+        el.addEventListener("click", function(e) {
+          dispatch("select", props);
+        });
+        el.addEventListener('mouseover', () => marker.togglePopup());
+        el.addEventListener('mouseout', () => marker.togglePopup());
         switch (props.PrimaryType) {
           case "Wildfire":
             el.className = "fire-marker";
             break;
           case "Flood":
-            el.className = "flood-marker"
+            el.className = "flood-marker";
             break;
           case "Storm":
-            el.className = "storm-marker"
+            el.className = "storm-marker";
             break;
           case "Mass movement":
-            el.className = "massm-marker"
+            el.className = "massm-marker";
             break;
           default:
-            el.className = "marker"
+            el.className = "marker";
             break;
         }
         marker = markers[id] = new mapbox.Marker({ element: el }).setLngLat(
           coords
         );
-      }
+        marker.setPopup(
+          new mapbox.Popup({ offset: 15 }).setHTML(
+            "<span>" + props.Title + "</span>"
+          )
+        );
 
-      marker.addTo(map);
+        marker.addTo(map);
+      }
     }
   }
 
