@@ -32,7 +32,7 @@ aside {
 }
 
 .resize {
-  height: 56vh;
+  height: 70vh;
 }
 
 .btn-resize {

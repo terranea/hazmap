@@ -34,10 +34,10 @@
 
   onMount(() => {
     const images = [
-      { imageUrl: "icons/firessm.png", id: "fire" },
-      { imageUrl: "icons/floodssm.png", id: "flood" },
-      { imageUrl: "icons/massmssm.png", id: "massm" },
-      { imageUrl: "icons/stormssm.png", id: "storm" }
+      { imageUrl: "icons/fire-sm.png", id: "fire" },
+      { imageUrl: "icons/flood-sm.png", id: "flood" },
+      { imageUrl: "icons/massm-sm.png", id: "massm" },
+      { imageUrl: "icons/storm-sm.png", id: "storm" }
     ];
 
     Promise.all(
@@ -77,7 +77,7 @@
             "massm",
             /* other */ "fire"
           ],
-          "icon-size": 1
+          "icon-size": 0.5
         }
       });
     });
