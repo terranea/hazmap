@@ -16,6 +16,7 @@
   import GAUGE from "./map/GaugeStations.svelte";
   import CRIS from "./map/CriticalInfrastructure.svelte";
   import BaseMap from "./map/Basemap.svelte";
+  import Legend from "./map/Legend.svelte";
   import EventData from "./map/EventData.svelte";
 
   setContext(key, {
@@ -257,6 +258,7 @@
       <GAUGE {map} {popup} />
       <CRIS {map} {popup} />
       <BaseMap {map} />
+      <Legend />
     {/if}
 
     <!-- <button on:click={() => switchLayer('satellite-streets-v11')}>Satellite</button>
