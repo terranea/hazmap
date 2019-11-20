@@ -40,15 +40,27 @@ function show(e) {
       })
       map.addLayer({
         id: e.target.name,
-        type: "symbol",
+        type: "circle",
         source: {
           type: "geojson",
           data: stations
         },
-        layout: {
-          "icon-image": "gauge",
-          "icon-size": 0.8
-          },
+        paint: {
+          "circle-color": [
+            "match",
+            ["get", "stateMnwMhw"],
+            "low", "#C58D3A",
+            "normal", "#52B04A",
+            "high", "#3A59C5",
+            "#52B04A"
+          ],
+          "circle-radius": 3
+
+        },
+        // layout: {
+        //   "icon-image": "gauge",
+        //   "icon-size": 0.8
+        //   },
       });
       fetchStations()
     }
@@ -59,11 +71,12 @@ function show(e) {
 
 function fetchStations() {
   console.log("fetchstations")
-  const url = "https://pegelonline.wsv.de/webservices/rest-api/v2/stations.json"
+  const url = "https://www.pegelonline.wsv.de/webservices/rest-api/v2/stations.json?includeTimeseries=true&includeCurrentMeasurement=true"
   fetch(url)
     .then(response => {
       return response.json()
     }).then(data => {
+      console.log(data)
       return jsonToGeojson(data)
     }).then(sta => {
       stations = sta
@@ -82,8 +95,23 @@ function fetchStationData(props) {
       return response.json()
     })
     .then(data => {
+      let color = "#52B04A"
+      switch (data.stateMnwMhw) {
+        case "low":
+          color = "#C58D3A"
+          break;
+        case "normal":
+          color = "#52B04A"
+          break;
+        case "high":
+          color = "#3A59C5"
+          break;
+        default:
+          color = "#52B04A"
+          break;
+      }
       const html = "<h1>Water body: " + props.waterlong + "</h1>" +
-        props.longname + "<h2>Water level: <b>" + data.value +
+        props.longname + "<h2>Water level: <b style='color: " + color + "'>" + data.value +
         " cm</b></h2>" + "<span>Measuring time: </br>" +
         data.timestamp + "</span>" + "</br><h2>Water level of the last 10 days:</h2>" +
         "<img class='img-gauge' src='https://pegelonline.wsv.de/webservices/rest-api/v2/stations/" + props.shortname + "/W/measurements.png?start=P10D&width=420&height=220'/>";
@@ -98,6 +126,7 @@ function jsonToGeojson(data) {
   const features = data.map(el => {
     let feature = { type: "Feature", geometry: { coordinates: [el.longitude, el.latitude], type: "Point" } }
     feature.properties = {...el}
+    feature.properties.stateMnwMhw = el.timeseries[0].currentMeasurement.stateMnwMhw
     feature.properties.waterlong = el.water.longname
     feature.properties.watershort = el.water.shortname
     return feature
