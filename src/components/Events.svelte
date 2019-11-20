@@ -37,7 +37,8 @@
       { imageUrl: "icons/fire-sm.png", id: "fire" },
       { imageUrl: "icons/flood-sm.png", id: "flood" },
       { imageUrl: "icons/massm-sm.png", id: "massm" },
-      { imageUrl: "icons/storm-sm.png", id: "storm" }
+      { imageUrl: "icons/storm-sm.png", id: "storm" },
+      { imageUrl: "icons/picture.png", id: "pic" }
     ];
 
     Promise.all(

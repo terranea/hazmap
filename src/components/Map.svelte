@@ -1,5 +1,11 @@
 <script>
-  import { events, eventSelection, selectedEvent, eventData, eventNotes } from "../stores";
+  import {
+    events,
+    eventSelection,
+    selectedEvent,
+    eventData,
+    eventNotes
+  } from "../stores";
   import { onMount, setContext } from "svelte";
   import { mapbox, key } from "../mapbox";
   import Events from "./Events.svelte";
@@ -29,6 +35,34 @@
   let showLayers = false;
   let noteMarkers = [];
 
+  console.log($eventNotes);
+
+  $: geojsonNotes = {
+    type: "FeatureCollection",
+    features: $eventNotes
+      ? $eventNotes.map(el => {
+          let feature = {
+            type: "Feature",
+            geometry: {
+              coordinates: [el.Longitude, el.Latitude],
+              type: "Point"
+            }
+          };
+          feature.properties = {};
+          feature.properties.uid = el.id;
+          feature.properties.Title = el.Title;
+          feature.properties.Event = el.Event;
+          return feature;
+        })
+      : []
+  };
+
+  $: {
+    if (map && map.getSource('notes')) {
+      map.getSource('notes').setData(geojsonNotes);
+    }
+  }
+
   onMount(() => {
     const link = document.createElement("link");
     link.rel = "stylesheet";
@@ -44,13 +78,19 @@
         attributionControl: false
       });
       map.addControl(new mapbox.NavigationControl(), "top-right");
-      map.addControl(new mapbox.AttributionControl({compact: true, customAttribution: "Icons by <a href='https://icons8.com'>Icons8</a>"}), "bottom-right");
-      
+      map.addControl(
+        new mapbox.AttributionControl({
+          compact: true,
+          customAttribution: "Icons by <a href='https://icons8.com'>Icons8</a>"
+        }),
+        "bottom-right"
+      );
+
       popup = new mapbox.Popup({
         closeButton: false,
         closeOnClick: false
       });
-      popup.setMaxWidth("350px")
+      popup.setMaxWidth("350px");
 
       map.on("click", function(e) {
         showLayers = false;
@@ -58,8 +98,23 @@
 
       map.on("load", function() {
         loading = false;
+        map.addSource("notes", {
+          type: "geojson",
+          data: geojsonNotes
+        });
+        map.addLayer({
+          id: "notes",
+          source: "notes",
+          type: "symbol",
+          layout: {
+            "icon-image": "pic",
+            "icon-size": .7
+          },
+          paint: {
+            "icon-color": "#00ff00"
+          }
+        });
       });
-
     };
 
     document.head.appendChild(link);
@@ -77,20 +132,21 @@
           center: [$selectedEvent.Longitude, $selectedEvent.Latitude],
           zoom: 10
         });
-        for (let index = 0; index < $eventNotes.length; index++) {
-          const element = $eventNotes[index];
-          if(element.Longitude) {
-          var marker = new mapbox.Marker()
-            .setLngLat([element.Longitude, element.Latitude])
-            .addTo(map);
-          noteMarkers.push(marker)
-          }
-        }
+
+                // for (let index = 0; index < $eventNotes.length; index++) {
+        //   const element = $eventNotes[index];
+        //   if(element.Longitude) {
+        //   var marker = new mapbox.Marker()
+        //     .setLngLat([element.Longitude, element.Latitude])
+        //     .addTo(map);
+        //   noteMarkers.push(marker)
+        //   }
+        // }
       } else {
         map.flyTo({ center: ["10.345759", "50.919992"], zoom: 5 });
         for (let index = 0; index < noteMarkers.length; index++) {
           const element = noteMarkers[index];
-          element.remove()
+          element.remove();
         }
       }
     }
@@ -200,7 +256,7 @@
       <CLC {map} />
       <GAUGE {map} {popup} />
       <CRIS {map} {popup} />
-      <BaseMap {map}/>
+      <BaseMap {map} />
     {/if}
 
     <!-- <button on:click={() => switchLayer('satellite-streets-v11')}>Satellite</button>
