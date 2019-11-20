@@ -17,6 +17,7 @@
   import CRIS from "./map/CriticalInfrastructure.svelte";
   import BaseMap from "./map/Basemap.svelte";
   import Legend from "./map/Legend.svelte";
+  import Filter from "./map/Filter.svelte";
   import EventData from "./map/EventData.svelte";
 
   setContext(key, {
@@ -35,6 +36,7 @@
   let layerId;
   let showLayers = false;
   let showLegend = false;
+  let showFilter = false;
   let noteMarkers = [];
 
   console.log($eventNotes);
@@ -166,6 +168,7 @@
 
   .btn {
     position: absolute;
+    left: 6px;
     z-index: 10;
     height: 32px;
     width: 32px;
@@ -173,14 +176,15 @@
     padding: 0;
   }
 
-  .btn-legend {
-    top: 42px;
-    left: 6px;
-  }
-
   .btn-layers {
     top: 6px;
-    left: 6px;
+  }
+  .btn-legend {
+    top: 42px;
+  }
+
+  .btn-filter {
+    top: 78px
   }
 
   .btn:hover {
@@ -200,6 +204,10 @@
 
   .switch-legend {
     top: 42px;
+  }
+
+  .switch-filter {
+    top: 78px;
   }
 
   .switch :global(label) {
@@ -243,7 +251,13 @@
     <EventData {map} eventData={$eventData} />
   {/if}
 
-  <button class="btn btn-layers" on:click={() => {showLayers = !showLayers; showLegend = false}}>
+  <button
+    class="btn btn-layers"
+    on:click={() => {
+      showLayers = !showLayers;
+      showLegend = false;
+      showFilter = false;
+    }}>
     <svg
       width="32px"
       height="32px"
@@ -279,7 +293,13 @@
   <button>Pegel</button>
   <button>Risiko</button> -->
   </div>
-  <button class="btn btn-legend" on:click={() => {showLegend = !showLegend; showLayers = false}}>
+  <button
+    class="btn btn-legend"
+    on:click={() => {
+      showLegend = !showLegend;
+      showLayers = false;
+      showFilter = false;
+    }}>
     <svg
       xmlns="http://www.w3.org/2000/svg"
       width="24"
@@ -290,6 +310,7 @@
       stroke-width="2"
       stroke-linecap="round"
       stroke-linejoin="round">
+      <title id="layersIconTitle">Legend</title>
       <polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6" />
       <line x1="8" y1="2" x2="8" y2="18" />
       <line x1="16" y1="6" x2="16" y2="22" />
@@ -299,6 +320,34 @@
   <div class:visible={showLegend} class="switch switch-legend">
     {#if !loading}
       <Legend />
+    {/if}
+  </div>
+
+  <button
+    class="btn btn-filter"
+    on:click={() => {
+      showFilter = !showFilter;
+      showLayers = false;
+      showLegend = false;
+    }}>
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="#fff"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round">
+      <title id="layersIconTitle">Filter</title>
+      <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3" />
+    </svg>
+  </button>
+
+  <div class:visible={showFilter} class="switch switch-filter">
+    {#if !loading}
+      <Filter />
     {/if}
   </div>
 
