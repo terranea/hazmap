@@ -33,30 +33,53 @@
   }
 
   onMount(() => {
-    map.loadImage("/icons/icons8-fire-60.png", function(error, image) {
-      if (error) throw error;
-      map.addImage("fire", image, {"sdf": "true"  });
-    });
+    const images = [
+      { imageUrl: "icons/fire-sm.png", id: "fire" },
+      { imageUrl: "icons/flood-sm.png", id: "flood" },
+      { imageUrl: "icons/massm-sm.png", id: "massm" },
+      { imageUrl: "icons/storm-sm.png", id: "storm" }
+    ];
 
-    map.addSource("events", {
-      type: "geojson",
-      data: geojson
-    });
-    map.addLayer({
-      id: "events",
-      source: "events",
-      type: "symbol",
-      layout: {
-        "icon-image": "fire",
-        "icon-size": 0.25,
-      },
-      paint: {
-        "icon-color": "#ff0000",
-        "icon-halo-color": "#fff",
-        "icon-halo-width": 2,
-        "icon-halo-blur": 12
-
-      }
+    Promise.all(
+      images.map(
+        img =>
+          new Promise((resolve, reject) => {
+            map.loadImage(img.imageUrl, function(error, res) {
+              map.addImage(img.id, res);
+              resolve();
+            });
+          })
+      )
+    ).then(() => {
+      map.addSource("events", {
+        type: "geojson",
+        data: geojson
+      });
+      map.addLayer({
+        id: "events",
+        source: "events",
+        type: "symbol",
+        layout: {
+          "icon-image": [
+            "match",
+            ["get", "PrimaryType"],
+            "Flood",
+            "flood",
+            "Fire",
+            "fire",
+            "Wildfire",
+            "fire",
+            "Forest fire",
+            "fire",
+            "Storm",
+            "storm",
+            "Mass movement",
+            "massm",
+            /* other */ "fire"
+          ],
+          "icon-size": 0.6
+        }
+      });
     });
 
     map.on("mouseenter", "events", e => {
@@ -79,8 +102,24 @@
         source: "events",
         type: "symbol",
         layout: {
-          "icon-image": "fire",
-          "icon-size": 0.25
+          "icon-image": [
+            "match",
+            ["get", "PrimaryType"],
+            "Flood",
+            "flood",
+            "Fire",
+            "fire",
+            "Wildfire",
+            "fire",
+            "Forest fire",
+            "fire",
+            "Storm",
+            "storm",
+            "Mass movement",
+            "massm",
+            /* other */ "fire"
+          ],
+          "icon-size": 0.6
         }
       });
     });
