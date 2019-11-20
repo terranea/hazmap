@@ -166,7 +166,7 @@
 
   .btn {
     position: absolute;
-    z-index: 1;
+    z-index: 10;
     height: 32px;
     width: 32px;
     background: var(--color-main-green);
@@ -191,7 +191,7 @@
     position: absolute;
     display: none;
     flex-direction: column;
-    z-index: 2;
+    z-index: 10;
     top: 6px;
     left: 42px;
     background: white;
