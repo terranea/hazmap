@@ -34,6 +34,7 @@
   let loading = true;
   let layerId;
   let showLayers = false;
+  let showLegend = false;
   let noteMarkers = [];
 
   console.log($eventNotes);
@@ -59,8 +60,8 @@
   };
 
   $: {
-    if (map && map.getSource('notes')) {
-      map.getSource('notes').setData(geojsonNotes);
+    if (map && map.getSource("notes")) {
+      map.getSource("notes").setData(geojsonNotes);
     }
   }
 
@@ -109,7 +110,7 @@
           type: "symbol",
           layout: {
             "icon-image": "pic",
-            "icon-size": .7
+            "icon-size": 0.7
           },
           paint: {
             "icon-color": "#00ff00"
@@ -134,7 +135,7 @@
           zoom: 10
         });
 
-                // for (let index = 0; index < $eventNotes.length; index++) {
+        // for (let index = 0; index < $eventNotes.length; index++) {
         //   const element = $eventNotes[index];
         //   if(element.Longitude) {
         //   var marker = new mapbox.Marker()
@@ -163,18 +164,26 @@
     outline: none;
   }
 
-  .btn-layers {
+  .btn {
     position: absolute;
     z-index: 1;
-    top: 6px;
-    left: 6px;
     height: 32px;
     width: 32px;
     background: var(--color-main-green);
     padding: 0;
   }
 
-  .btn-layers:hover {
+  .btn-legend {
+    top: 42px;
+    left: 6px;
+  }
+
+  .btn-layers {
+    top: 6px;
+    left: 6px;
+  }
+
+  .btn:hover {
     background: #1d8640;
   }
 
@@ -182,11 +191,15 @@
     position: absolute;
     display: none;
     flex-direction: column;
-    z-index: 1;
-    top: 52px;
-    left: 10px;
+    z-index: 2;
+    top: 6px;
+    left: 42px;
     background: white;
     border-radius: 5px;
+  }
+
+  .switch-legend {
+    top: 42px;
   }
 
   .switch :global(label) {
@@ -230,7 +243,7 @@
     <EventData {map} eventData={$eventData} />
   {/if}
 
-  <button class="btn-layers" on:click={() => (showLayers = !showLayers)}>
+  <button class="btn btn-layers" on:click={() => {showLayers = !showLayers; showLegend = false}}>
     <svg
       width="32px"
       height="32px"
@@ -258,7 +271,6 @@
       <GAUGE {map} {popup} />
       <CRIS {map} {popup} />
       <BaseMap {map} />
-      <Legend />
     {/if}
 
     <!-- <button on:click={() => switchLayer('satellite-streets-v11')}>Satellite</button>
@@ -266,6 +278,28 @@
   <button>Kritis</button>
   <button>Pegel</button>
   <button>Risiko</button> -->
+  </div>
+  <button class="btn btn-legend" on:click={() => {showLegend = !showLegend; showLayers = false}}>
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="#fff"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round">
+      <polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6" />
+      <line x1="8" y1="2" x2="8" y2="18" />
+      <line x1="16" y1="6" x2="16" y2="22" />
+    </svg>
+  </button>
+
+  <div class:visible={showLegend} class="switch switch-legend">
+    {#if !loading}
+      <Legend />
+    {/if}
   </div>
 
 </section>
