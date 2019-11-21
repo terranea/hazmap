@@ -1,72 +1,97 @@
-import { writable, readable, derived } from 'svelte/store';
+import { writable, readable, derived } from "svelte/store";
 import { db, storage } from "./firebase";
-import { collectionData } from 'rxfire/firestore';
-import { startWith } from 'rxjs/operators';
+import { collectionData } from "rxfire/firestore";
+import { startWith } from "rxjs/operators";
 
 export const user = writable(null);
 
-const query = db.collection('events').where("Countries", "==", "Germany").orderBy("StartTime", "desc").limit(17)
+export const filter = writable({types: []});
+
+const query = db
+  .collection("events")
+  .where("Countries", "==", "Germany")
+  .orderBy("StartTime", "desc")
+  .limit(17);
 
 export const events = readable([], function start(set) {
-  const eventObs = collectionData(query, 'uid').pipe(startWith([]));
+  const eventObs = collectionData(query, "uid").pipe(startWith([]));
   const ref = eventObs.subscribe(value => {
-    set(value)
+    set(value);
   });
 
   return function stop() {
-    console.log("unsub events")
-    ref.unsubscribe()
+    console.log("unsub events");
+    ref.unsubscribe();
   };
 });
 
+export const filteredEvents = derived([events, filter], ([$events, $filter], set) => {
+  console.log($filter.types)
+  let data = $events.filter(event => {
+    return !$filter.types.includes(event.PrimaryType.toLowerCase());
+  })
+  set(data)
+})
+
 function createEventSelection() {
-  const { subscribe, set } = writable(null)
+  const { subscribe, set } = writable(null);
 
   return {
     subscribe,
-    setItem: (payload) => set(payload),
+    setItem: payload => set(payload),
     reset: () => set(null)
-  }
+  };
 }
-export const eventSelection = createEventSelection()
+export const eventSelection = createEventSelection();
 
-export const selectedEvent = derived([events, eventSelection], ([$events, $eventSelection], set) => {
-  !$eventSelection ? set(null) : set($events.find(e => {
-    return e.uid === $eventSelection.uid
-  }))
-}
+export const selectedEvent = derived(
+  [events, eventSelection],
+  ([$events, $eventSelection], set) => {
+    !$eventSelection
+      ? set(null)
+      : set(
+          $events.find(e => {
+            return e.uid === $eventSelection.uid;
+          })
+        );
+  }
 );
 
 export const eventNotes = derived(eventSelection, ($eventSelection, set) => {
-  let ref = null
+  let ref = null;
   if ($eventSelection) {
-    const query = db.collection("notes").where("Event", "==", $eventSelection.uid);
+    const query = db
+      .collection("notes")
+      .where("Event", "==", $eventSelection.uid);
     const notes = collectionData(query, "id").pipe(startWith([]));
     ref = notes.subscribe(value => {
-      set(value)
+      set(value);
     });
   }
   return () => {
-    set(null)
-    if (ref) ref.unsubscribe()
-  }
-})
+    set(null);
+    if (ref) ref.unsubscribe();
+  };
+});
 
 export const eventData = derived(selectedEvent, ($selectedEvent, set) => {
   if ($selectedEvent) {
-    let file = "eventdata/" + $selectedEvent.Origin.EventCode + ".geojson"
+    let file = "eventdata/" + $selectedEvent.Origin.EventCode + ".geojson";
     let ref = storage.ref().child(file);
-    ref.getDownloadURL().then(function (url) {
-      set(url)
-    }).catch(function (error) {
-      console.log("Error getting eventdata: ", error);
-      set(null)
-    })
+    ref
+      .getDownloadURL()
+      .then(function(url) {
+        set(url);
+      })
+      .catch(function(error) {
+        console.log("Error getting eventdata: ", error);
+        set(null);
+      });
   }
   return () => {
-    set(null)
-  }
-})
+    set(null);
+  };
+});
 
 // export const eventData = derived(eventSelection, ($eventSelection, set) => {
 //   if ($eventSelection) {
@@ -89,5 +114,4 @@ export const eventData = derived(selectedEvent, ($selectedEvent, set) => {
 
 export const alert = writable(null);
 
-export const showAbout = writable({show: false, title: "About"});
-
+export const showAbout = writable({ show: false, title: "About" });

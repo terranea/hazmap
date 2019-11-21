@@ -1,5 +1,5 @@
 <script>
-import { events, eventSelection, selectedEvent, eventNotes, alert } from '../../stores'
+import { filteredEvents, eventSelection, selectedEvent, eventNotes, alert } from '../../stores'
 import List from './List.svelte'
 import Single from './Single.svelte'
 import {user} from '../../stores'
@@ -114,7 +114,7 @@ aside {
   {/if}
 </button>
 
-<List events={$events} show={$selectedEvent ? true : false} on:select={(ev) => eventSelection.setItem(ev.detail)}/>
+<List events={$filteredEvents} show={$selectedEvent ? true : false} on:select={(ev) => eventSelection.setItem(ev.detail)}/>
 <!-- <List events={$events} show={$selectedEvent ? true : false} on:select={(ev) => select = ev.detail.Title}/> -->
 {#if $selectedEvent}
 <Single event={$selectedEvent} notes={eventNotes} on:reset={() => eventSelection.reset()}/>

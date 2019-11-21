@@ -1,8 +1,20 @@
 <script>
-  import { onMount } from "svelte";
+  import { filter } from "../../stores";
 
-  function show() {
-    console.log("show")
+  let fire = false;
+  let flood = false;
+  let massm = false;
+  let storm = false;
+
+  function change() {
+    console.log("change");
+    const types = [
+      ...(fire ? ["fire", "wildfire", "forestfire"] : []),
+      ...(flood ? ["flood"] : []),
+      ...(massm ? ["mass movement"] : []),
+      ...(storm ? ["storm"] : [])
+    ];
+    filter.set({ types: types });
   }
 </script>
 
@@ -14,38 +26,37 @@
 
   ul {
     list-style: none;
-    margin: .5em;
+    margin: 0.5em;
     padding: 0;
   }
 
   li {
-      display: flex; 
-      align-items: center;
+    display: flex;
+    align-items: center;
   }
 
   img {
-      width: 20px;
-      margin-right: 3px;
+    width: 20px;
+    margin-right: 3px;
   }
-
 </style>
 
 <span>Filter Hazard Type</span>
 
 <label>
-  <input type="checkbox" name="cwl" value="cwl" on:change={show} />
+  <input type="checkbox" name="cwl" bind:checked={fire} on:change={change} />
   Fire
 </label>
 <label>
-  <input type="checkbox" name="cwl" value="cwl" on:change={show} />
+  <input type="checkbox" name="cwl" bind:checked={flood} on:change={change} />
   Flood
 </label>
 <label>
-  <input type="checkbox" name="cwl" value="cwl" on:change={show} />
+  <input type="checkbox" name="cwl" bind:checked={massm} on:change={change} />
   Mass movement
 </label>
 <label>
-  <input type="checkbox" name="cwl" value="cwl" on:change={show} />
+  <input type="checkbox" name="cwl" bind:checked={storm} on:change={change} />
   Storm
 </label>
 

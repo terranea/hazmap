@@ -1,8 +1,8 @@
 <script>
   import {
-    events,
     eventSelection,
     selectedEvent,
+    filteredEvents,
     eventData,
     eventNotes
   } from "../stores";
@@ -38,33 +38,32 @@
   let showLegend = false;
   let showFilter = false;
   let noteMarkers = [];
+  let filter = {}
 
-  console.log($eventNotes);
-
-  $: geojsonNotes = {
+  $: if ($eventNotes && map && map.getSource("notes")) {
+    let data = {
     type: "FeatureCollection",
-    features: $eventNotes
-      ? $eventNotes.map(el => {
-          let feature = {
-            type: "Feature",
-            geometry: {
-              coordinates: [el.Longitude, el.Latitude],
-              type: "Point"
-            }
-          };
-          feature.properties = {};
-          feature.properties.uid = el.id;
-          feature.properties.Title = el.Title;
-          feature.properties.Event = el.Event;
-          return feature;
-        })
-      : []
+    features: $eventNotes.map(el => {
+      let feature = {
+        type: "Feature",
+        geometry: {
+          coordinates: [el.Longitude, el.Latitude],
+          type: "Point"
+        }
+      };
+      feature.properties = {};
+      feature.properties.uid = el.id;
+      feature.properties.Title = el.Title;
+      feature.properties.Event = el.Event;
+      return feature;
+    })
   };
 
+    map.getSource("notes").setData(data);
+  }
+
   $: {
-    if (map && map.getSource("notes")) {
-      map.getSource("notes").setData(geojsonNotes);
-    }
+    console.log($filteredEvents)
   }
 
   onMount(() => {
@@ -104,7 +103,10 @@
         loading = false;
         map.addSource("notes", {
           type: "geojson",
-          data: geojsonNotes
+          data: {
+            type: "FeatureCollection",
+            features: []
+          }
         });
         map.addLayer({
           id: "notes",
@@ -184,7 +186,7 @@
   }
 
   .btn-filter {
-    top: 78px
+    top: 78px;
   }
 
   .btn:hover {
@@ -225,6 +227,11 @@
     display: flex;
   }
 
+  .layers-title {
+    font-weight: bold;
+    margin-left: 6px;
+  }
+
   :global(input[type="checkbox"]) {
     width: 20px;
     height: 20px;
@@ -245,7 +252,7 @@
 <section bind:this={container}>
   {#if !loading}
     <Events
-      events={$events}
+      events={$filteredEvents}
       on:select={ev => eventSelection.setItem(ev.detail)} />
 
     <EventData {map} eventData={$eventData} />
@@ -278,6 +285,7 @@
   </button>
   <div class:visible={showLayers} class="switch">
     {#if !loading}
+      <span class="layers-title">Layers</span>
       <LFUHQ100 {map} />
       <LFUHQHF {map} />
       <LFUHQEX {map} />
