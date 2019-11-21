@@ -23,22 +23,6 @@
     font-weight: bold;
     margin-left: 6px;
   }
-
-  ul {
-    list-style: none;
-    margin: 0.5em;
-    padding: 0;
-  }
-
-  li {
-    display: flex;
-    align-items: center;
-  }
-
-  img {
-    width: 20px;
-    margin-right: 3px;
-  }
 </style>
 
 <span>Filter Hazard Type</span>

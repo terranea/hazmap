@@ -4,7 +4,8 @@
     selectedEvent,
     filteredEvents,
     eventData,
-    eventNotes
+    eventNotes,
+    filter
   } from "../stores";
   import { onMount, setContext } from "svelte";
   import { mapbox, key } from "../mapbox";
@@ -38,7 +39,6 @@
   let showLegend = false;
   let showFilter = false;
   let noteMarkers = [];
-  let filter = {}
 
   $: if ($eventNotes && map && map.getSource("notes")) {
     let data = {
@@ -62,9 +62,7 @@
     map.getSource("notes").setData(data);
   }
 
-  $: {
-    console.log($filteredEvents)
-  }
+  $: filterColor = $filter.types.length > 0 ? "#9e2929" : "#fff"
 
   onMount(() => {
     const link = document.createElement("link");
@@ -97,6 +95,8 @@
 
       map.on("click", function(e) {
         showLayers = false;
+        showLegend = false;
+        showFilter = false;
       });
 
       map.on("load", function() {
@@ -343,7 +343,7 @@
       width="24"
       height="24"
       viewBox="0 0 24 24"
-      fill="#fff"
+      fill={filterColor}
       stroke="currentColor"
       stroke-width="2"
       stroke-linecap="round"

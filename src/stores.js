@@ -20,7 +20,6 @@ export const events = readable([], function start(set) {
   });
 
   return function stop() {
-    console.log("unsub events");
     ref.unsubscribe();
   };
 });
