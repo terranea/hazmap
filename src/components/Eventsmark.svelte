@@ -7,6 +7,8 @@
   const dispatch = createEventDispatcher();
   const { getMap, getPopup } = getContext(key);
   const map = getMap();
+
+  var markers = {};
   const popup = getPopup();
 
   export let events;
@@ -32,61 +34,7 @@
     }
   }
 
-  function loadLayers() {
-    const images = [
-      { imageUrl: "icons/fire-sm.png", id: "fire" },
-      { imageUrl: "icons/flood-sm.png", id: "flood" },
-      { imageUrl: "icons/massm-sm.png", id: "massm" },
-      { imageUrl: "icons/storm-sm.png", id: "storm" },
-      { imageUrl: "icons/picture.png", id: "pic" }
-    ];
-
-    Promise.all(
-      images.map(
-        img =>
-          new Promise((resolve, reject) => {
-            map.loadImage(img.imageUrl, function(error, res) {
-              map.addImage(img.id, res);
-              resolve();
-            });
-          })
-      )
-    ).then(() => {
-      map.addSource("events", {
-        type: "geojson",
-        data: geojson
-      });
-      map.addLayer({
-        id: "events",
-        source: "events",
-        type: "symbol",
-        layout: {
-          "icon-image": [
-            "match",
-            ["get", "PrimaryType"],
-            "Flood",
-            "flood",
-            "Fire",
-            "fire",
-            "Wildfire",
-            "fire",
-            "Forest fire",
-            "fire",
-            "Storm",
-            "storm",
-            "Mass movement",
-            "massm",
-            /* other */ "fire"
-          ],
-          "icon-size": 0.5
-        }
-      });
-    });
-  }
-
   onMount(() => {
-    loadLayers()
-
     map.on("mouseenter", "events", e => {
       var description = e.features[0].properties.Title;
       onMouseEnter(e, description);
@@ -98,9 +46,58 @@
     });
 
     map.on("style.load", function() {
-      loadLayers();
+      console.log("STLE LODED");
     });
+
+    updateMarkers();
   });
+
+  function updateMarkers() {
+    var features = geojson.features;
+
+    for (var i = 0; i < features.length; i++) {
+      const coords = features[i].geometry.coordinates;
+      const props = features[i].properties;
+      const id = props.uid;
+
+      let marker = markers[id];
+      if (!marker) {
+        const el = document.createElement("div");
+        el.addEventListener("click", function(e) {
+          dispatch("select", props);
+        });
+        el.addEventListener('mouseover', () => marker.togglePopup());
+        el.addEventListener('mouseout', () => marker.togglePopup());
+        switch (props.PrimaryType) {
+          case "Wildfire":
+            el.className = "fire-marker";
+            break;
+          case "Flood":
+            el.className = "flood-marker";
+            break;
+          case "Storm":
+            el.className = "storm-marker";
+            break;
+          case "Mass movement":
+            el.className = "massm-marker";
+            break;
+          default:
+            el.className = "marker";
+            break;
+        }
+        marker = markers[id] = new mapbox.Marker({ element: el }).setLngLat(
+          coords
+        );
+        marker.setPopup(
+          new mapbox.Popup({ offset: 15 }).setHTML(
+            "<span>" + props.Title + "</span>"
+          )
+        );
+
+        marker.addTo(map);
+      }
+    }
+  }
 
   function onMouseEnter(e, html) {
     map.getCanvas().style.cursor = "pointer";
