@@ -1,5 +1,6 @@
 <script>
   export let map;
+  export let firstSymbolId
 
   function show(e) {
     if (e.target.checked) {
@@ -19,7 +20,7 @@
             "fill-color": "#004DA8",
             "fill-opacity": 0.8
           }
-        });
+        }, firstSymbolId);
       }
     } else {
       map.setLayoutProperty(e.target.name, "visibility", "none");

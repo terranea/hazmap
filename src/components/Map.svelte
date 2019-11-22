@@ -39,30 +39,42 @@
   let showLegend = false;
   let showFilter = false;
   let noteMarkers = [];
+  let firstSymbolId;
 
   $: if ($eventNotes && map && map.getSource("notes")) {
     let data = {
-    type: "FeatureCollection",
-    features: $eventNotes.map(el => {
-      let feature = {
-        type: "Feature",
-        geometry: {
-          coordinates: [el.Longitude, el.Latitude],
-          type: "Point"
-        }
-      };
-      feature.properties = {};
-      feature.properties.uid = el.id;
-      feature.properties.Title = el.Title;
-      feature.properties.Event = el.Event;
-      return feature;
-    })
-  };
+      type: "FeatureCollection",
+      features: $eventNotes.map(el => {
+        let feature = {
+          type: "Feature",
+          geometry: {
+            coordinates: [el.Longitude, el.Latitude],
+            type: "Point"
+          }
+        };
+        feature.properties = {};
+        feature.properties.uid = el.id;
+        feature.properties.Title = el.Title;
+        feature.properties.Event = el.Event;
+        return feature;
+      })
+    };
 
     map.getSource("notes").setData(data);
   }
 
-  $: filterColor = $filter.types.length > 0 ? "#9e2929" : "#fff"
+  $: filterColor = $filter.types.length > 0 ? "#9e2929" : "#fff";
+
+  function getFirstSymbolId() {
+    let layers = map.getStyle().layers;
+    // Find the index of the first symbol layer in the map style
+    for (var i = 0; i < layers.length; i++) {
+      if (layers[i].type === "symbol") {
+        firstSymbolId = layers[i].id;
+        break;
+      }
+    }
+  }
 
   onMount(() => {
     const link = document.createElement("link");
@@ -99,8 +111,13 @@
         showFilter = false;
       });
 
+      map.on("style.load", function() {
+        getFirstSymbolId();
+      });
+
       map.on("load", function() {
         loading = false;
+        getFirstSymbolId();
         map.addSource("notes", {
           type: "geojson",
           data: {
@@ -286,10 +303,10 @@
   <div class:visible={showLayers} class="switch">
     {#if !loading}
       <span class="layers-title">Layers</span>
-      <LFUHQ100 {map} />
-      <LFUHQHF {map} />
-      <LFUHQEX {map} />
-      <CLC {map} />
+      <LFUHQ100 {map} {firstSymbolId} />
+      <LFUHQHF {map} {firstSymbolId} />
+      <LFUHQEX {map} {firstSymbolId} />
+      <CLC {map} {firstSymbolId} />
       <GAUGE {map} {popup} />
       <CRIS {map} {popup} />
       <BaseMap {map} />

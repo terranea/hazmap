@@ -32,7 +32,7 @@
     }
   }
 
-  onMount(() => {
+  function loadLayers() {
     const images = [
       { imageUrl: "icons/fire-sm.png", id: "fire" },
       { imageUrl: "icons/flood-sm.png", id: "flood" },
@@ -82,6 +82,10 @@
         }
       });
     });
+  }
+
+  onMount(() => {
+    loadLayers()
 
     map.on("mouseenter", "events", e => {
       var description = e.features[0].properties.Title;
@@ -94,35 +98,7 @@
     });
 
     map.on("style.load", function() {
-      map.addSource("events", {
-        type: "geojson",
-        data: geojson
-      });
-      map.addLayer({
-        id: "events",
-        source: "events",
-        type: "symbol",
-        layout: {
-          "icon-image": [
-            "match",
-            ["get", "PrimaryType"],
-            "Flood",
-            "flood",
-            "Fire",
-            "fire",
-            "Wildfire",
-            "fire",
-            "Forest fire",
-            "fire",
-            "Storm",
-            "storm",
-            "Mass movement",
-            "massm",
-            /* other */ "fire"
-          ],
-          "icon-size": 0.6
-        }
-      });
+      loadLayers();
     });
   });
 

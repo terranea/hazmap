@@ -1,13 +1,14 @@
 <script>
-export let map;
+  export let map;
+  export let firstSymbolId
 
-function show(e) {
-  if (e.target.checked) {
-    if (map.getLayer(e.target.name)) {
-      map.setLayoutProperty(e.target.name, "visibility", "visible");
-    } else {
-      map.addLayer(
-        {
+  function show(e) {
+    if (e.target.checked) {
+      if (map.getLayer(e.target.name)) {
+        map.setLayoutProperty(e.target.name, "visibility", "visible");
+      } else {
+
+        map.addLayer({
           id: e.target.name,
           type: "raster",
           source: {
@@ -17,16 +18,16 @@ function show(e) {
             ],
             tileSize: 256
           },
-          paint: {},
-        });
+          paint: {}
+        }, firstSymbolId);
+      }
+    } else {
+      map.setLayoutProperty(e.target.name, "visibility", "none");
     }
-  } else {
-    map.setLayoutProperty(e.target.name, "visibility", "none");
   }
-}
 </script>
 
 <label>
-  <input type="checkbox" name="wms-clc" value="wms-clc" on:change={show}/>
+  <input type="checkbox" name="wms-clc" value="wms-clc" on:change={show} />
   Corine Land Cover
 </label>
