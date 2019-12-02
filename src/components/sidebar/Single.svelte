@@ -13,6 +13,7 @@
     display: flex;
     flex-direction: column;
     height: 100%;
+    overflow: hidden;
   }
 
   header {
@@ -156,7 +157,7 @@
       </span>
     </div>
   </div>
-  <div class="row">
+  <!-- <div class="row">
     <div class="box">
       <div class="label">Latitude</div>
       <span v-if="data" class="metrics-value type">{event.Latitude}</span>
@@ -165,7 +166,7 @@
       <div class="label">Longitude</div>
       <span v-if="data" class="metrics-value">{event.Longitude}</span>
     </div>
-  </div>
+  </div> -->
   </header>
   <div class="scroll">
     <h3>Event Notes and Pictures</h3>
