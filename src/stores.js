@@ -7,6 +7,25 @@ export const user = writable(null);
 
 export const filter = writable({types: []});
 
+const createWritableStore = (key, startValue) => {
+  const { subscribe, set } = writable(startValue);
+  
+	return {
+    subscribe,
+    set,
+    useLocalStorage: () => {
+      const json = localStorage.getItem(key);
+      if (json) {
+        set(JSON.parse(json));
+      }
+      
+      subscribe(current => {
+        localStorage.setItem(key, JSON.stringify(current));
+      });
+    }
+  };
+}
+
 const query = db
   .collection("events")
   .where("Countries", "==", "Germany")
@@ -25,7 +44,6 @@ export const events = readable([], function start(set) {
 });
 
 export const filteredEvents = derived([events, filter], ([$events, $filter], set) => {
-  console.log($filter.types)
   let data = $events.filter(event => {
     return !$filter.types.includes(event.PrimaryType.toLowerCase());
   })

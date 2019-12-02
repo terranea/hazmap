@@ -2,14 +2,22 @@
   export let map;
   export let firstSymbolId
 
-  function show(e) {
-    if (e.target.checked) {
-      if (map.getLayer(e.target.name)) {
-        map.setLayoutProperty(e.target.name, "visibility", "visible");
+  const layerID = "clc";
+  let checked = false;
+
+  export let refresh;
+  $: if (refresh !== "") {
+      show()
+  }
+
+  function show() {
+    if (checked) {
+      if (map.getLayer(layerID)) {
+        map.setLayoutProperty(layerID, "visibility", "visible");
       } else {
 
         map.addLayer({
-          id: e.target.name,
+          id: layerID,
           type: "raster",
           source: {
             type: "raster",
@@ -22,12 +30,14 @@
         }, firstSymbolId);
       }
     } else {
-      map.setLayoutProperty(e.target.name, "visibility", "none");
+      if (map.getLayer(layerID)) {
+        map.setLayoutProperty(layerID, "visibility", "none");
+      }
     }
   }
 </script>
 
 <label>
-  <input type="checkbox" name="wms-clc" value="wms-clc" on:change={show} />
+  <input type="checkbox" bind:checked name=layerID value=layerID on:change={show} />
   Corine Land Cover
 </label>

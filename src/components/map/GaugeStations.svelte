@@ -1,10 +1,17 @@
 <script>
   import { onMount } from "svelte";
   export let map, popup;
+  const layerID = "gaugeStations";
+  let checked;
   let stations = { type: "FeatureCollection", features: [] };
 
+  export let refresh;
+  $: if (refresh !== "") {
+      show()
+  }
+
   onMount(() => {
-    map.on("mouseenter", "cwl", e => {
+    map.on("mouseenter", layerID, e => {
       fetchStationData(e.features[0].properties);
       map.getCanvas().style.cursor = "pointer";
       let coordinates = e.features[0].geometry.coordinates.slice();
@@ -16,7 +23,7 @@
         .setHTML("")
         .addTo(map);
     });
-    map.on("click", "cwl", e => {
+    map.on("click", layerID, e => {
       fetchStationData(e.features[0].properties);
       map.getCanvas().style.cursor = "pointer";
       let coordinates = e.features[0].geometry.coordinates.slice();
@@ -28,7 +35,7 @@
         .setHTML("")
         .addTo(map);
     });
-    map.on("mouseleave", "cwl", e => {
+    map.on("mouseleave", layerID, e => {
       map.getCanvas().style.cursor = "";
       popup.setHTML("");
       popup.remove();
@@ -36,16 +43,17 @@
   });
 
   function show(e) {
-    if (e.target.checked) {
-      if (map.getLayer(e.target.name)) {
-        map.setLayoutProperty(e.target.name, "visibility", "visible");
+    if (checked) {
+      // layers.update(n => n.push(layerID));
+      if (map.getLayer(layerID)) {
+        map.setLayoutProperty(layerID, "visibility", "visible");
       } else {
         map.loadImage("gauge20.png", function(error, image) {
           if (error) throw error;
           map.addImage("gauge", image);
         });
         map.addLayer({
-          id: e.target.name,
+          id: layerID,
           type: "circle",
           source: {
             type: "geojson",
@@ -76,12 +84,13 @@
         fetchStations();
       }
     } else {
-      map.setLayoutProperty(e.target.name, "visibility", "none");
+      if (map.getLayer(layerID)) {
+        map.setLayoutProperty(layerID, "visibility", "none");
+      }
     }
   }
 
   function fetchStations() {
-    console.log("fetchstations");
     const url =
       "https://www.pegelonline.wsv.de/webservices/rest-api/v2/stations.json?includeTimeseries=true&includeCurrentMeasurement=true";
     fetch(url)
@@ -89,12 +98,11 @@
         return response.json();
       })
       .then(data => {
-        console.log(data);
         return jsonToGeojson(data);
       })
       .then(sta => {
         stations = sta;
-        map.getSource("cwl").setData(stations);
+        map.getSource(layerID).setData(stations);
       })
       .catch(function(error) {
         console.log(error);
@@ -175,6 +183,11 @@
 </style>
 
 <label>
-  <input type="checkbox" name="cwl" value="cwl" on:change={show} />
+  <input
+    type="checkbox"
+    bind:checked
+    name={layerID}
+    value={layerID}
+    on:change={show} />
   Gauge Stations
 </label>

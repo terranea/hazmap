@@ -1,29 +1,42 @@
 <script>
   export let map;
-  export let firstSymbolId
+  export let firstSymbolId;
+
+  const layerID = "hwgf_hqhaeufig";
+  let checked = false;
+
+  export let refresh;
+  $: if (refresh !== "") {
+    show();
+  }
 
   function show(e) {
-    if (e.target.checked) {
-      if (map.getLayer(e.target.name)) {
-        map.setLayoutProperty(e.target.name, "visibility", "visible");
+    if (checked) {
+      if (map.getLayer(layerID)) {
+        map.setLayoutProperty(layerID, "visibility", "visible");
       } else {
-        map.addLayer({
-          id: e.target.name,
-          type: "fill",
-          source: {
-            type: "vector",
-            url: "mapbox://terranea.dccf5c94"
+        map.addLayer(
+          {
+            id: layerID,
+            type: "fill",
+            source: {
+              type: "vector",
+              url: "mapbox://terranea.dccf5c94"
+            },
+            "source-layer": "HQHaeufig",
+            layout: {},
+            paint: {
+              "fill-color": "#004DA8",
+              "fill-opacity": 0.8
+            }
           },
-          "source-layer": "HQHaeufig",
-          layout: {},
-          paint: {
-            "fill-color": "#004DA8",
-            "fill-opacity": 0.8
-          }
-        }, firstSymbolId);
+          firstSymbolId
+        );
       }
     } else {
-      map.setLayoutProperty(e.target.name, "visibility", "none");
+      if (map.getLayer(layerID)) {
+        map.setLayoutProperty(layerID, "visibility", "none");
+      }
     }
   }
 </script>
@@ -31,8 +44,9 @@
 <label>
   <input
     type="checkbox"
-    name="hwgf_hqhaeufig"
-    value="hwgf_hqhaeufig"
+    bind:checked
+    name="layerID"
+    value="layerID"
     on:change={show} />
   Flood Risk - frequent
 </label>
