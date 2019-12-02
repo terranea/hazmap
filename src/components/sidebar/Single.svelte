@@ -13,10 +13,13 @@
     display: flex;
     flex-direction: column;
     height: 100%;
-    padding: 0.5em;
   }
 
   header {
+    padding: 0 0.5em;
+  }
+
+  .title {
     padding-right: 5em;
   }
 
@@ -61,16 +64,32 @@
     overflow: hidden;
   }
 
+  .scroll h3 {
+    padding: 0 0.5em;
+  }
+
   .products {
     flex: 1;
     overflow-y: auto;
     overflow-x: hidden;
+    padding: 0 0.5em;
+    scrollbar-color: #c0c0c085 #f1f1f1;
+    scrollbar-width: thin;
+  }
+
+  .products::-webkit-scrollbar {
+    width: 5px;
+  }
+
+  .products::-webkit-scrollbar-thumb {
+    border-radius: 20px;
+    background: #c0c0c085;
   }
 
   img {
     width: 100%;
     object-fit: cover;
-    margin-bottom: .4em;
+    margin-bottom: 0.4em;
   }
 
   .btn-back {
@@ -87,18 +106,18 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    padding-bottom: .5em;
+    padding-bottom: 0.5em;
   }
 
   .txt {
-    margin: .2em .4em;
-    font-size: .8em;
+    margin: 0.2em 0.4em;
+    font-size: 0.8em;
     color: #696969;
   }
 
   @media (min-width: 1180px) {
     .products {
-      margin-top: 1.4rem;
+      margin-top: .4rem;
     }
   }
 </style>
@@ -113,6 +132,8 @@
   </button>
 
   <header>
+
+  <div class="title">
     <h2>{event.Title}</h2>
     <div class="label">
       Selected Event
@@ -120,7 +141,7 @@
       of type
       <span>{event.PrimaryType}</span>
     </div>
-  </header>
+  </div>
   <div class="row">
     <div class="box">
       <div class="label">Event Time</div>
@@ -135,20 +156,17 @@
       </span>
     </div>
   </div>
-    <div class="row">
+  <div class="row">
     <div class="box">
       <div class="label">Latitude</div>
-      <span v-if="data" class="metrics-value type">
-        {event.Latitude}
-      </span>
+      <span v-if="data" class="metrics-value type">{event.Latitude}</span>
     </div>
     <div class="box">
       <div class="label">Longitude</div>
-      <span v-if="data" class="metrics-value">
-        {event.Longitude}
-      </span>
+      <span v-if="data" class="metrics-value">{event.Longitude}</span>
     </div>
   </div>
+  </header>
   <div class="scroll">
     <h3>Event Notes and Pictures</h3>
     <div class="products">

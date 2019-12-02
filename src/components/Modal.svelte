@@ -12,7 +12,7 @@
     width: 100%;
     height: 100%;
     background: rgba(0, 0, 0, 0.3);
-    z-index: 5;
+    z-index: 12;
   }
 
   .modal {
@@ -27,7 +27,7 @@
     padding: 1em;
     border-radius: 0.2em;
     background: white;
-    z-index: 6;
+    z-index: 13;
     display: flex;
     flex-direction: column;
   }

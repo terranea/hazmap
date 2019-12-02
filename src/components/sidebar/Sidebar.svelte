@@ -29,6 +29,7 @@ aside {
   background: #f1f1f1;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 }
 
 .resize {
@@ -74,7 +75,6 @@ aside {
     order: 0;
     height: 100%;
     box-shadow: none;
-    padding-right: .1em;
   }
 
   .btn-resize {
