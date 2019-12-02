@@ -29,7 +29,6 @@ aside {
   background: #f1f1f1;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
 }
 
 .resize {
@@ -46,7 +45,7 @@ aside {
   position: absolute;
   top: -60px;
   left: calc(50% - 22px);
-  z-index: 4;
+  z-index: 12;
   border-radius: 50%;
   height: 45px;
   width: 45px;
