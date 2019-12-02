@@ -1,36 +1,52 @@
-
 <script>
-export let map;
-export let firstSymbolId
+  export let map;
+  export let firstSymbolId;
 
-function show(e) {
-  if (e.target.checked) {
-    if (map.getLayer(e.target.name)) {
-      map.setLayoutProperty(e.target.name, "visibility", "visible");
-    } else {
-      
-        map.addLayer({
-          id: e.target.name,
-          type: "fill",
-          source: {
-            type: "vector",
-            url: "mapbox://terranea.0ud307d3"
-          },
-          "source-layer": "HQ100",
-          layout: {},
-          paint: {
-            "fill-color": "#006FFF",
-            "fill-opacity": 0.8
-          }
-        }, firstSymbolId);
-    }
-  } else {
-    map.setLayoutProperty(e.target.name, "visibility", "none");
+  const layerID = "wms-HQ100";
+  let checked = false;
+
+  export let refresh;
+  $: if (refresh !== "") {
+    show();
   }
-}
+
+  function show() {
+    if (checked) {
+      if (map.getLayer(layerID)) {
+        map.setLayoutProperty(layerID, "visibility", "visible");
+      } else {
+        map.addLayer(
+          {
+            id: layerID,
+            type: "fill",
+            source: {
+              type: "vector",
+              url: "mapbox://terranea.0ud307d3"
+            },
+            "source-layer": "HQ100",
+            layout: {},
+            paint: {
+              "fill-color": "#006FFF",
+              "fill-opacity": 0.8
+            }
+          },
+          firstSymbolId
+        );
+      }
+    } else {
+      if (map.getLayer(layerID)) {
+        map.setLayoutProperty(layerID, "visibility", "none");
+      }
+    }
+  }
 </script>
 
 <label>
-  <input type="checkbox" name="wms-hq100" value="wms-hq100" on:change={show} />
+  <input
+    type="checkbox"
+    bind:checked
+    name="layerID"
+    value="layerID"
+    on:change={show} />
   Flood Risk - 100yr
 </label>

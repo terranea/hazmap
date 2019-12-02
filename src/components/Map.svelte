@@ -5,7 +5,8 @@
     filteredEvents,
     eventData,
     eventNotes,
-    filter
+    filter,
+    layers
   } from "../stores";
   import { onMount, setContext } from "svelte";
   import { mapbox, key } from "../mapbox";
@@ -40,6 +41,7 @@
   let showFilter = false;
   let noteMarkers = [];
   let firstSymbolId;
+  let refresh;
 
   $: if ($eventNotes && map && map.getSource("notes")) {
     let data = {
@@ -112,6 +114,7 @@
       });
 
       map.on("style.load", function() {
+        refresh = !refresh
         getFirstSymbolId();
       });
 
@@ -303,12 +306,12 @@
   <div class:visible={showLayers} class="switch">
     {#if !loading}
       <span class="layers-title">Layers</span>
-      <LFUHQ100 {map} {firstSymbolId} />
-      <LFUHQHF {map} {firstSymbolId} />
-      <LFUHQEX {map} {firstSymbolId} />
-      <CLC {map} {firstSymbolId} />
-      <GAUGE {map} {popup} />
-      <CRIS {map} {popup} />
+      <LFUHQ100 {map} {firstSymbolId} {refresh} />
+      <LFUHQHF {map} {firstSymbolId} {refresh} />
+      <LFUHQEX {map} {firstSymbolId} {refresh} />
+      <CLC {map} {firstSymbolId} {refresh} />
+      <GAUGE {map} {popup} {refresh} />
+      <CRIS {map} {popup} {refresh} />
       <BaseMap {map} />
     {/if}
 
