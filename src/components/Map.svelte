@@ -180,7 +180,7 @@
   .btn {
     position: absolute;
     left: 6px;
-    z-index: 100;
+    z-index: 10;
     height: 42px;
     width: 42px;
     background: var(--color-main-green);
@@ -208,17 +208,17 @@
     flex-direction: column;
     z-index: 10;
     top: 6px;
-    left: 42px;
+    left: 52px;
     background: white;
     border-radius: 5px;
   }
 
   .switch-legend {
-    top: 42px;
+    top: 52px;
   }
 
   .switch-filter {
-    top: 78px;
+    top: 98px;
   }
 
   .switch :global(label) {
@@ -254,6 +254,18 @@
     section {
       order: 1;
       overflow: hidden;
+    }
+
+    .switch {
+      left: 42px;
+    }
+
+    .switch-legend {
+      top: 42px;
+    }
+
+    .switch-filter {
+      top: 78px;
     }
 
     .btn {
