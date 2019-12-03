@@ -153,21 +153,11 @@
 
   $: {
     if (!loading) {
-      if ($eventSelection) {
+      if ($eventSelection && $selectedEvent) {
         map.jumpTo({
           center: [$selectedEvent.Longitude, $selectedEvent.Latitude],
           zoom: 10
         });
-
-        // for (let index = 0; index < $eventNotes.length; index++) {
-        //   const element = $eventNotes[index];
-        //   if(element.Longitude) {
-        //   var marker = new mapbox.Marker()
-        //     .setLngLat([element.Longitude, element.Latitude])
-        //     .addTo(map);
-        //   noteMarkers.push(marker)
-        //   }
-        // }
       } else {
         map.flyTo({ center: ["10.345759", "50.919992"], zoom: 5 });
         for (let index = 0; index < noteMarkers.length; index++) {

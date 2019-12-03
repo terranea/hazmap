@@ -5,7 +5,7 @@ import { startWith } from "rxjs/operators";
 
 export const user = writable(null);
 
-export const filter = writable({types: []});
+export const filter = writable({types: [], world: false});
 
 const createWritableStore = (key, startValue) => {
   const { subscribe, set } = writable(startValue);
@@ -26,19 +26,39 @@ const createWritableStore = (key, startValue) => {
   };
 }
 
-const query = db
+const eventRefGer = db
   .collection("events")
   .where("Countries", "==", "Germany")
   .orderBy("StartTime", "desc")
-  .limit(17);
+
+const eventRef = db
+  .collection("events")
+  .orderBy("StartTime", "desc")
 
 export const events = readable([], function start(set) {
-  const eventObs = collectionData(query, "uid").pipe(startWith([]));
-  const ref = eventObs.subscribe(value => {
+  let eventObs = collectionData(eventRefGer, "uid").pipe(startWith([]));
+  let ref = eventObs.subscribe(value => {
     set(value);
   });
 
+  const unsubfilter = filter.subscribe((data) => {
+    if(data.world) {
+      ref.unsubscribe()
+      eventObs = collectionData(eventRef, "uid").pipe(startWith([]));
+      ref = eventObs.subscribe(value => {
+        set(value);
+      });
+    } else {
+      ref.unsubscribe()
+      eventObs = collectionData(eventRefGer, "uid").pipe(startWith([]));
+      ref = eventObs.subscribe(value => {
+        set(value);
+      });
+    }
+  })
+  
   return function stop() {
+    unsubfilter()
     ref.unsubscribe();
   };
 });

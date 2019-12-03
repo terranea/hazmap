@@ -42,7 +42,7 @@
           <img
             height="100"
             loading="lazy"
-            src="http://terranea.de/assets/images/terranea-logo-final.gif"
+            src="terranea-logo-final.gif"
             alt="Logo Terranea" />
           <p>
             At Terranea we are 'spatialists' creating innovative location-based

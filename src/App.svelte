@@ -1,5 +1,5 @@
 <script>
-  import { events, alert } from "./stores";
+  import { alert } from "./stores";
   import Sidebar from "./components/sidebar/Sidebar.svelte";
   import Auth from "./components/Authentication.svelte";
   import Map from "./components/Map.svelte";
