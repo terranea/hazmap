@@ -113,7 +113,7 @@
       });
 
       map.on("style.load", function() {
-        refresh = !refresh
+        refresh = !refresh;
         getFirstSymbolId();
       });
 
@@ -180,9 +180,9 @@
   .btn {
     position: absolute;
     left: 6px;
-    z-index: 10;
-    height: 32px;
-    width: 32px;
+    z-index: 100;
+    height: 42px;
+    width: 42px;
     background: var(--color-main-green);
     padding: 0;
   }
@@ -191,11 +191,11 @@
     top: 6px;
   }
   .btn-legend {
-    top: 42px;
+    top: 52px;
   }
 
   .btn-filter {
-    top: 78px;
+    top: 98px;
   }
 
   .btn:hover {
@@ -254,6 +254,22 @@
     section {
       order: 1;
       overflow: hidden;
+    }
+
+    .btn {
+      height: 32px;
+      width: 32px;
+    }
+
+    .btn-layers {
+      top: 6px;
+    }
+    .btn-legend {
+      top: 42px;
+    }
+
+    .btn-filter {
+      top: 78px;
     }
   }
 </style>
