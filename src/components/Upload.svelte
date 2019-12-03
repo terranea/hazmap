@@ -426,7 +426,7 @@ label span {
     <label for="lat">Latitude</label>
     <input
       id="lat"
-      type="number"
+      type="text"
       placeholder="Latitude"
       bind:value={coordinates.latitude}
     />
@@ -435,7 +435,7 @@ label span {
     <label for="lon">Longitude</label>
     <input
       id="lon"
-      type="number"
+      type="text"
       placeholder="Longitude"
       bind:value={coordinates.longitude}
     />
