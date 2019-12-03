@@ -5,8 +5,7 @@
     filteredEvents,
     eventData,
     eventNotes,
-    filter,
-    layers
+    filter
   } from "../stores";
   import { onMount, setContext } from "svelte";
   import { mapbox, key } from "../mapbox";
