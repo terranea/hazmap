@@ -1,19 +1,19 @@
 <script>
   import { filter } from "../../stores";
 
-  let fire = false;
-  let flood = false;
-  let massm = false;
-  let storm = false;
+  let fire = true;
+  let flood = true;
+  let massm = true;
+  let storm = true;
   let world = false;
 
   function change() {
     console.log("change", world);
     const types = [
-      ...(fire ? ["fire", "wildfire", "forestfire"] : []),
-      ...(flood ? ["flood"] : []),
-      ...(massm ? ["mass movement"] : []),
-      ...(storm ? ["storm"] : [])
+      ...(!fire ? ["fire", "wildfire", "forestfire"] : []),
+      ...(!flood ? ["flood"] : []),
+      ...(!massm ? ["mass movement"] : []),
+      ...(!storm ? ["storm"] : [])
     ];
     filter.set({ types: types, world: world });
   }
