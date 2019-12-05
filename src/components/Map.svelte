@@ -180,7 +180,7 @@
   .btn {
     position: absolute;
     left: 6px;
-    z-index: 10;
+    z-index: 11;
     height: 42px;
     width: 42px;
     background: var(--color-main-green);
@@ -206,7 +206,7 @@
     position: absolute;
     display: none;
     flex-direction: column;
-    z-index: 10;
+    z-index: 11;
     top: 6px;
     left: 52px;
     background: white;
