@@ -153,6 +153,9 @@ function onFileChanged(e) {
 }
 
 function validate() {
+  console.log("VALIDATE")
+  coordinates.latitude = coordinates.latitude.replace(",", ".")
+  coordinates.latitude = coordinates.latitude.replace(",", ".")
   error = {
     picture: selectedFile ? true : false,
     title: title.length >= 5 ? true : false,
@@ -424,9 +427,9 @@ label span {
     <input
       id="lat"
       type="number"
+      inputmode="numeric"
       placeholder="Latitude"
       bind:value={coordinates.latitude}
-      on:input={onValueChange}
     />
   </div>
   <div class="form-group">
@@ -434,9 +437,9 @@ label span {
     <input
       id="lon"
       type="number"
+      inputmode="numeric"
       placeholder="Longitude"
       bind:value={coordinates.longitude}
-      on:input={onValueChange}
     />
   </div>
 </div>

@@ -5,8 +5,7 @@
     filteredEvents,
     eventData,
     eventNotes,
-    filter,
-    layers
+    filter
   } from "../stores";
   import { onMount, setContext } from "svelte";
   import { mapbox, key } from "../mapbox";
@@ -114,7 +113,7 @@
       });
 
       map.on("style.load", function() {
-        refresh = !refresh
+        refresh = !refresh;
         getFirstSymbolId();
       });
 
@@ -153,21 +152,11 @@
 
   $: {
     if (!loading) {
-      if ($eventSelection) {
+      if ($eventSelection && $selectedEvent) {
         map.jumpTo({
           center: [$selectedEvent.Longitude, $selectedEvent.Latitude],
           zoom: 10
         });
-
-        // for (let index = 0; index < $eventNotes.length; index++) {
-        //   const element = $eventNotes[index];
-        //   if(element.Longitude) {
-        //   var marker = new mapbox.Marker()
-        //     .setLngLat([element.Longitude, element.Latitude])
-        //     .addTo(map);
-        //   noteMarkers.push(marker)
-        //   }
-        // }
       } else {
         map.flyTo({ center: ["10.345759", "50.919992"], zoom: 5 });
         for (let index = 0; index < noteMarkers.length; index++) {
@@ -191,9 +180,9 @@
   .btn {
     position: absolute;
     left: 6px;
-    z-index: 10;
-    height: 32px;
-    width: 32px;
+    z-index: 11;
+    height: 42px;
+    width: 42px;
     background: var(--color-main-green);
     padding: 0;
   }
@@ -202,11 +191,11 @@
     top: 6px;
   }
   .btn-legend {
-    top: 42px;
+    top: 52px;
   }
 
   .btn-filter {
-    top: 78px;
+    top: 98px;
   }
 
   .btn:hover {
@@ -217,19 +206,19 @@
     position: absolute;
     display: none;
     flex-direction: column;
-    z-index: 10;
+    z-index: 11;
     top: 6px;
-    left: 42px;
+    left: 52px;
     background: white;
     border-radius: 5px;
   }
 
   .switch-legend {
-    top: 42px;
+    top: 52px;
   }
 
   .switch-filter {
-    top: 78px;
+    top: 98px;
   }
 
   .switch :global(label) {
@@ -265,6 +254,34 @@
     section {
       order: 1;
       overflow: hidden;
+    }
+
+    .switch {
+      left: 42px;
+    }
+
+    .switch-legend {
+      top: 42px;
+    }
+
+    .switch-filter {
+      top: 78px;
+    }
+
+    .btn {
+      height: 32px;
+      width: 32px;
+    }
+
+    .btn-layers {
+      top: 6px;
+    }
+    .btn-legend {
+      top: 42px;
+    }
+
+    .btn-filter {
+      top: 78px;
     }
   }
 </style>
