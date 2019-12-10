@@ -191,11 +191,10 @@
     top: 6px;
   }
   .btn-legend {
-    top: 52px;
-  }
-
-  .btn-filter {
     top: 98px;
+  }
+  .btn-filter {
+    top: 52px;
   }
 
   .btn:hover {
@@ -214,11 +213,11 @@
   }
 
   .switch-legend {
-    top: 52px;
+    top: 98px;
   }
 
   .switch-filter {
-    top: 98px;
+    top: 52px;
   }
 
   .switch :global(label) {
@@ -261,11 +260,11 @@
     }
 
     .switch-legend {
-      top: 42px;
+      top: 78px;
     }
 
     .switch-filter {
-      top: 78px;
+      top: 42px;
     }
 
     .btn {
@@ -277,11 +276,11 @@
       top: 6px;
     }
     .btn-legend {
-      top: 42px;
+      top: 78px;
     }
 
     .btn-filter {
-      top: 78px;
+      top: 42px;
     }
   }
 </style>
@@ -338,6 +337,29 @@
   <button>Pegel</button>
   <button>Risiko</button> -->
   </div>
+
+  <button
+    class="btn btn-filter"
+    on:click={() => {
+      showFilter = !showFilter;
+      showLayers = false;
+      showLegend = false;
+    }}>
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill={filterColor}
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round">
+      <title id="layersIconTitle">Filter</title>
+      <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3" />
+    </svg>
+  </button>
+
   <button
     class="btn btn-legend"
     on:click={() => {
@@ -362,37 +384,15 @@
     </svg>
   </button>
 
-  <div class:visible={showLegend} class="switch switch-legend">
-    {#if !loading}
-      <Legend />
-    {/if}
-  </div>
-
-  <button
-    class="btn btn-filter"
-    on:click={() => {
-      showFilter = !showFilter;
-      showLayers = false;
-      showLegend = false;
-    }}>
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill={filterColor}
-      stroke="currentColor"
-      stroke-width="2"
-      stroke-linecap="round"
-      stroke-linejoin="round">
-      <title id="layersIconTitle">Filter</title>
-      <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3" />
-    </svg>
-  </button>
-
   <div class:visible={showFilter} class="switch switch-filter">
     {#if !loading}
       <Filter />
+    {/if}
+  </div>
+
+  <div class:visible={showLegend} class="switch switch-legend">
+    {#if !loading}
+      <Legend />
     {/if}
   </div>
 

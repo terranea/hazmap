@@ -4,6 +4,30 @@ import { timestampToDateString, hazardTypeColor } from '../../helper'
 const dispatch = createEventDispatcher();
 export let events;
 export let show;
+
+    const images = [
+      { imageUrl: "icons/fire-sm.png", id: "fire" },
+      { imageUrl: "icons/flood-sm.png", id: "flood" },
+      { imageUrl: "icons/massm-sm.png", id: "massm" },
+      { imageUrl: "icons/storm-sm.png", id: "storm" },
+      { imageUrl: "icons/picture.png", id: "pic" }
+    ];
+
+function getImage(key) {
+  console.log(key)
+  switch (key) {
+    case "Wildfire" || "Fire" || "Forestfire":
+      return "icons/fire-sm.png"
+    case "Flood":
+      return "icons/flood-sm.png"
+    case "Mass movement":
+      return "icons/massm-sm.png"
+    case "Storm":
+      return "icons/storm-sm.png"
+    default:
+      return "icons/fire-sm.png"
+  }
+}
 </script>
 
 <style>
@@ -27,6 +51,11 @@ header {
 span {
   color: #696969;
   font-size: .8em;
+}
+
+span img {
+  margin-right: 3px;
+  margin-bottom: -3px;
 }
 
 h1 {
@@ -96,7 +125,7 @@ h3 {
         <span>{event.Origin.EventCode}</span>
       </div>
       <div class="col">
-        <span style="color: {hazardTypeColor(event.PrimaryType)}">{event.PrimaryType}</span>
+        <span style="color: {hazardTypeColor(event.PrimaryType)}"><img height="18px" src="{getImage(event.PrimaryType)}" alt="type symbol">{event.PrimaryType}</span>
         <span>{timestampToDateString(event.StartTime)}</span>
       </div>
     </div>
