@@ -6,7 +6,7 @@ The HazMap app integrates information from Copernicus EMS with data from complem
 
 This is the source code for the hazmap app. A running prototype lives at https://hazmap.terranea.de/.
 
-![hazmap screenshot](hazmap.png)
+![hazmap screenshot](hazmap-v2.png)
 
 ## EOVALUE
 This application has been developed within the EOVALUE project, which has received funding from the European Union’s Horizon 2020 research and innovation programme. The JRC, or as the case may be the European Commission, shall not be held liable for any direct or indirect, incidental, consequential or other damages, including but not limited to the loss of data, loss of profits, or any other financial loss arising from the use of this application, or inability to use it, even if the JRC is notified of the possibility of such damages.
@@ -33,7 +33,7 @@ The app was created as a single page app and uses the following open source tech
 * Landcover: [Corine LC BKG](https://gdz.bkg.bund.de/index.php/default/corine-land-cover-10-ha-clc10.html)
 * Critical Infrastructure: extracted from [OSM](https://www.openstreetmap.org) data
 
-## Get started
+## Get started locally
 
 Download the source code:
 

@@ -587,6 +587,7 @@
       <input
         id="lat"
         type="number"
+        pattern="[0-9]+([,\.][0-9]+)?"
         inputmode="numeric"
         placeholder="Latitude"
         bind:value={coordinates.latitude} />
@@ -596,6 +597,7 @@
       <input
         id="lon"
         type="number"
+        pattern="[0-9]+([,\.][0-9]+)?"
         inputmode="numeric"
         placeholder="Longitude"
         bind:value={coordinates.longitude} />
