@@ -4,6 +4,7 @@
   import { createEventDispatcher, onMount } from "svelte";
   import { db, storage } from "../firebase";
   import isLatLong from "validator/lib/isLatLong";
+  import distance from "@turf/distance";
 
   const dispatch = createEventDispatcher();
 
@@ -28,7 +29,8 @@
     title: true,
     comment: true,
     eventid: true,
-    coordinates: true
+    coordinates: true, 
+    noteInRange: true
   };
   let locationWatcher;
 
@@ -112,17 +114,59 @@
     }
   }
 
+  function isNoteInRangeOfEvent() {
+    if (eventid && coordinates.latitude && coordinates.longitude) {
+      const event = $events.find(ev => {
+        return ev.uid === eventid;
+      });
+      const from = [event.Longitude, event.Latitude];
+      const to = [coordinates.longitude, coordinates.latitude];
+      const distance = getDistanceFromLatLonInKm(
+        event.Latitude,
+        event.Longitude,
+        coordinates.latitude,
+        coordinates.longitude
+      );
+      console.log(distance)
+      if (distance > 100) return false
+      return true
+    }
+    return false;
+  }
+
+  function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
+    var R = 6371; // Radius of the earth in km
+    var dLat = deg2rad(lat2 - lat1); // deg2rad below
+    var dLon = deg2rad(lon2 - lon1);
+    var a =
+      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos(deg2rad(lat1)) *
+        Math.cos(deg2rad(lat2)) *
+        Math.sin(dLon / 2) *
+        Math.sin(dLon / 2);
+    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    var d = R * c; // Distance in km
+    return d;
+  }
+
+  function deg2rad(deg) {
+    return deg * (Math.PI / 180);
+  }
+
   function validate() {
-    console.log("VALIDATE");
-    coordinates.latitude = coordinates.latitude.replace(",", ".");
-    coordinates.latitude = coordinates.latitude.replace(",", ".");
+    // coordinates.latitude = coordinates.latitude.replace(",", ".");
+    // coordinates.latitude = coordinates.latitude.replace(",", ".");
     error = {
       picture: selectedFile ? true : false,
       title: title.length >= 5 ? true : false,
       comment: comment.length <= 400 ? true : false,
       eventid: eventid ? true : false,
-      coordinates: isLatLong(coordinates.latitude + "," + coordinates.longitude)
+      coordinates: isLatLong(
+        coordinates.latitude + "," + coordinates.longitude
+      ),
+      noteInRange: isNoteInRangeOfEvent()
     };
+
     return Object.keys(error).every(k => {
       return error[k] === true;
     });
@@ -132,46 +176,46 @@
     if (!e.target.checked) {
       if (locationWatcher) navigator.geolocation.clearWatch(locationWatcher);
     } else {
-    if (navigator.geolocation) {
-      const onSuccess = position => {
-        locationError = null;
-        coordinates = {
-          latitude: position.coords.latitude,
-          longitude: position.coords.longitude,
-          altitude: position.coords.altitude,
-          accuracy: position.coords.accuracy,
-          heading: position.coords.heading
+      if (navigator.geolocation) {
+        const onSuccess = position => {
+          locationError = null;
+          coordinates = {
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude,
+            altitude: position.coords.altitude,
+            accuracy: position.coords.accuracy,
+            heading: position.coords.heading
+          };
         };
-      };
-      const onError = error => {
-        switch (error.code) {
-          case 0:
-            locationError = "Geolocation Error: unknown error";
-            break;
-          case 1:
-            locationError = "Geolocation Error: permission denied";
-            break;
-          case 2:
-            locationError = "Geolocation Error: position unavailable";
-            break;
-          case 3:
-            locationError = "Geolocation Error: timed out";
-            break;
-        }
-      };
-      const options = {
-        enableHighAccuracy: true,
-        timeout: 5000,
-        maximumAge: 0
-      };
-      locationWatcher = navigator.geolocation.watchPosition(
-        onSuccess,
-        onError,
-        options
-      );
-    } else {
-      console.log("Geolocation is not supported by this browser.");
-    }
+        const onError = error => {
+          switch (error.code) {
+            case 0:
+              locationError = "Geolocation Error: unknown error";
+              break;
+            case 1:
+              locationError = "Geolocation Error: permission denied";
+              break;
+            case 2:
+              locationError = "Geolocation Error: position unavailable";
+              break;
+            case 3:
+              locationError = "Geolocation Error: timed out";
+              break;
+          }
+        };
+        const options = {
+          enableHighAccuracy: true,
+          timeout: 5000,
+          maximumAge: 0
+        };
+        locationWatcher = navigator.geolocation.watchPosition(
+          onSuccess,
+          onError,
+          options
+        );
+      } else {
+        console.log("Geolocation is not supported by this browser.");
+      }
     }
   }
 
@@ -635,6 +679,10 @@
   {#if !error.coordinates}
     <span class="error">
       please provide a valid latitude-longitude coordinate.
+    </span>
+  {:else if !error.noteInRange}
+    <span class="error">
+      coordinates of the note are not in range of the selected event.
     </span>
   {/if}
   <span class="accuracy">Accuracy: {coordinates.accuracy} m</span>

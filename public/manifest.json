@@ -13,7 +13,9 @@
           "type": "image/png"
       }
   ],
-  "start_url": "/index.html",
+  "orientation": "portrait",
+  "description": "The HazMap app integrates information from Copernicus EMS with data from complementing open sources and allows users to collect hazard related information through geo-tagged photos and annotations directly in the field.",
+  "start_url": "/",
   "display": "standalone",
   "theme_color": "#29bb59",
   "background_color": "#29bb59"
