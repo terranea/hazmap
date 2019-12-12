@@ -55,7 +55,7 @@ export default {
 		generateSW({
 			swDest: 'public/service-worker.js',
 			globDirectory: 'public/',
-			globPatterns: ['*.{js,png,html,css}']
+			globPatterns: ['*.{js,png,html,css,gif,ico}']
 		}),
 
 		// Watch the `public` directory and refresh the
