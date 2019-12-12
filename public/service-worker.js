@@ -39,7 +39,7 @@ self.__precacheManifest = [
   },
   {
     "url": "bundle.css",
-    "revision": "64ad721446e473d62c3fd84e76b1f553"
+    "revision": "88024296ef81c2ecd59b937e01ac67e5"
   },
   {
     "url": "eovalue.png",
@@ -54,6 +54,10 @@ self.__precacheManifest = [
     "revision": "cd65108bf34275d5b7b08e3c031f064f"
   },
   {
+    "url": "favicon.ico",
+    "revision": "1bed290ebe2441db01666c9d049b6ee7"
+  },
+  {
     "url": "gauge20.png",
     "revision": "b27d9e432603a879f790ba546f859deb"
   },
@@ -64,6 +68,10 @@ self.__precacheManifest = [
   {
     "url": "index.html",
     "revision": "f7a4ae65821e97e3a3bbd89a7dfda2e1"
+  },
+  {
+    "url": "terranea-logo-final.gif",
+    "revision": "44a44eb12ee8eaccd7a284f129b478ea"
   }
 ].concat(self.__precacheManifest || []);
 workbox.precaching.precacheAndRoute(self.__precacheManifest, {});

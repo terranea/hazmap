@@ -1,6 +1,6 @@
 <script>
   import Modal from "./Modal.svelte";
-  import { showAbout } from '../stores'
+  import { showAbout } from "../stores";
 
   let show = "About";
   let title = "About";
@@ -24,10 +24,12 @@
   }
 </style>
 
-<button on:click={() => (showAbout.set({show: true, title: "About"}))}>About</button>
+<button on:click={() => showAbout.set({ show: true, title: 'About' })}>
+  About
+</button>
 
 {#if $showAbout.show}
-  <Modal on:close={() => (showAbout.set({show: false, title: "About"}))}>
+  <Modal on:close={() => showAbout.set({ show: false, title: 'About' })}>
     <h1 slot="header">{$showAbout.title}</h1>
     <div>
       {#if $showAbout.title == 'About'}
@@ -84,12 +86,11 @@
           <img src="eovalue.png" loading="lazy" alt="EOVALUE" />
 
           <p>
-          Icons by <a href='https://icons8.com'>Icons8</a>
-          </p>
+            Icons by
+            <a href="https://icons8.com">Icons8</a>
 
-        </div>
-      {:else if $showAbout.title == 'Disclaimer'}
-        <div class="wrapper">
+          </p>
+          <h1>Disclaimer</h1>
           <p>
             <strong>Online-contents</strong>
             - The author reserves the right not to be responsible for the
@@ -132,9 +133,9 @@
       {:else if $showAbout.title == 'Data Policy'}
         <div class="wrapper">
           <p>
-            This policy is intended to inform the users of this
-            website about the nature, scope and purpose of the collection and
-            use of personal data by the HazMap app.
+            This policy is intended to inform the users of this website about
+            the nature, scope and purpose of the collection and use of personal
+            data by the HazMap app.
           </p>
           <h2>Google Firebase</h2>
           <p>
@@ -223,29 +224,23 @@
       <button
         on:click={() => {
           title = 'About';
-          showAbout.set({show: true, title: "About"})
+          showAbout.set({ show: true, title: 'About' });
         }}>
         About
       </button>
       <button
         on:click={() => {
           title = 'Terms of Use';
-          showAbout.set({show: true, title: "Terms of Use"})
+          showAbout.set({ show: true, title: 'Terms of Use' });
         }}>
         Terms
       </button>
       <button
         on:click={() => {
           title = 'Data Policy';
-          showAbout.set({show: true, title: "Data Policy"})
+          showAbout.set({ show: true, title: 'Data Policy' });
         }}>
         Data
-      </button>
-      <button
-        on:click={() => {
-          showAbout.set({show: true, title: "Disclaimer"})
-        }}>
-        Disclaimer
       </button>
     </div>
   </Modal>
