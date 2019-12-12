@@ -13,7 +13,7 @@
     "rollup-plugin-replace": "^2.2.0",
     "rollup-plugin-svelte": "^5.1.1",
     "rollup-plugin-terser": "^4.0.4",
-    "rollup-plugin-workbox-build": "^0.2.0",
+    "rollup-plugin-workbox": "^4.0.0",
     "rxfire": "^3.9.4",
     "rxjs": "^6.5.3",
     "sirv-cli": "^0.4.5",

@@ -3,7 +3,7 @@ import replace from 'rollup-plugin-replace';
 import resolve from 'rollup-plugin-node-resolve';
 import commonjs from 'rollup-plugin-commonjs';
 import livereload from 'rollup-plugin-livereload';
-import workbox from 'rollup-plugin-workbox-build'
+import { generateSW } from 'rollup-plugin-workbox'
 import { terser } from 'rollup-plugin-terser';
 import dotenv from 'dotenv'
 dotenv.config()
@@ -30,14 +30,7 @@ export default {
 			}
 		}),
 
-		workbox({
-      mode: 'generateSW', // or 'injectManifest'
-      options: {
-        swDest: 'public/service-worker.js',
-        globDirectory: 'dist',
-        // other workbox-build options depending on the mode
-      },
-    }),
+
 
 		// If you have external dependencies installed from
 		// npm, you'll most likely need these plugins. In
@@ -59,6 +52,11 @@ export default {
 			FIREBASE_appId: process.env.FIREBASE_appId
     }),
 		commonjs(),
+		generateSW({
+			swDest: 'public/service-worker.js',
+			globDirectory: 'public/',
+			globPatterns: ['*.{js,png,html,css}']
+		}),
 
 		// Watch the `public` directory and refresh the
 		// browser on changes when not in production
