@@ -39,7 +39,7 @@ self.__precacheManifest = [
   },
   {
     "url": "bundle.css",
-    "revision": "f7309588eb2c87bf5d82f9b8f3ad1534"
+    "revision": "51178d75685d58b23338c35092763e65"
   },
   {
     "url": "eovalue.png",
