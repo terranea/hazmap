@@ -57,13 +57,15 @@ func main() {
 		if i >= 0 {
 			title = strings.TrimSpace(item.Title[i+1:])
 		}
-		cat := item.Categories[0]
-		if cat == "Forest fire, wild fire" {
-			cat = "Wildfire"
+
+		type := item.Categories[0]
+		if type == "Forest fire, wild fire" {
+			e.PrimaryType = "Wildfire"
 		}
+
 		e := Event{
 			Title:       title,
-			PrimaryType: item.Categories[0],
+			PrimaryType: type,
 			Timestamp:   time.Now(),
 			Latitude:    coords["lat"],
 			Longitude:   coords["lon"],
@@ -74,6 +76,8 @@ func main() {
 				Custom:    map[string]string{},
 			},
 		}
+
+
 		parseDescription(item.Description, &e)
 		// fmt.Println(e.Title, e.Latitude, e.Longitude)
 		events = append(events, e)

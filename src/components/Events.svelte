@@ -38,6 +38,8 @@
       { imageUrl: "icons/flood-sm.png", id: "flood" },
       { imageUrl: "icons/massm-sm.png", id: "massm" },
       { imageUrl: "icons/storm-sm.png", id: "storm" },
+      { imageUrl: "icons/other-sm.png", id: "other" },
+      { imageUrl: "icons/earthquake-sm.png", id: "earthquake"},
       { imageUrl: "icons/picture.png", id: "pic" }
     ];
 
@@ -74,9 +76,12 @@
             "fire",
             "Storm",
             "storm",
+            "Wind storm",
+            "storm",
+            "Earthquake", "earthquake",
             "Mass movement",
             "massm",
-            /* other */ "fire"
+            /* other */ "other"
           ],
           "icon-size": 0.5
         }

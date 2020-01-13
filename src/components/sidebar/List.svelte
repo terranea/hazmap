@@ -10,22 +10,25 @@ export let show;
       { imageUrl: "icons/flood-sm.png", id: "flood" },
       { imageUrl: "icons/massm-sm.png", id: "massm" },
       { imageUrl: "icons/storm-sm.png", id: "storm" },
+      { imageUrl: "icons/other-sm.png", id: "other" },
+      { imageUrl: "icons/earthquake-sm.png", id: "earthquake"},
       { imageUrl: "icons/picture.png", id: "pic" }
     ];
 
 function getImage(key) {
-  console.log(key)
   switch (key) {
-    case "Wildfire" || "Fire" || "Forestfire":
+    case "Wildfire" || "Fire" || "Forestfire" || "Forest fire, wild fire" || "Forest fire":
       return "icons/fire-sm.png"
     case "Flood":
       return "icons/flood-sm.png"
     case "Mass movement":
       return "icons/massm-sm.png"
-    case "Storm":
+    case "Storm" || "Wind storm":
       return "icons/storm-sm.png"
+    case "Earthquake":
+      return "icons/earthquake-sm.png"
     default:
-      return "icons/fire-sm.png"
+      return "icons/other-sm.png"
   }
 }
 </script>

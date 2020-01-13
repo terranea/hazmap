@@ -5,6 +5,8 @@
   let flood = true;
   let massm = true;
   let storm = true;
+  let earthquake = true;
+  let other = true;
   let world = false;
 
   function change() {
@@ -12,8 +14,10 @@
     const types = [
       ...(!fire ? ["fire", "wildfire", "forestfire"] : []),
       ...(!flood ? ["flood"] : []),
+      ...(!earthquake ? ["earthquake"] : []),
       ...(!massm ? ["mass movement"] : []),
-      ...(!storm ? ["storm"] : [])
+      ...(!storm ? ["storm", "wind storm"] : []),
+      ...(!other ? ["other"] : [])
     ];
     filter.set({ types: types, world: world });
   }
@@ -89,6 +93,14 @@
 <label>
   <input type="checkbox" name="cwl" bind:checked={storm} on:change={change} />
   Storm
+</label>
+<label>
+  <input type="checkbox" name="cwl" bind:checked={earthquake} on:change={change} />
+  Earthquake
+</label>
+<label>
+  <input type="checkbox" name="cwl" bind:checked={other} on:change={change} />
+  Other
 </label>
 
 <span>Filter Events</span>
