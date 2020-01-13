@@ -24,6 +24,13 @@
   });
 
   $: {
-    if(eventData && map.getSource("event-data")) map.getSource("event-data").setData(eventData);
+    if (map.getSource("event-data")) {
+      if (eventData) {
+        map.getSource("event-data").setData(eventData);
+        map.setLayoutProperty("event-data", "visibility", "visible")
+      } else {
+        map.setLayoutProperty("event-data", "visibility", "none")
+      }
+    }
   }
 </script>
